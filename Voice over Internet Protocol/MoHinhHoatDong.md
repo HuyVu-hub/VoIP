@@ -6,6 +6,8 @@
 
 [Mô hình hệ thống điện thoại IP được tích hợp với hệ thống điện thoại truyền thống analog](#2)
 
+[Lợi ích khi ứng dụng hệ thống điện thoại voip](#3)
+
 Hệ thống điện thoại voip là giải pháp viễn thông đang được nhiều doanh nghiệp lựa chọn và áp dụng vào hoạt động kinh doanh. 
 Với nhiều tính năng nâng cao lưu trữ dữ liệu lớn, truyền tải thông tin nhanh chóng, dễ dàng mở rộng.
 
@@ -63,3 +65,21 @@ trung tâm quản lý các cuộc gọi ra vào của hệ thống, lưu lượn
       * Mô hình hoạt động linh hoạt với những hệ thống tổng đài có quy mô lớn và tiếp nhận lượng cuộc gọi cao.
 
 ### <a name="2"> Mô hình hệ thống điện thoại IP được tích hợp với hệ thống điện thoại truyền thống analog </a>
+
+Trong trường hợp doanh nghiệp muốn tích hợp hệ thống điện thoại IP với mô hình điện thoại analog có sẵn, thì có thể sử dụng mô hình được gọi là Hybird được xem là mô hình kết hợp giữa VOIP và PABX truyền thống. Tuỳ thuộc vào tính trạng cơ sở hạ tầng mà có cách triển khai khác nhau. Nhưng thường sẽ sử dụng phương án đơn giản nhất là sử dụng IP voice gateway và kết hợp với 1 IP SIP trunk server.
+
+![image](https://user-images.githubusercontent.com/69178270/136927151-5a47ebba-f73f-487f-a173-8b8d67ee100c.png)
+
+### <a name="3"> Lợi ích khi ứng dụng hệ thống điện thoại voip </a>
+
+ - Hệ thống báo cáo giữ vai trò quan trọng trong viêc quản lý hệ thống điện thoại VOIP. Vì qua đó, người quản trị có thể đánh giá được khả năng hoạt động, tình trạng của thiết bị. So sánh hiệu suất từng tháng, từng năm. 
+
+ - Khả năng bảo mật hệ thống cao, giám sát chặt chẽ trong việc quản lý cước và cuộc gọi
+
+ - Cho phép triển khai lắp đặt hoặc mở rộng nhanh chóng
+
+ - Nâng cấp toàn bộ hệ thống dễ dàng, mở rộng không giời hạn thiết bị
+
+ - Với các doanh nghiệp lớn, hệ thống điện thoại IP sẽ giúp tiết kiệm chi phí trang thiết bị, nhân lực, bảo trì hệ thống. 
+
+ - Tiếp nhận được nhiều cuộc gọi cùng lúc
