@@ -31,5 +31,5 @@ Trong môi trường doanh nghiệp, công nghệ Voip thường phổ biến d�
 
 Phương pháp sử dụng Voip phổ biến nhất là với điện thoại truyền thống. Có nhiều cách để áp dụng công nghệ Voip với điện thoại analog truyền thống, điện thoại kỹ thuật số hay còn gọi là điện thoại Voip.
 
-<a name="2.1"> **Voip với điện thoại analog** </a>
+<a name="2.1"> **Voip với điện thoại analog:** </a>
 Vì việc truyền giọng nói trong Voip diễn ra qua Internet, do đó một chiếc điện thoại thông thường sẽ không đáp ứng được. Tuy nhiên, có một adapter là Analog Telephone Adapter (ATA) hay còn gọi là gateway FSX có khả năng chuyển đổi tín hiệu điện thoại analog thành tín hiệu số có thể truyền qua Internet.
