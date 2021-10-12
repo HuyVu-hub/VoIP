@@ -12,6 +12,12 @@ Giới thiệu về giao diện và tính năng cơ bản của tổng đài Fus
 
 [Kết nối SIP trên tổng đài FusionPBX](#3)
 
+[Multi-tenant](#4)
+
+[Máy nhánh nội bộ](#5)
+
+[Cấu hình thiết bị đầu cuối](#6)
+
 ### <a name="1"> Giao diện đăng nhập </a>
 
 Giao diện đăng nhập có thể tùy chỉnh màu sắc, logo theo cá nhận người dùng. Ngôn ngữ sử dụng là PHP.
@@ -65,3 +71,48 @@ Ví dụ: kết nối trunk với tổng đài Mobifone như hình trên.
 ![image](https://user-images.githubusercontent.com/69178270/136929800-d5bc32e4-188a-4a8c-984d-6b0496277350.png)
 
 Hình trên là mô hình kết nối giữa tổng đài FusionPBX với nhà cung cấp đầu số SIP. Khi cung cấp thông tin cho nhà cung cấp nên lưu ý port 5080.
+
+### <a name="4"> Multi-tenant </a>
+
+Đây là một đặc điểm đặc biệt so với các tổng đài IP khác sử dụng nền tảng Asterisk. Với FusionPBX sử dụng nền tảng là Freeswitch, nó hổ trợ nhiều người dùng riêng biệt sử dụng chung một tổng đài mà không làm ảnh hướng đến người khác.
+
+Một doanh nghiệp cho thuê tổng đài nội bộ, họ luôn muốn xây dựng một tổng đài mà có thể phục vụ cho nhiều khách hàng độc lập với nhau. Khách hàng thứ nhất dùng extension từ 101 đến 105, thì khách hàng thứ 2 cũng có thể dùng dãy extension đó cho công ty của họ.
+
+Để đáp ứng được tính năng đó FusionPBX đã quản lý mỗi người dùng (người thuê tổng đài) theo tên miền ảo trên hệ thống FusionPBX. Mọi thông tin, extension, đầu số hotline,… đều sử dụng, quản lý riêng cho từng người dùng.
+
+Mô hình kết nối như sau:
+
+![image](https://user-images.githubusercontent.com/69178270/136930895-76f4c6a4-04c0-45e3-8214-81218f7ba18e.png)
+
+Khách hàng kết nối vào domain ảo trong hệ thống FusionPBX, có một tổng đài riêng với đầy đủ các tính năng, quản lý dữ liệu, quản lý cuộc gọi, kết nối SIP trunk,…
+
+### <a name="5"> Máy nhánh nội bộ </a>
+
+Là số máy nội bộ của mỗi nhân viên khi sử dụng tổng đài nội bộ, được gọi là extension. 
+
+Với cơ chế multi-tenant mỗi khách hàng đều có đầy đủ dãy số extension cho riêng mình mà không sợ bị trùng với các khách hàng khác. Mỗi extension bao gồm đầy đủ các tính năng: 
+
+ - Số hotline dùng để gọi ra cho từng extension
+
+ - Giới hạn số cuộc gọi tối đa.
+
+ - Thời gian đổ chuông.
+
+ - Nhạc chờ riêng biệt cho mỗi extension.
+
+ - Hộp thư thoại (voicemail), cho phép gửi voicemail đến email.
+
+ - Cấu hình chuyển máy: khi bận, không online, không trả lời, chuyển trực tiếp.
+
+![image](https://user-images.githubusercontent.com/69178270/136931151-122b496a-ad68-45ff-997f-d013da504648.png)
+
+Hình trên là cấu hình chuyển máy trong các trường hợp: chuyển trực tiếp đến số đích, khi máy bận, khi không trả lời, khi không extension không online, khi extension không online. 
+
+Đặc biệt extension trên FusionPBX hỗ trợ tính năng multi registration, có thể đăng nhập cùng một extension trên nhiều thiết bị mà vẫn giữ được kết nối với tổng đài.
+
+### <a name="6"> Cấu hình thiết bị đầu cuối </a>
+
+![image](https://user-images.githubusercontent.com/69178270/136931220-8bd453a6-4f62-4db3-a9d4-0cf66cd15a83.png)
+
+FusionPBX hổ trợ việc quản lý thiết bị đầu cuối thông qua việc đồng bộ dữ liệu từ giao diện web của tổng đài. Tại đây người quản trị hệ thống chỉ cần thiết lập các thông số của IP phone, ngay khi IP phone có kết nối internet và thiết lập kết nối đến tổng đài thì tất cả các cấu hình sẽ được thiết lập một cách tự động. Tính năng này rất hữu ích cho việc triển khai số lượng lớn các thiết bị đầu cuối. Ngoài ra còn dễ quản lý, đặt lại cấu hình ngay trên web khi có sự cố mà không cần thiết lập trên IP phone.
+
