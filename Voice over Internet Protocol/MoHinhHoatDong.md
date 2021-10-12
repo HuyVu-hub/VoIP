@@ -26,6 +26,6 @@ Có những doanh nghiệp có nhiều chi nhánh, hệ thống cửa hàng, cá
  - Chức năng lời chào hoặc dẫn máy khi khác hàng gọi vào công ty\
  - Thực hiện được nhiều cuộc gọi cùng lúc.
 
-<a> Mô hình giải pháp tổng đài </a>
+<a> **Mô hình giải pháp tổng đài** </a>
 
 ### <a name="2"> Mô hình hệ thống điện thoại IP được tích hợp với hệ thống điện thoại truyền thống analog </a>
