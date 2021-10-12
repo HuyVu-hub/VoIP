@@ -51,5 +51,15 @@ trung tâm quản lý các cuộc gọi ra vào của hệ thống, lưu lượn
       * Máy chủ voip sẽ được đặt ngay tại trung của doanh nghiệp hoặc nơi được gọi là datacenter, có vai trò quản lý, giám sát tình trạng, cuộc gọi nội bộ giữa các chi nhánh. Bên cạnh đó, máy chủ sẽ cung cấp các tài khoản SIP cho tất cả FXS gateway hoặc điện thoại voip tại các chi nhánh và kết nối từ xa qua đường mạng internet cáp quang
 
       * Quản lý hệ thống thông qua giao diện web, bảo trì các thiết bị một cách nhanh chóng.
+  
+  - Tại các chi nhánh
+      
+      * Nhân viên có thể gửi yêu cầu đến trung tâm hoặc kết nối với máy chủ để tiếp nhận và xử lý cuộc gọi nếu cần thiết
+      
+      * Thiết bị đầu cuối được kết nối với máy chủ thông qua đường mạng internet
+      
+      * Quản trị viên có thể truy cập, theo dõi hệ thống ở bất cứ nơi đâu
+      
+      * Mô hình hoạt động linh hoạt với những hệ thống tổng đài có quy mô lớn và tiếp nhận lượng cuộc gọi cao.
 
 ### <a name="2"> Mô hình hệ thống điện thoại IP được tích hợp với hệ thống điện thoại truyền thống analog </a>
