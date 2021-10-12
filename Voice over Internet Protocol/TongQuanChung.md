@@ -16,7 +16,7 @@
 
 [4. Điện thoại Voip, Softphone, tổng đài voip](#4)
 
-[5. Ưu và nhược điểm công nghệ Voip](#5)
+[5. Ưu điểm công nghệ Voip](#5)
 
 [6. Nhược điểm công nghệ Voip](#6)
 
@@ -62,3 +62,22 @@ Bên cạnh các ứng dụng OTT thì công nghệ Voip còn được ứng d�
 
 ![image](https://user-images.githubusercontent.com/69178270/136876844-c9b746dd-0a61-4d1c-83b5-978dd2c0afec.png)
 
+### <a name="5"> 5. Ưu điểm công nghệ Voip </a>
+ - Gọi nội bộ miễn phí: Công nghệ Voip kết nối hoàn toàn qua intenret nên khái niệm nội bộ ở đây không còn bị giới hạn về vị trí địa lý. Phù hợp với các công ty nhiều chi nhánh, chuỗi cữa hàng sẽ tiết kiệm được 100% chi phí liên hệ nội bộ.
+
+ - Vận hành quản lý dễ dàng: Có thể áp dụng quản lý từ xa, khi cần thay đổi văn phòng thì việc di dời và setup lại cũng rất đơn giản.
+
+ - Mở rộng dễ dàng: Khi cần mở rộng hệ thống thì chỉ cần mua thêm các thiết bị điện thoại và setup cho văn phòng, việc mở rộng trên hệ thống tổng đài là rất dễ dàng.
+
+ - Tính năng vượt trội so với công nghệ analog cũ: Ghi âm, quản lý lịch sử cuộc gọi, trả lời tự động, phân phối cuộc gọi thông minh,…
+
+ - Không giới hạn cuộc gọi đồng thời: Trên công nghệ analog cũ mỗi kênh chỉ được 1 cuộc gọi đồng thời gây tình trạng máy bận. Với công nghệ Voip, một đường truyền có thể thực hiện nhiều cuộc gọi đồng thời. Băng thông mỗi cuộc gọi chỉ khoảng 100kb/call rất ít so với các gói cáp quang đang sử dụng lên tới vài chục MB.
+
+ - Không phụ thuộc vị trí địa lý của người dùng: Ở bất cứ nơi đâu miễn có internet sẽ kết nối sử dụng được …
+
+### <a name="6"> 6. Nhược điểm công nghệ Voip </a>
+ - Yêu cầu bắt buộc phải có điện, mạng mới sử dụng được: Ngày nay đã có nhiều phương án để backup cho nguồn điện như sử dụng máy phát điện, bộ lưu điện. Backup cho mạng thì có thể kéo thêm đường truyền để sử dụng làm backup khi 1 đường truyền có vấn đề.
+
+ - Vì cuộc gọi được thực hiện thông qua môi trường internet nên đồng nghĩa dữ liệu sẽ được truyền trong môi trường internet nên sẽ xảy ra rất nhiều vấn đề liên quan đến bảo mật dữ liệu, hack cước (ăn trộm cước phí).
+
+Công nghệ Voip giúp tăng hiệu quả công việc hơn và cũng dễ triển khai. Vì vậy hãy tích hợp ngay Voip vào doanh nghiệp của bạn bằng cách liên lạc với chúng tôi. VOIP24H có hơn 12 năm kinh nghiệm và là một trong những đơn vị đầu tiên ứng dụng công nghệ VOIP để xây dựng các giải pháp về tổng đài cho doanh nghiệp trên nền tảng điện toán đám mây.
