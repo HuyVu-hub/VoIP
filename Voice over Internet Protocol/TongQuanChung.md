@@ -8,6 +8,10 @@
 
 [2.1. Voip với điện thoại analog](#2.1)
 
+[2.2. Voip phone (voip với điện thoại IP)](#2.2)
+
+[2.3. Voip với thiết bị chuyển đổi từ analog sang IP](#2.3)
+
 [3. Các ứng dụng sử dụng VoIP hiện nay](#3)
 
 [4. Điện thoại Voip, Softphone, tổng đài voip](#4)
@@ -31,5 +35,30 @@ Trong môi trường doanh nghiệp, công nghệ Voip thường phổ biến d�
 
 Phương pháp sử dụng Voip phổ biến nhất là với điện thoại truyền thống. Có nhiều cách để áp dụng công nghệ Voip với điện thoại analog truyền thống, điện thoại kỹ thuật số hay còn gọi là điện thoại Voip.
 
-<a name="2.1"> **Voip với điện thoại analog:** </a>
+<a name="2.1"> **2.1. Voip với điện thoại analog:** </a>
 Vì việc truyền giọng nói trong Voip diễn ra qua Internet, do đó một chiếc điện thoại thông thường sẽ không đáp ứng được. Tuy nhiên, có một adapter là Analog Telephone Adapter (ATA) hay còn gọi là gateway FSX có khả năng chuyển đổi tín hiệu điện thoại analog thành tín hiệu số có thể truyền qua Internet.
+
+<a name="2.2"> **2.2. Voip phone (voip với điện thoại IP):** </a>
+Khi mua điện thoại IP, bạn không cần dùng tới adapter ATA để kết nối Internet. Chỉ cần cắm điện thoại trực tiếp vào cổng Ethernet hỗ trợ mạng, điện thoại sẽ giao tiếp từ Internet đến dịch vụ VoIP bạn đã đăng ký.
+
+<a name="2.3"> **2.3. Voip với thiết bị chuyển đổi từ analog sang IP:** </a>
+Một số công ty sản xuất phần cứng có thể cắm vào jack cắm Ethernet trong nhà để chuyển đổi điện thoại tiêu chuẩn thành điện thoại có thể sử dụng Voip. Phần cứng này có một cổng web được sử dụng để xem các cuộc gọi, kiểm tra thư thoại và thiết lập tích hợp với các dịch vụ khác.
+
+Cách rẻ nhất để sử dụng Voip là kết nối tai nghe có micro với máy tính, nhưng yêu cầu phần mềm Voip để truyền giọng của bạn đến người nhận sử dụng cùng phần mềm. Ngoài ra, có nhiều ứng dụng Voip có khả năng thực hiện các cuộc gọi điện thoại tiêu chuẩn. Một số ứng dụng phần mềm Voip phổ biến nhất: Skype, Jabber, Google Hangout, Google Voice.
+
+### <a name="3"> 3. Các ứng dụng sử dụng VoIP hiện nay </a>
+OTT (Over the top app) là thuật ngữ để chỉ các ứng dụng và các nội dung như âm thanh, video được cung cấp trên nền tảng Internet và không một nhà cung cấp hoặc bất kỳ cơ quan nào có thể can thiệp vào. Hầu hết các ứng dụng OTT đều sử dụng công nghệ voip để thực hiện cuộc gọi như.
+
+![image](https://user-images.githubusercontent.com/69178270/136876890-8437f6f1-6439-4764-a001-ad1d588dc12c.png)
+
+- Zalo
+- Facebook
+- Viber
+- Skype
+- Telegram
+
+### <a name="4"> 4. Điện thoại Voip, Softphone, tổng đài voip </a>
+Bên cạnh các ứng dụng OTT thì công nghệ Voip còn được ứng dụng để xây dựng trong hệ thống điện thoại Voip. Các thiết bị đầu cuối như gateway, điện thoại IP, phần mềm softphone.
+
+![image](https://user-images.githubusercontent.com/69178270/136876844-c9b746dd-0a61-4d1c-83b5-978dd2c0afec.png)
+
