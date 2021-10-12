@@ -1,4 +1,6 @@
-### Tổng quan về tổng đài FusionPBX 
+### Tổng quan về tổng đài FusionPBX
+
+Tổng đài FusionPBX  là một tổng đài sử dụng nền tảng mới là Freeswitch. So sánh về hiệu năng có thể vượt trội hơn Asterisk, nhưng độ phức tạp thì cũng cao hơn Asterisk.
 
 FusionPBX là một gói phần mềm tổng đài cung cấp cho người dùng là cá nhân hoặc doanh nghiệp. Hỗ trợ rất tốt cho doanh nghiệp cung cấp tổng đài ảo. FusionPBX cho phép quản lý nhiều nhóm người dùng một cách độc lập với nhau. Cho phép định tuyến cuộc gọi thủ công, hoặc có sẵn. Hổ trợ rất nhiều các tính năng như: call center, fax, voicemail, conference, đa luồng, giao tiếp đa nền tảng. Cung cấp không giới hạn số lượng extension, voicemail, ghi âm, nhạc chờ,… tùy vào khả năng của server của bạn đang có.
 
@@ -17,6 +19,13 @@ Giới thiệu về giao diện và tính năng cơ bản của tổng đài Fus
 [Máy nhánh nội bộ](#5)
 
 [Cấu hình thiết bị đầu cuối](#6)
+
+[Chặn cuộc gọi (Call Block) trên tổng đài FusionPBX](#7)
+
+[Chuyển cuộc gọi (Call Flow) trên tổng đài FusionPBX](#8)
+
+[IVR](#9)
+
 
 ### <a name="1"> Giao diện đăng nhập </a>
 
