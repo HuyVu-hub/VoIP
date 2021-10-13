@@ -13,10 +13,11 @@ NamKhoaDinh 13-10-2021
 
 ![alt text](https://s3-ap-southeast-1.amazonaws.com/kipalog.com/rp5hwyvnst_image.png)
 ![alt text](https://s3-ap-southeast-1.amazonaws.com/kipalog.com/ein9z5hubb_image.png)
-
 ![alt text](https://s3-ap-southeast-1.amazonaws.com/kipalog.com/vklf725nrv_image.png)
 
+
 **Sau khi tạo xong tiến hành kiểm tra lại**
+
 ![alt text](https://s3-ap-southeast-1.amazonaws.com/kipalog.com/d2qkt6ud9b_image.png)
 
 **Chọn Close và Finish.Cuối cùng Start chương trình lên. Ta được như hình dưới**
