@@ -6,7 +6,7 @@
 
 [2. Hình thức kết nối trong doanh nghiệp](#2)
 
-[&nbsp 2.1. Voip với điện thoại analog](#2.1)
+&nbsp[2.1. Voip với điện thoại analog](#2.1)
 
 [&nbsp 2.2. Voip phone (voip với điện thoại IP)](#2.2)
 
