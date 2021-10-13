@@ -26,7 +26,7 @@ FreePBX Hosting là giải pháp phần mềm FreePBX Reviews với chức năng
 
 FreePBX là một GUI (giao diện người dùng đồ họa) mã nguồn mở dựa trên web điều khiển và quản lý Asterisk (PBX), một máy chủ giao tiếp mã nguồn mở. FreePBX được cấp phép theo Giấy phép Công cộng GNU (GPL), một giấy phép nguồn mở. FreePBX có thể được cài đặt theo cách thủ công hoặc là một phần của FreePBX Distro được cấu hình sẵn bao gồm HĐH hệ thống, Asterisk, FreePBX GUI và các loại phụ thuộc.
 
-![image](https://user-images.githubusercontent.com/69178270/137050312-13766c9c-06f3-4848-a25c-69bb81a413eb.png)
+![image](https://user-images.githubusercontent.com/69178270/137050403-80ba9b2b-bfc9-43df-bb2f-a606b7743749.png)
 
 ### <a name="2"> Tính năng nổi bật </a>
 
