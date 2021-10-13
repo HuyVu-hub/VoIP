@@ -4,7 +4,11 @@
 
 [FreePBX Hosting là gì?](#1)
 
-[Tính năng nổi bật](#2)
+[Tổng quan về các tính năng của FreePBX](#2)
+
+[Tính năng kinh doanh (Business Features)](#2.1)
+
+
 
 ### <a name="1"> FreePBX Hosting là gì? </a>
 
@@ -28,6 +32,41 @@ FreePBX là một GUI (giao diện người dùng đồ họa) mã nguồn mở 
 
 ![image](https://user-images.githubusercontent.com/69178270/137050403-80ba9b2b-bfc9-43df-bb2f-a606b7743749.png)
 
-### <a name="2"> Tính năng nổi bật </a>
+FreePBX hấp dẫn nhiều người vì nó được tải xuống miễn phí, tuy nhiên nó cần nhiều thời gian và chuyên môn kỹ thuật để định cấu hình và bảo trì. Ngoài ra, FreePBX phải được tích hợp với ISTP (Nhà cung cấp dịch vụ điện thoại Internet) để bắt đầu thực hiện cuộc gọi. ITSP cung cấp SIP kết nối với PBX và cung cấp số điện thoại cũng như cuộc gọi đến và đi với các mức giá khác nhau.
 
-**FreePBX Reviews**
+### <a name="2"> Tổng quan về các tính năng của FreePBX </a>
+
+FreePBX đi kèm với nhiều tính năng khác nhau, được chia thành các nhóm con sau: kinh doanh, gọi điện, hỗ trợ, quản trị và kiểm soát người dùng. Tất cả các tính năng được liệt kê dưới đây là "hoàn toàn mới", sẵn sàng sử dụng và cấu hình khi tải xuống FreePBX.
+
+<a name="2.1"> **Tính năng kinh doanh (Business Features)** </a>
+
+ - **Calling Queues (ACD)** Hàng đợi Gọi điện (ACD) 
+
+ - I**nteractive Voice Response (IVR)** Phản hồi giọng nói tương tác (IVR)
+
+ - **Unlimited extensions** Tiện ích mở rộng không giới hạn
+
+ - **Conference Bridge** Cầu hội nghị
+
+ - **Fax to E-mail** Gửi fax tới e-mail
+
+ - **Ring Groups** Đổ chuông nhóm
+
+ - **Music on Hold** Nhạc đang chờ
+
+ - **Calendar with third party integration** Lịch có tích hợp bên thứ ba
+
+ - **Voicemail Blasting** 
+
+ - **Find Me / Follow Me Calling**
+
+ - **Wake Up Calls** Cuộc gọi đánh thức
+
+ - **Support for Video Calling** Hỗ trợ gọi điện video
+
+ - **Secure Communications (SRTP/TLS)** Truyền thông an toàn (SRTP / TLS)
+
+ - **Announcements** Thông báo
+
+ - **Text to Speech** Chuyển văn bản thành giọng nói
+
