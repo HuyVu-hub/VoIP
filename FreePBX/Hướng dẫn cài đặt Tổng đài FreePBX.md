@@ -2,6 +2,7 @@
 NamKhoaDinh 13-10-2021
 
 <h1>1.	Tải xuống tệp ISO SNG7 từ  http://www.freepbx.org/downloads</h1>
+
 ![image](https://user-images.githubusercontent.com/55483458/137065769-f992f47f-c1bf-4679-aa9b-fe1f9e7066f1.png)
 
 <h1>2.	Tiến hành cài đặt</h1>
