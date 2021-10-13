@@ -3,6 +3,7 @@
 ![image](https://user-images.githubusercontent.com/55483458/137066746-03b8bbc7-4170-475d-bade-14adc4f47d3a.png)
 
 # MỤC LỤC
+
 &ensp;[1. Thiết lập các extension number (Số máy nhánh) cho các phòng ban và tổng đài](#1)
 
 &ensp;[2. Cài đặt nhạc chờ tự động](#2)
@@ -12,6 +13,7 @@
 ## <a name ="1">1. Thiết lập các extension number (Số máy nhánh) cho các phòng ban và tổng đài</a>
 
 **Vào applications chọn Extensions**
+
 ![image](https://user-images.githubusercontent.com/55483458/137067290-d660e5a2-9be2-4cdf-b7b2-82267033230d.png)
 
 ![image](https://user-images.githubusercontent.com/55483458/137067394-91e33bb0-0e08-431f-bee9-8af02f1b3524.png)
@@ -34,7 +36,6 @@ Chuyển qua thẻ Advance => Sửa nội dung của CID Num Alias (Số CID đ�
 
 ![image](https://user-images.githubusercontent.com/55483458/137129111-7dd3ef3c-48c5-43e1-a5d5-a99571ba6e17.png)
 
-
 ## <a name ="2">2. Cài đặt nhạc chờ tự động</a>
 
 **Vào thẻ Admin => Chọn System Recording. Chọn Add Recording và thiết lập tùy chọn theo các hình dưới đây**
@@ -56,9 +57,11 @@ Chọn Submit và chờ hệ thống upload file record....
 ![image](https://user-images.githubusercontent.com/55483458/137127771-6a67c6ec-7bb7-46b8-a840-9fbafa58f064.png)
 
 !!!!Ở thẻ Announcement ta chọn object đã thiết lập ở thẻ System Recording lúc trước!!!!
+
 ![image](https://user-images.githubusercontent.com/55483458/137127876-720f3cbb-d9ae-4380-982e-6f8cf258cbf0.png)
 
-Có rất nhiều tùy chọn bạn có thể sử dụng, ví dụ như **Timeout (Khoảng thời gian chờ cuộc gọi), ALERT_INFO (Báo động thông tin cho các thiết bị SIP), Invalid Retry Recording (Nhắc phát khi nhận được phản hồi không hợp lệ / không khớp, trước khi nhắc người gọi thử lại) ,....**
+Có rất nhiều tùy chọn bạn có thể sử dụng, ví dụ như **Timeout (Khoảng thời gian chờ cuộc gọi), ALERT_INFO (Báo động thông tin cho các thiết bị SIP), Invalid Retry Recording 
+(Nhắc phát khi nhận được phản hồi không hợp lệ / không khớp, trước khi nhắc người gọi thử lại) ,....**
 
 **Chọn Submit để hoàn thành thiết lập**
 
@@ -75,6 +78,7 @@ Chuyển qua thẻ Advanced => Thiết lập một số tùy chọn sau
 ## <a name ="3">3. Thiết lập kịch bản - Người gọi ấn số để chuyển đến các phòng ban!!!</a>
 
 **Tạo Ring Group cho 2 Tư vấn viên**
+
 + Vào thẻ Applications chọn Ring Groups => Add Ring Group và thiết lập theo hình dưới đây
 
 ![image](https://user-images.githubusercontent.com/55483458/137130693-bc4363f5-bc5c-4e17-89ac-d409cd7080fa.png)
@@ -82,7 +86,6 @@ Chuyển qua thẻ Advanced => Thiết lập một số tùy chọn sau
 ***
 
 ![image](https://user-images.githubusercontent.com/55483458/137131980-f63760ce-75e6-4b90-aa3d-5e8de7faff11.png)
-
 
 => Submit
 
@@ -97,21 +100,9 @@ Chuyển qua thẻ Advanced => Thiết lập một số tùy chọn sau
 => Submit
 
 **Chọn APPLY CONFIG để lưu lại cấu hình**
+
 ![image](https://user-images.githubusercontent.com/55483458/137132716-fdea9317-2f14-4ea0-9b2e-0600e037abc7.png)
 
-
 ## Vậy là chúng ta đã hoàn thành cấu hình tổng đài theo kịch bản đề ra :D Việc còn lại là sử dụng điện thoại để test thôi (Bạn có thể sử dụng softphone nhé :D) 
+
 ## Chúc bạn may mắn!!!
-
-
-
-
-
-
-        
-        
-        
-        
-        
-        
-        
