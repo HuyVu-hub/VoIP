@@ -1,10 +1,10 @@
 
 NamKhoaDinh 13-10-2021
 
-#1.	Tải xuống tệp ISO SNG7 từ  http://www.freepbx.org/downloads
-![alt text](https://s3-ap-southeast-1.amazonaws.com/kipalog.com/1bw8wf3kup_image.png)
+<h1>1.	Tải xuống tệp ISO SNG7 từ  http://www.freepbx.org/downloads</h1>
+![image](https://user-images.githubusercontent.com/55483458/137065769-f992f47f-c1bf-4679-aa9b-fe1f9e7066f1.png)
 
-#2.	Tiến hành cài đặt
+<h1>2.	Tiến hành cài đặt</h1>
 **Mở VMware lên. Chọn File -> New Virtual Machine và chọn thông số như hình**
 
 ![alt text](https://s3-ap-southeast-1.amazonaws.com/kipalog.com/3ijyx44i7j_image.png)
