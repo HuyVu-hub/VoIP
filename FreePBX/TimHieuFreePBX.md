@@ -6,8 +6,15 @@
 
 [Tổng quan về các tính năng của FreePBX](#2)
 
-[Tính năng kinh doanh (Business Features)](#2.1)
+&ensp;[Tính năng kinh doanh (Business Features)](#2.1)
 
+&ensp;[Tính năng gọi điện (Calling Features)](#2.2)
+
+&ensp;[Hỗ trợ qua điện thoại (Telephony Support)](#2.3)
+
+&ensp;[Quản lý (Administration)](#2.4)
+
+&ensp;[Bảng điều khiển người dùng (User Control Panel)](#2.5)
 
 
 ### <a name="1"> FreePBX Hosting là gì? </a>
@@ -70,3 +77,7 @@ FreePBX đi kèm với nhiều tính năng khác nhau, được chia thành các
 
  - **Text to Speech** Chuyển văn bản thành giọng nói
 
+<a name="2.2"> **Tính năng kinh doanh (Business Features)** </a>
+<a name="2.3"> **Tính năng kinh doanh (Business Features)** </a>
+<a name="2.4"> **Tính năng kinh doanh (Business Features)** </a>
+<a name="2.5"> **Tính năng kinh doanh (Business Features)** </a>
