@@ -6,11 +6,11 @@
 
 [2. Hình thức kết nối trong doanh nghiệp](#2)
 
-&nbsp;[2.1. Voip với điện thoại analog](#2.1)
+&ensp;[2.1. Voip với điện thoại analog](#2.1)
 
 &ensp;[2.2. Voip phone (voip với điện thoại IP)](#2.2)
 
-&emsp;[2.3. Voip với thiết bị chuyển đổi từ analog sang IP](#2.3)
+&ensp;[2.3. Voip với thiết bị chuyển đổi từ analog sang IP](#2.3)
 
 [3. Các ứng dụng sử dụng VoIP hiện nay](#3)
 
