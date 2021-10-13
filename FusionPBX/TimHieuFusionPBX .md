@@ -26,6 +26,13 @@ Giới thiệu về giao diện và tính năng cơ bản của tổng đài Fus
 
 [IVR](#9)
 
+[Hàng đợi (Queues)](#10)
+
+[Call center](#11)
+
+[Định tuyến theo thời gian (Time conditions)](#12)
+
+[Đổ chuông nhóm (Ring Group)](#13)
 
 ### <a name="1"> Giao diện đăng nhập </a>
 
@@ -125,3 +132,54 @@ Hình trên là cấu hình chuyển máy trong các trường hợp: chuyển t
 
 FusionPBX hổ trợ việc quản lý thiết bị đầu cuối thông qua việc đồng bộ dữ liệu từ giao diện web của tổng đài. Tại đây người quản trị hệ thống chỉ cần thiết lập các thông số của IP phone, ngay khi IP phone có kết nối internet và thiết lập kết nối đến tổng đài thì tất cả các cấu hình sẽ được thiết lập một cách tự động. Tính năng này rất hữu ích cho việc triển khai số lượng lớn các thiết bị đầu cuối. Ngoài ra còn dễ quản lý, đặt lại cấu hình ngay trên web khi có sự cố mà không cần thiết lập trên IP phone.
 
+### <a name="7"> Chặn cuộc gọi (Call Block) trên tổng đài FusionPBX </a>
+
+Tính năng chặn cuộc gọi trên tổng đài cho phép xử lý số bị chặn với những hành động khác nhau như: từ chối cuộc gọi (Reject), báo số bận (Busy), giữ cuộc gọi (Hold) hoặc chuyển đến hộp thư thoại của tổng đài.
+
+![image](https://user-images.githubusercontent.com/69178270/137048654-06326507-d994-4ce3-826a-477e4603240a.png)
+
+Cho phép thống kê số lượng cuộc gọi đến của số bị chặn.
+
+![image](https://user-images.githubusercontent.com/69178270/137048694-b70a37f5-0a6f-4b9c-9f6a-76500dbe9a38.png)
+
+### <a name="8"> Chuyển cuộc gọi (Call Flow) trên tổng đài FusionPBX </a>
+
+Cho phép chuyển cuộc gọi bằng các Feature Code.
+
+![image](https://user-images.githubusercontent.com/69178270/137048741-5ef2b136-f966-48e9-a805-67c97d8c6eef.png)
+
+### <a name="9"> IVR </a>
+
+IVR được hiểu là tổng đài tương tác với người dùng thông qua phím bấm. Mỗi phím bấm sẽ được định tuyến đến máy nhánh hoặc thiết lập bất kì của tổng đài.
+
+![image](https://user-images.githubusercontent.com/69178270/137048789-758261a3-3428-46cc-9e75-1d59eae75c87.png)
+
+IVR sẽ được thiết lập với lời chào và các phím bấm. Khi người dùng gọi vào số tổng đài sẽ phát file lời chào yêu cầu ấn phím để có thể liên lạc với điện thoại viên.
+
+Cho phép thiết lập các yêu cầu đặt biệt như: số lần ấn phím sai, độ dài, thời gian chờ ấn phím, …
+
+### <a name="10"> Hàng đợi (Queues) </a>
+
+Hàng đợi thiết lập cho phép người gọi vào có thể chờ đến lượt để kết nối. Tính năng này thường không được sử dụng vì FusionPBX hỗ trợ tính năng tương tự và tốt hơn Queues là Call Center.
+
+![image](https://user-images.githubusercontent.com/69178270/137048885-1357c40f-9f0f-4fe9-b719-f0dca64841eb.png)
+
+### <a name="11"> Call center </a>
+
+Tính năng này cho phép thiết lập một call center đơn giản cho tổng đài. Đây là một tính năng hữu ích phục vụ hàng đợi cho các cuộc gọi đến. Được phép cấu hình:
+
+Cách thức đổ chuông: đổ chuông tất cả, lần lượt, xoay vòng, thứ tự, agent có ít cuộc gọi nhất,..
+
+![image](https://user-images.githubusercontent.com/69178270/137048952-6791375c-c290-4f15-ad55-bc50dc5d61b1.png)
+
+### <a name="12"> Định tuyến theo thời gian (Time conditions) </a>
+
+Tổng đài FusionPBX cho phép cấu hình cuộc gọi vào theo thời gian. Quản lý cuộc gọi theo giờ làm việc và ngoài giờ làm việc. Ngoài ra có thể cấu hình theo các dịp lễ, các ngày đặc biệt.
+
+![image](https://user-images.githubusercontent.com/69178270/137049015-37209ab7-c4f8-4a35-a721-eb1dfac5153a.png)
+
+### <a name="13"> Đổ chuông nhóm (Ring Group) </a>
+
+Đổ chuông theo nhóm các máy nhánh nội bộ và kết nối đến 1 extension trong nhóm đó. Đổ chuông theo nhóm cũng cho phép thiết lập các cách thức đổ chuông khác nhau: tất cả, xoay vòng, ngẫu nhiên, thứ tự,…
+
+![image](https://user-images.githubusercontent.com/69178270/137049065-b7e226af-278e-4d4c-ba5c-d632282a9b8b.png)
