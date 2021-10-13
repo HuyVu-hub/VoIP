@@ -6,6 +6,7 @@ NamKhoaDinh 13-10-2021
 ![image](https://user-images.githubusercontent.com/55483458/137065769-f992f47f-c1bf-4679-aa9b-fe1f9e7066f1.png)
 
 <h1>2.	Tiến hành cài đặt</h1>
+
 **Mở VMware lên. Chọn File -> New Virtual Machine và chọn thông số như hình**
 
 ![alt text](https://s3-ap-southeast-1.amazonaws.com/kipalog.com/3ijyx44i7j_image.png)
@@ -34,10 +35,13 @@ NamKhoaDinh 13-10-2021
 **Chọn các tùy chọn mặc định, sau đó nhấn Enter để chương trình tiếp tục chạy. Chờ chương trình chạy đến bước như hình dưới**
 
 ![alt text](https://s3-ap-southeast-1.amazonaws.com/kipalog.com/8g6f6ob752_image.png)
+
 **Chọn Asia-Hồ Chí Minh**
 
 ![alt text](https://s3-ap-southeast-1.amazonaws.com/kipalog.com/2j6q76b8f1_image.png)
+
 **Nhấn Enter để tiếp tục và đặt password như hình dưới**
+
 ![alt text](https://s3-ap-southeast-1.amazonaws.com/kipalog.com/g5q7nrtxna_image.png)
 
 **Sau khi đặt password xong nhấn enter và chờ chương trình chạy.Bước này hơi lâu**
@@ -49,6 +53,7 @@ NamKhoaDinh 13-10-2021
 ![alt text](https://s3-ap-southeast-1.amazonaws.com/kipalog.com/uti65i4zb8_image.png)
 
 **Đăng nhập với tài khoản root và password của bạn**
+
 Và đây là giao diện console của FreePBX
 
 ![alt text](https://s3-ap-southeast-1.amazonaws.com/kipalog.com/mzvpsxd3tf_image.png)
@@ -66,6 +71,7 @@ Mặc định tài khoản login sẽ là **admin**, password **admin**.
 ![alt text](https://s3-ap-southeast-1.amazonaws.com/kipalog.com/e2czsum06b_image.png)
 
 Tiếp theo chúng ta sẽ tắt tương lửa để các dịch vụ hoạt động bình thường.
+
 **Chọn Connectivity => Firewall**
 
 ![alt text](https://s3-ap-southeast-1.amazonaws.com/kipalog.com/ddjddv9gv0_image.png)
@@ -77,5 +83,3 @@ Tiếp theo chúng ta sẽ tắt tương lửa để các dịch vụ hoạt đ�
 ![alt text](https://s3-ap-southeast-1.amazonaws.com/kipalog.com/bwbc16ky4m_image.png)
 
 ###Tới đây là bạn đã cài đặt xong tổng đài FreePBX 	:smile:  :smile:  Nếu muốn tìm hiểu về các chức năng của tổng đài ảo này hãy đón chờ bài viết tiếp theo nhé!!!!
-
-
