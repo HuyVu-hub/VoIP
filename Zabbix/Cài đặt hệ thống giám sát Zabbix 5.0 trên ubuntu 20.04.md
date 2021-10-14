@@ -106,7 +106,7 @@ Nhập địa chỉ ip của máy chủ zabbix-server trên trình duyệt của
     
 Ta sẽ thấy được màn hình sau:
 
-![image](https://user-images.githubusercontent.com/55483458/137264426-604dd3e4-95c0-4823-bb64-27607f4408ab.png)
+![image](https://user-images.githubusercontent.com/55483458/137281998-c46df9b0-696e-4dd9-93f1-814774d78319.png)
 
 Click **Next Step**
 
