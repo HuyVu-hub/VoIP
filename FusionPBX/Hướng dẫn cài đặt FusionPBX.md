@@ -1,6 +1,6 @@
-1.  # Chuẩn bị môi trường và cài đặt các gói
+ # 1.   Chuẩn bị môi trường và cài đặt các gói
 
-    1.  ## Chuẩn bị môi trường
+## Chuẩn bị môi trường
 
 ### Disable SELinux
 
@@ -28,9 +28,9 @@
 
 ![](.//media/image6.png) 
 
-2.  # Cấu hình database và các file cài đặt
+# 2.    Cấu hình database và các file cài đặt
 
-    1.  ## Cấu hình file jail.local
+## Cấu hình file jail.local
 
 cat
 /usr/share/doc/fusionpbx-fail2ban-rules/README.fusionpbx-fail2ban-rules.txt
@@ -67,9 +67,9 @@ cat
 
 ![](.//media/image13.png) 
 
--   ClueCon
+        Mật khẩu là: ClueCon
 
-# Khởi chạy Web Installer và đăng nhập
+# 3.    Khởi chạy Web Installer và đăng nhập
 
 Ta gõ theo cú pháp : **\<Địa chỉ IP máy CentOS>/fusionpbx** lên trình
 duyệt web để khởi chạy Web Installer
