@@ -32,10 +32,7 @@
 
 ## Cấu hình file jail.local
 
-cat
-/usr/share/doc/fusionpbx-fail2ban-rules/README.fusionpbx-fail2ban-rules.txt
-/usr/share/doc/freeswitch-fail2ban-rules/README.freeswitch-fail2ban-rules.txt
-\> /etc/fail2ban/jail.local
+  **cat /usr/share/doc/fusionpbx-fail2ban-rules/README.fusionpbx-fail2ban-rules.txt /usr/share/doc/freeswitch-fail2ban-rules/README.freeswitch-fail2ban-rules.txt\ > /etc/fail2ban/jail.local**
 
 ![](.//media/image7.png) 
 
