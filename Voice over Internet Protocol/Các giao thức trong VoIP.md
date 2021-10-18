@@ -32,6 +32,7 @@ trạng thái công nhận đăng kí RAS (Registration Admission Status) và c�
 giao thức truyền thời gian thực RTP (real-time transport protocol). H.245
 được dùng để điều khiển việc sử dụng kênh, trong khi H.225 hoặc Q.931
 được dùng cho báo hiệu cuộc gọi, thiết lập và xóa cuộc gọi.
+
 RTP được dùng như là một giao thức truyền dẫn mang thông tin lưu
 thoại. RAS được sử dụng bởi điểm cuối để tương tác với gatekeeper. Một đầu
 cuối H.323 có thể truyền thông với một đầu cuối H.323 khác, một gateway
