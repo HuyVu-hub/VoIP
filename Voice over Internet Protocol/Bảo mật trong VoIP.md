@@ -101,7 +101,6 @@ tính toàn vẹn dữ liệu (data intergrity).
 
 **2. Tấn công tràn bộ đệm**
 
-2 Tấn công tràn bộ đệm
 Đây là phương thức tấn công phổ biến. Đây là kết quả chính của việc
 phát triển phần mềm không đúng lúc. Kỹ thuật này lợi dụng trên thực tế là có
 một vài lệnh không kiểm tra đầu vào dữ liệu. Chúng được ứng dụng đặc biệt
