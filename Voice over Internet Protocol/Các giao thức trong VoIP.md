@@ -130,7 +130,7 @@ Chức năng chính của các bản tin RAS:
 Bản tin RAS được gửi đi bằng giao thức vận chuyển UDP. EP và GK
 trao đổi thông tin trên kênh RAS theo dạng client-server. 
 
-_Các bản tin RAS _
+_Các bản tin RAS_
 
 ![image](https://user-images.githubusercontent.com/69178270/137660041-e7b2eeac-9dab-472c-85e8-69a0ff56284b.png)
 
