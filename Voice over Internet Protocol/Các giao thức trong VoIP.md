@@ -308,3 +308,227 @@ Nói chung, SIP hỗ trợ các hoạt động chính sau:
   * Định sự sẵn sàng của người dùng để tham gia vào một phiên làm việc.
   * Thiết lập cuộc gọi, chuyển cuộc gọi và kết thúc.
 
+**2. Cấu trúc của giao thức SIP**
+
+Một khía cạch khác biệt của SIP đối với các giao thức xử lý cuộc gọi IP
+khác là nó không sử dụng bộ điều khiển Gateway. Nó không dùng khái niệm
+Gatway/bộ điều khiển Gateway nhưng nó dựa vào mô hình khách
+chủ(client/server).
+ 
+ _Kiến trúc báo hiệu SIP và thủ tục báo hiệu_
+ 
+![image](https://user-images.githubusercontent.com/69178270/137661029-faa8ee0f-6c61-4dff-8c28-ba0023c4838c.png)
+
+Server: Là một chương trình ứng dụng chấp nhận các bản tin yêu cầu
+để phục vụ các yêu cầu này và gửi trả các đáp ứng cho các yêu cầu đó. Server
+là Proxy, Redirect, UA hoặc Registrar.
+
+Proxy server: là một chương trình trung gian, hoạt động như là một
+server và một client cho mục đính tạo các yêu cầu thay mặt cho các client
+khác. Các yêu cầu được phục vụ bên trong hoặc truyền chúng đến server
+khác. Một proxy có thể dịch và nếu cần thiết, có thể tạo lại bản tin yêu cầu
+SIP trước khi chuyển chúng đến server khác hoặc một UA
+
+Redirect server: là một server chấp nhận một yêu cầu SIP, ánh xạ địa
+chỉ trong yêu cầu thành một địa chỉ mới và trả lại địa chỉ này về client. Không
+giống như proxy server, nó không khởi tạo một yêu cầu SIP và không chuyển
+các yêu cầu đến các server khác. Không giống như server đại diện người dùng
+USA, nó không chấp nhận cuộc gọi.
+
+Registrar: là một server chấp nhận yêu cầu register. Một Registrar được
+xếp đặt với một Proxy hoặc một server gửi lại và có thể đưa ra các dịch vụ
+định vị. Registrar được dùng đằng kí các đối tượng SIP trong miền SIP và cập
+nhật vị trí hiện tại của chúng. Một miền SIP thì tương tự với một vùng H.323.
+UA (User Agent): là một ứng dụng chứa cả UAC (user agent client) và
+UAS (user agent server).
+- UAC: là phần người sử dụng được dùng để khởi tạo một yêu cầu SIP
+tới Server SIP hoặc tới UAS.
+- UAS: là một ứng dụng server gio tiếp với người dùng khi yêu cầu SIP
+được nhận và trả lại một đáp ứng đại diện cho người dùng.
+
+Server SIP có hai loại: Proxy server và Redirect server. Proxy server
+nhận một yêu cầu từ client và quyết định server kế tiếp mà yêu cầu sẽ đi đến.
+Proxy này có thể gửi yêu cầu đến một server khác một Redirect hoặc UAS.
+Đáp ứng sẽ được truyền cùng đường với yêu cầu nhưng theo chiều ngược lại.
+Proxy server hoạt động như là một client và server. Redirect sẽ không chuyển
+yêu cầu nhưng sẽ chỉ định client tiếp xúc trực tiếp với server kế tiếp, đáp ứng
+gửi lại client chứa chỉ định của server kế tiếp. Nó không hoạt động được như
+là một client, nó không chấp nhận cuộc gọi.
+
+_Redirect Server_
+
+![image](https://user-images.githubusercontent.com/69178270/137661109-5a331c11-4fc3-4b57-95c8-f3ce0ec24625.png)
+
+**3. SDP (Session Description Protocol)**
+
+Là giao thức cho phép client chia sẻ thông tin về phiên kết nối cho các
+client khác. Nó đóng một vai trò quan trọng trong VoIP.
+
+_Mô tả SDP:_
+
+SDP không phải là một giao thức lớp vận chuyển, nó không thực sự
+vận chuyển dữ liệu giữa các client mà nó chỉ thiết lập cấu trúc thông tin về
+các thuộc tính của luồng dữ liệu, dữ liệu thực sự được truyền đi bởi các giao
+thức SIP, RTSP hay HTTP.
+Thông tin trong gói SDP ở dạng ASCII gồm nhiều dòng, mỗi dòng là 1
+trường. Ví dụ bản tin SDP:
+v=0
+o=bsmith 2208988800 2208988800 IN IP4 68.33.152.147
+s=
+e=bsmith@foo.com
+c=IN IP4 20.1.25.50
+t=0 0
+a=recvonly
+m=audio 0 RTP/AVP 0 1 101
+a=rtpmap:0 PCMU/8000
+
+_Ý nghĩa của các trường_
+
+![image](https://user-images.githubusercontent.com/69178270/137661250-a6655c60-0f09-47fc-86dc-dae367aba4d5.png)
+
+_Hoạt động của SDP:_
+
+Client gửi SIP request, thiết bị sẽ tạo một gói SDP gửi trả lại. Gói SDP
+này mang thông tin về phiên kết nối. Sau đây là một ví dụ:
+v=0
+o=alice 2890844526 2890844526 IN IP4
+host.atlanta.example.com
+s=
+c=IN IP4 host.atlanta.example.com
+t=0 0
+m=audio 49170 RTP/AVP 0 8 97
+a=rtpmap:0 PCMU/8000
+a=rtpmap:8 PCMA/8000
+a=rtpmap:97 iLBC/8000
+m=video 51372 RTP/AVP 31 32
+a=rtpmap:31 H261/90000
+a=rtpmap:32 MPV/90000
+
+Trong ví dụ trên, người gửi là Alice, lắng nghe kết nối từ host. atlanta.
+Example .com. Gói được gửi tới bất kỳ ai muốn tham gia phiên kết nối. Kết
+nối của Alice hỗ trợ ba loại kết nối cho audio là PCMU, PCMIA và iLBC, hai
+loại kết nối video H.261 và MPV. Nếu Bob muốn tham gia kết nối thì gửi lại
+bản tin SDP:
+v=0
+o=bob 2808844564 2808844564 IN IP4 host.biloxi.example.com
+s=
+c=IN IP4 host.biloxi.example.com
+t=0 0
+m=audio 49174 RTP/AVP 0
+a=rtpmap:0 PCMU/8000
+m=video 49170 RTP/AVP 32
+a=rtpmap:32 MPV/90000
+
+_Bảo mật cho SDP:_
+
+Bản tin SDP mang thông tin về phiên kết nối như nhận dạng phiên kết
+nối, IP người gửi, người nhận,… Nếu kẻ tấn công bắt được những gói SDP
+này nó có thể thay đổi giá trị trong các trường rồi gửi đi. Nhưng điều này
+hoàn toàn có thể khắc phục bằng phương pháp chứng thực user của SIP.
+
+**4. Các bản tin của SIP**
+
+Có hai loại bản tin SIP: bản tin yêu cầu được khởi tạo từ client và bản
+tin đáp ứng được trả lại từ server. Mỗi bản tin chứa một tiêu đề mô tả chi tiết
+về sự truyền thông.
+
+Một bản tin cơ bản gồm: dòng bắt đầu (start-line), một hoặc nhiều
+trường tiêu đề, một dòng trống (CRLF) dùng để kết thúc các trường tiêu đề và
+một nội dung bản tin tùy chọn.
+
+![image](https://user-images.githubusercontent.com/69178270/137661409-7ec838f2-e57f-495a-a188-9c4bb5f91498.png)
+
+**4.1 Tiêu đề bản tin**
+
+Dùng để chỉ ra người gọi, người bi gọi, đường định tuyến và loại bản
+tin của cuộc gọi. Có bốn nhóm bản tin như sau:
+Tiều đề chung: áp dụng cho các yêu cầu và các đáp ứng.
+Tiêu đề thực thể: định nghĩa thông tin về loại bản tin và chiều dài.
+Tiêu đề yêu cầu: cho phép client thêm vào các thông tin yêu cầu.
+Tiêu đề đáp ứng: cho phép server thêm vào các thông tin đáp ứng.
+Các tiêu đề này được liệt kê trong bảng dưới đây:
+
+T_iêu đề của SIP_
+
+![image](https://user-images.githubusercontent.com/69178270/137661473-231943a0-6a81-4f1c-893b-127cca1cf598.png)
+
+Giải thích một số tiêu đề chính của SIP theo bảng dưới:
+
+_Giải thích một số tiêu đề chính của SIP._
+
+![image](https://user-images.githubusercontent.com/69178270/137661524-79031b33-d76e-4169-b603-e632d4bdad51.png)
+
+**4.2 Bản tin yêu cầu.**
+
+Các yêu cầu cũng có thể được xem như các phương pháp (method) cho
+phép User agent và server mạng định vị, mời và quản lí các cuộc gọi. Bản tin
+yêu cầu SIP có dạng sau:
+
+![image](https://user-images.githubusercontent.com/69178270/137661596-49f875f9-7e92-4ee5-b1bf-b8260306c178.png)
+
+Dòng yêu cầu bắt đầu bằng mã phương pháp, bộ nhận dạng tài nguyên
+đồng nhất yêu cầu, phiên bản giao thức SIP và kết thúc với CRLF. Các thành
+phần được phân các bởi ký tự SP.
+
+Có 6 loại bản tin yêu cầu SIP: INVITE, ACK, OPTIONS, BYE,
+CANCEL và REGISTER.
+
+INVITE: Bản tin INVITE chỉ ra người dùng hoặc dịch vụ đang được
+mời tham dự một phiên làm việc. Nội dung bản tin chứa sự mô tả phiên mà
+người bị gọi được mời. Đối với cuộc gọi hai người, người gọi chỉ ra loại
+media mà nó có thể nhận. Một đáp ứng thành công phải chứa trong nội dung
+bản tin của nó loại media nào mà người bị gọi mong muốn nhận. Với bản tin
+này, người dùng có thể nhận biết được khả năng của người dùng khác và mở
+ra một phiên hội thoại với số bản tin giới hạn.
+
+ACK: Bản tin ACK xác nhận client đã nhận được đáp ứng sau cùng đối
+với bản tin INVITE (ACK chỉ được sử dụng với bản tin INVITE).
+
+Nội dung bản tin ACK chứa sự mô tả phiên sau cùng được sử dụng bởi
+người bị gọi. Nếu nội dung bản tin ACK bị rỗng thì người bị gọi sử dụng sự
+mô tả phiên trong bản tin INVITE.
+
+OPTIONS: Bản tin này cho phép truy vấn và thu thập User Agent và
+các khả năng của Server mạng. Tuy nhiên, bản tin này không được sử dụng để
+thiết lập phiên
+
+BYE: User Agent Client sử dụng bản tin BYE báo cho Server biết nó
+muốn giải phóng cuộc gọi. Bản tin BYE được chuyển giống như là bản tin
+INVITE và có thể được phát đi từ người gọi hoặc người bị gọi. Khi một đối
+tác nhận bản tin BYE thì nó phải ngừng việc truyền các luồng dữ liệu về
+hướng đối tác phát đi bản tin BYE.
+
+CANCEL: Bản tin CANCEL cho phép User Agent và server mạng hủy
+bỏ bất cứ yêu cầu nào đang trong quá trình xử lý, nó không ảnh hưởng đến
+các yêu cầu đã hoàn thành mà các đáp ứng sau cùng đã nhận được.
+
+RIGISTER: Bản tin này được sử dụng bởi client để đăng ký thông tin
+vị trí của nó với server SIP
+
+**4.3 Đáp ứng bản tin**
+
+Các bản tin đáp ứng có dạng như sau:
+
+![image](https://user-images.githubusercontent.com/69178270/137661707-4e71f3ba-4b6b-4ac6-8ece-195f22770aba.png)
+
+Dòng trạng thái bao gồm phiên bản của giao thức, mã trạng thái (số), lý
+do và CRLF. Các thành phần được cách nhau bằng hai ký tự SP.
+
+Dòng trạng thái = SIP-version SP status-code SP Reason-Phrase CRLF
+Mã trạng thái có 3 chứ số chỉ ra kết quả của việc đáp ứng yêu cầu. Lý
+do là sự mô tả ngắn gọn về mã trạng thái.
+
+Chữ số đầu tiên của mã trạng thái định nghĩa lớp đáp ứng. SIP phiên
+bản 2.0 định nghĩa 6 giá trị cho lớp đáp ứng.
+1xx: thông tin-các yêu cầu được nhận, xử lý các yêu cầu
+2xx: thành công-hoạt động được nhận thành công và được chấp nhận.
+3xx: đổi hướng (redirection) cần thêm một số hoạt động để hoàn thành
+yêu cầu.
+4xx: lỗi client – yêu cầu bị sai lỗi cú pháp hoặc không thỏa mãn ở
+server.
+5xx: lỗi server – server không thỏa mãn một yêu cầu đúng.
+6xx: lỗi toàn cầu – yêu cầu không thể thỏa mãn ở bất kì server nào.
+
+Mã số mã trạng thái được định nghĩa trong SIP phiên bản 2.0 được định
+nghĩa trong bảng dưới đây:
+
