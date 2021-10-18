@@ -166,10 +166,15 @@ dữ liệu sẽ truyền.
 **Các thủ tục báo hiệu trong mạng H.323**
 
 Người ta chia một cuộc gọi làm 5 giai đoạn gồm :
+
 Giai đoạn 1: Thiết lập cuộc gọi
+
 Giai đoạn 2: Thiết lập kênh điều khiển
+
 Giai đoạn 3: Thiết lập kênh gọi ảo
+
 Giai đoạn 4: Dịch vụ
+
 Giai đoan 5: Kết thúc cuộc gọi
 
 **1. Thiết lập cuộc gọi**
@@ -177,11 +182,17 @@ Giai đoan 5: Kết thúc cuộc gọi
 Việc thiết lập cuộc gọi sử dụng các bản tin được định nghĩa trong
 khuyến nghị H.225.0. Ta sẽ xem xét thủ tục thiết lập cuộc gọi trong 6 trường
 hợp sau:
+
 - Cả hai thiết bị đầu cuối đều không đăng ký.
+
 - Cả hai thuê bao đều đăng ký tới một GK.
+
 - Chỉ có thuê bao chủ gọi có đăng ký với GK.
+
 - Chỉ có thuê bao bị gọi có đăng ký với GK.
+
 - Hai thuê bao đăng ký với hai GK khác nhau.
+
 - Thiết lập cuộc gọi qua Gateway.
 
 **2. Thiết lập kênh điều khiển**
@@ -222,10 +233,13 @@ tần và giám sát trạng thái hoạt động.
 
 Một thiết bị đầu cuối có thể kết thúc cuộc gọi theo các bước của thủ tục
 sau:
+
 + Dừng truyền luồng tín hiệu video khi kết thúc truyền hình ảnh, sau
 đó giải phóng tất cả các kênh logic phục vụ truyền video.
+
 + Dừng truyền dữ liệu và đóng tất cả các kênh logic dùng để truyền dữ
 liệu.
+
 + Dừng truyền audio sau đó đóng tất cả các kênh logic dùng để truyền
 audio.
 
@@ -288,17 +302,21 @@ các yêu cầu và đáp ứng đến các client. Một thông điệp yêu c�
 
 SIP là một công cụ hỗ trợ hấp dẫn đối với điện thoại IP với các lí do
 sau:
+
 + Nó có thể hoạt động vô trạng thái hoặc có trạng thái. Vì vậy sự hoạt
 động vô trạng thái cung cấp sự mở rộng tốt do các server không phải duy trì
 thông tin về trạng thái cuộc gọi một khi sự thực hiện đã được xử lý.
+
 + Nó có thể sử dụng nhiều dạng hoặc cú pháp giao thức chuyển siêu
 văn bản HTTP. Vì vậy, nó cung cấp một cách thuận lợi để hoạt động trên các
 trình duyệt.
+
 + Bản tin SIP thì không rõ ràng, nó có thể là bất cứ cú pháp nào. Vì
 vậy, nó có thể được mô tả theo nhiều cách. Chẳng hạn, nó có thể được mô tả
 với sự mở rộng thư internet đa mục đính MIME (Multipurpose Internet Mail
 Extension) hoặc ngôn ngữ đánh dấu mở rộng XML (Extensible Markup
 Language).
+
 + Nó nhận dạng một người dùng với bộ định vị tài nguyên đồng nhất
 URL(Uniform Resource Locator), vì vậy nó cung cấp cho người dùng khả
 năng khởi tạo cuộc gọi bằng cách nhập vào một liên kết trên trang web.
@@ -372,14 +390,23 @@ các thuộc tính của luồng dữ liệu, dữ liệu thực sự được t
 thức SIP, RTSP hay HTTP.
 Thông tin trong gói SDP ở dạng ASCII gồm nhiều dòng, mỗi dòng là 1
 trường. Ví dụ bản tin SDP:
+
 v=0
+
 o=bsmith 2208988800 2208988800 IN IP4 68.33.152.147
+
 s=
+
 e=bsmith@foo.com
+
 c=IN IP4 20.1.25.50
+
 t=0 0
+
 a=recvonly
+
 m=audio 0 RTP/AVP 0 1 101
+
 a=rtpmap:0 PCMU/8000
 
 _Ý nghĩa của các trường_
@@ -390,18 +417,31 @@ _Hoạt động của SDP:_
 
 Client gửi SIP request, thiết bị sẽ tạo một gói SDP gửi trả lại. Gói SDP
 này mang thông tin về phiên kết nối. Sau đây là một ví dụ:
+
 v=0
+
 o=alice 2890844526 2890844526 IN IP4
+
 host.atlanta.example.com
+
 s=
+
 c=IN IP4 host.atlanta.example.com
+
 t=0 0
+
 m=audio 49170 RTP/AVP 0 8 97
+
 a=rtpmap:0 PCMU/8000
+
 a=rtpmap:8 PCMA/8000
+
 a=rtpmap:97 iLBC/8000
+
 m=video 51372 RTP/AVP 31 32
+
 a=rtpmap:31 H261/90000
+
 a=rtpmap:32 MPV/90000
 
 Trong ví dụ trên, người gửi là Alice, lắng nghe kết nối từ host. atlanta.
@@ -409,14 +449,23 @@ Example .com. Gói được gửi tới bất kỳ ai muốn tham gia phiên k�
 nối của Alice hỗ trợ ba loại kết nối cho audio là PCMU, PCMIA và iLBC, hai
 loại kết nối video H.261 và MPV. Nếu Bob muốn tham gia kết nối thì gửi lại
 bản tin SDP:
+
 v=0
+
 o=bob 2808844564 2808844564 IN IP4 host.biloxi.example.com
+
 s=
+
 c=IN IP4 host.biloxi.example.com
+
 t=0 0
+
 m=audio 49174 RTP/AVP 0
+
 a=rtpmap:0 PCMU/8000
+
 m=video 49170 RTP/AVP 32
+
 a=rtpmap:32 MPV/90000
 
 _Bảo mật cho SDP:_
@@ -442,13 +491,18 @@ một nội dung bản tin tùy chọn.
 
 Dùng để chỉ ra người gọi, người bi gọi, đường định tuyến và loại bản
 tin của cuộc gọi. Có bốn nhóm bản tin như sau:
+
 Tiều đề chung: áp dụng cho các yêu cầu và các đáp ứng.
+
 Tiêu đề thực thể: định nghĩa thông tin về loại bản tin và chiều dài.
+
 Tiêu đề yêu cầu: cho phép client thêm vào các thông tin yêu cầu.
+
 Tiêu đề đáp ứng: cho phép server thêm vào các thông tin đáp ứng.
+
 Các tiêu đề này được liệt kê trong bảng dưới đây:
 
-T_iêu đề của SIP_
+_Tiêu đề của SIP_
 
 ![image](https://user-images.githubusercontent.com/69178270/137661473-231943a0-6a81-4f1c-893b-127cca1cf598.png)
 
@@ -520,13 +574,19 @@ do là sự mô tả ngắn gọn về mã trạng thái.
 
 Chữ số đầu tiên của mã trạng thái định nghĩa lớp đáp ứng. SIP phiên
 bản 2.0 định nghĩa 6 giá trị cho lớp đáp ứng.
+
 1xx: thông tin-các yêu cầu được nhận, xử lý các yêu cầu
+
 2xx: thành công-hoạt động được nhận thành công và được chấp nhận.
+
 3xx: đổi hướng (redirection) cần thêm một số hoạt động để hoàn thành
 yêu cầu.
+
 4xx: lỗi client – yêu cầu bị sai lỗi cú pháp hoặc không thỏa mãn ở
 server.
+
 5xx: lỗi server – server không thỏa mãn một yêu cầu đúng.
+
 6xx: lỗi toàn cầu – yêu cầu không thể thỏa mãn ở bất kì server nào.
 
 Mã số mã trạng thái được định nghĩa trong SIP phiên bản 2.0 được định
