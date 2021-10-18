@@ -689,3 +689,11 @@ hiện tại vẫn là một giao thức đơn giản, dựa trên kiến trúc 
 
 **Giao thức vận chuyển trong VoIP**
 
+Giao thức thời gian thực Real-time Protocol (RTP) được ra đời do tổ
+chức IETF đề xuất, nó đảm bảo cơ chế vận chuyển và giám sát phương thức
+truyền thông thời gian thực trên mạng IP. RTP có hai thành phần:
+
+- Bản thân RTP mang chức năng vận chuyển, cung cấp các thông tin về
+các gói tin thoại.
+- Giao thức điều khiển thời gian thực RTCP (Real-time Control
+Protocol) mang chức năng giám sát và đánh giá chất lượng truyền tin
