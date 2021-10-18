@@ -15,3 +15,7 @@ H.323 là giao thức được phát triển bởi ITU-T. H.323 ban đầu đư�
  + H.245: là giao thức điều khiển cho phép các đầu cuối thỏa hiệp kênh
 và trao đổi khả năng của chúng.
  + H.235: công cụ bảo mật hỗ trợ cho H.323.
+
+**Các thành phần chính trong mạng H.323**
+
+Tiêu chuẩn H.323 đề nghị một cấu trúc mà bao gồm 4 thành phần: đầu cuối, Gateway, Gatekeeper, và đơn vị điều khiển đa điểm MCU (Multipoint Control Unit). Cấu trúc này được mô tả như trong hình sau:
