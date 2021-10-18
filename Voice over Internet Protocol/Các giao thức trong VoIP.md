@@ -4,7 +4,15 @@
 
 [Giao Thức H.323](#1)
 
-[]
+[H.225](#2)
+
+[Các thủ tục báo hiệu trong mạng H.323](#3)
+
+[Giao thức SIP](#4)
+
+[So sánh H.323 và SIP](#5)
+
+[Giao thức vận chuyển trong VoIP](#6)
 
 ### <a name="1"> Giao Thức H.323 </a>
 
@@ -113,7 +121,7 @@ MP nhận các luồng dữ liệu audio, video và phân phối chúng tới c�
 điểm cuối tham dự vào kết nối đa điểm. MP có thể không cần đến nhưng sự
 vắng mặt của nó là một gánh nặng trên đầu cuối.
 
-**H.225**
+### <a name="2"> H.225 </a>
 
 H.225 bao gồm các bản tin RAS và Q.931. Các bản tin RAS liên quan
 đến việc quản lý user, còn Q.931 mang phần báo hiệu cuộc gọi. Cả hai giao
@@ -163,7 +171,7 @@ Quản lý kênh luận lý: đảm bảo cho đầu cuối có khả năng nh�
 được dữ liệu khi kênh luận lý mở. Bản tin OpenLogicalChannel sẽ mô tả loại
 dữ liệu sẽ truyền.
 
-**Các thủ tục báo hiệu trong mạng H.323**
+### <a name="3"> Các thủ tục báo hiệu trong mạng H.323 </a>
 
 Người ta chia một cuộc gọi làm 5 giai đoạn gồm :
 
@@ -285,7 +293,7 @@ _Kết thúc cuộc gọi bắt đầu từ GK_
 
 ![image](https://user-images.githubusercontent.com/69178270/137660522-a340daa1-fbc3-443c-b25f-1e8730fff412.png)
 
-**Giao thức SIP**
+### <a name="4"> Giao thức SIP </a>
 
 **1. Tổng Quan**
 
@@ -631,7 +639,7 @@ _Vận chuyển bản tin SIP bằng TCP_
 Để tăng cường tính bảo mật thì còn có những giao thức bổ sung để vận
 chuyển bản tin SIP như TLS, SRTP.
 
-**So sánh H.323 và SIP**
+### <a name="5"> So sánh H.323 và SIP </a>
 
 SIP và H.323 được phát triển với những mục đích khác nhau bởi các tổ
 chức khác nhau. H.323 được phát triển bởi ITU-T từ theo PSTN, dùng mã hóa
@@ -687,7 +695,7 @@ của SIP thì không cần thay thế H.323 bằng SIP.
 SIP hiện tại vẫn chưa hỗ trợ hội nghị truyền hình. Điểm mạnh của nó
 hiện tại vẫn là một giao thức đơn giản, dựa trên kiến trúc Internet.
 
-**Giao thức vận chuyển trong VoIP**
+### <a name="6"> Giao thức vận chuyển trong VoIP </a>
 
 Giao thức thời gian thực Real-time Protocol (RTP) được ra đời do tổ
 chức IETF đề xuất, nó đảm bảo cơ chế vận chuyển và giám sát phương thức
@@ -697,3 +705,129 @@ truyền thông thời gian thực trên mạng IP. RTP có hai thành phần:
 các gói tin thoại.
 - Giao thức điều khiển thời gian thực RTCP (Real-time Control
 Protocol) mang chức năng giám sát và đánh giá chất lượng truyền tin
+
+**1. RTP **
+
+Một cuộc thoại thông thường được chia thành các phiên báo hiệu cuộc
+gọi, điều khiển cuộc gọi, thỏa thuận phương thức truyền thông và phiên hội
+thoại. Vị trí của RTP nằm trong phiên hội thoại.
+
+Cách thức truyền tiếng nói qua mạng IP: Qua phiên thoả thuận phương
+thức truyền thông, các bên tham gia hội thoại tiến hành mở hai cổng UDP kề
+nhau, cổng chẵn cho truyền tiếng nói (RTP), cổng lẻ cho truyền các thông tin
+trạng thái để giám sát (RTCP). Thông thường, hai cổng được chọn mặc định
+là 5004 và 5005.
+
+Tại phía phát, tiếng nói được điều chế thành dạng số hoá, qua bộ
+CODEC được nén thành các gói tin để truyền đi. Khi đi xuống tầng UDP/IP,
+mỗi gói tin được gắn với một header tương ứng. Header này có kích thước 40
+byte, cho biết địa chỉ IP nguồn, địa chỉ IP đích, cổng tương ứng, header RTP
+và các thông tin khác:
+
+_Gói RTP_
+
+![image](https://user-images.githubusercontent.com/69178270/137693032-0b804732-d3fb-42a9-b0fd-2ef447341995.png)
+
+Chẳng hạn như ta sử dụng G.723.1 thì mỗi payload có kích thước 24
+byte, như vậy phần dữ liệu cho mỗi gói tin chỉ chiếm 37,5%.
+
+Header RTP cho biết phương thức mã hóa được sử dụng cho gói tin
+này, chỉ mục gói, nhãn thời gian của nó và các thông tin quan trọng khác. Từ
+các thông tin này ta có thể xác định ràng buộc giữa gói tin với thời gian.
+
+_Header RTP gồm 2 phần :_
+
+Phần cố định dài 12 byte.
+
+Phần mở rộng để người sử dụng có thể đưa thêm các thông tin khác.
+Header RTP cho mỗi gói tin có dạng :
+
+_Cấu trúc header của RTP_
+
+![image](https://user-images.githubusercontent.com/69178270/137693155-46434a63-9170-4fb9-8b3c-6eb30c6fbd30.png)
+
+Các gói được sắp xếp lại theo đúng thứ tự thời gian thực ở bên nhận
+rồi được giải mã và phát lại.
+
+RTP hỗ trợ hình thức hội thoại đa điểm một cách rất linh hoạt. Điều
+này hết sức quan trọng, đặc biệt trong trường hợp số thành viên tham gia hội
+thoại là nhỏ để tiết kiệm tài nguyên mạng. Đa phần hội thoại diễn ra dưới hình
+thức phát đa điểm. Nếu có yêu cầu phúc đáp giữa hai thành viên thì ta lựa
+chọn cách thức hội thoại đơn phát đáp.
+
+_Hội thoại đa điểm_
+
+![image](https://user-images.githubusercontent.com/69178270/137693330-3a555cfc-4c9b-4d99-adc1-2caa4125b071.png)
+
+RTP cho phép sử dụng các bộ trộn và bộ chuyển đổi. Bộ trộn là thiết bị
+nhận các luồng thông tin từ vài nguồn có tốc độ truyền khác nhau, trộn chúng
+lại với nhau và chuyển tiếp theo một tốc độ xác định ở đầu ra. Bộ chuyển đổi
+nhận một luồng thông tin ở đầu vào, chuyển đổi nó thành một khuôn dạng
+khác ở đầu ra. Các bộ chuyển đổi có ích cho sự thu nhỏ băng thông theo yêu
+cầu của dòng số liệu trước khi gửi vào kết nối băng thông hẹp hơn mà không
+cần yêu cầu nguồn phát RTP thu nhỏ tốc độ truyền tin của nó. Điều này cho
+phép các bên kết nối theo một liên kết nhanh mà vẫn đảm bảo truyền thông chất lượng cao. Các bộ trộn cho phép giới hạn băng thông theo yêu cầu hội
+thoại.
+
+**2. RTCP**
+
+Từ các thông tin cung cấp trong RTP cho mỗi gói tin, ta có thể giám sát
+chất lượng truyền tiếng nói trong quá trình diễn ra hội thoại. RTCP phân tích
+và xử lý các thông tin này để tổng hợp thành các thông tin trạng thái rồi đưa
+ra các bản tin phản hồi đến tất cả các thành viên. Ta có thể để điều chỉnh tốc
+độ truyền số liệu nếu cần, trong khi các bên nhận khác có thể xác định xem
+vấn đề chất lượng dịch vụ là cục bộ hay toàn mạng. Đồng thời, nhà quản lý
+mạng có thể sử dụng các thông tin tổng hợp cho việc đánh giá và quản lý chất
+lượng dịch vụ trong mạng đó.
+
+Ngoài ra, các bên tham gia có thể trao đổi các mục mô tả thành viên
+như tên, e-mail, số điện thoại và các thông tin khác.
+
+Giao thức điều khiển thời gian thực Real-time Control Protocol (RTCP)
+có nhiệm vụ giám sát và đánh giá quá trình truyền tin dựa trên việc truyền
+một cách định kỳ các gói tin điều khiển tới các thành viên tham gia hội thoại
+với cùng cơ chế truyền dữ liệu. RTCP thi hành 4 chức năng chính:
+
+Cung cấp cơ chế phản hồi chất lượng truyền dữ liệu. Bên gửi thống kê
+quá trình gửi dữ liệu qua bản tin người gửi cho các thành viên. Bên nhận cũng
+tiến hành gửi lại bản thống kê các thông tin nhận được qua bản tin người
+nhận. Từ việc giám sát quá trình gửi và nhận giữa các bên, ta có thể điều
+chỉnh lại các thông số cần thiết để tăng chất lượng cho cuộc gọi. Đây là chức
+năng quan trọng nhất của RTCP.
+
+Mỗi nguồn cung cấp gói tin RTP được định danh bởi một tên CNAME
+(Canonical end-point identifer SDES item). RTCP có nhiệm vụ cho các thành
+viên biết tên này. Khi có thành viên mới tham gia hội thoại thì anh ta phải
+được gán với một trường CNAME trong gói tin SDES.
+
+Quan sát số thành viên tham gia hội thoại thông qua sự thống kê ở các
+bản tin.
+
+Mang các thông tin thiết lập cuộc gọi, các thông tin về người dùng. Đây
+là chức năng tùy chọn. Nó đặc biệt hữu ích với việc điều khiển các phiên
+lỏng, cho phép dễ dàng thêm bớt số thành viên tham gia hội thoại mà không
+cần có ràng buộc nào.
+
+RTCP định nghĩa 5 loại gói tin như bảng dưới:
+
+![image](https://user-images.githubusercontent.com/69178270/137693571-4e528fb8-7d41-41fd-97e4-afc4927fbecd.png)
+
+Các thông tin được cung cấp gói tin RTCP cho phép mỗi thành viên
+tham gia hội thoại giám sát được chất lượng truyền tin, số gói tin đã gửi đi, số
+gói tin nhận được, tỷ lệ gói tin bị mất, trễ là bao nhiêu…Vì vậy, các thông tin
+này thường được cập nhật một cách định kỳ và chiếm không quá 5% giải
+thông cuộc gọi.
+
+Như vậy không những RTP đáp ứng được yêu cầu thời gian thực cho
+việc truyền tiếng nói qua mạng IP mà còn cho phép ta giám sát và đánh giá
+chất lượng truyền tin cho VoIP. Có rất nhiều yếu tố ảnh hưởng tới chất lượng
+dịch vụ (Quality of Service - QoS) cho VoIP nhưng chủ yếu là do 3 nguyên nhân trễ, tỷ lệ gói tin
+mất và Jitter. Tại mỗi thời điểm diễn ra hội thoại ta đều có thể quan sát và
+đánh giá các tham số này.
+
+Tuy nhiên, bản thân RTP hoạt động trên tầng IP mà bản chất mạng IP
+là chuyển mạch gói, do vậy RTP không can thiệp được tới các nguyên nhân
+trên. Ta không thể điều khiển được chất lượng dịch vụ qua thoại trên IP mà
+chỉ giám sát và đánh giá qua việc sử dụng RTP. Biện pháp khắc phục hiện
+nay là sử dụng giao thức giữ trước tài nguyên Resource Reservation Protocol
+(RSVP) cho VoIP.
