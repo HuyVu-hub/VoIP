@@ -303,8 +303,7 @@ Language).
 URL(Uniform Resource Locator), vì vậy nó cung cấp cho người dùng khả
 năng khởi tạo cuộc gọi bằng cách nhập vào một liên kết trên trang web.
 Nói chung, SIP hỗ trợ các hoạt động chính sau:
-- Định vị trí của người dùng.
-- Định media cho phiên làm việc.
-- Định sự sẵn sàng của người dùng để tham gia vào một phiên làm việc.
-- Thiết lập cuộc gọi, chuyển cuộc gọi và kết thúc.
-
+ - Định vị trí của người dùng.
+ - Định media cho phiên làm việc.
+ - Định sự sẵn sàng của người dùng để tham gia vào một phiên làm việc.
+ - Thiết lập cuộc gọi, chuyển cuộc gọi và kết thúc.
