@@ -592,3 +592,100 @@ server.
 Mã số mã trạng thái được định nghĩa trong SIP phiên bản 2.0 được định
 nghĩa trong bảng dưới đây:
 
+_Các đáp ứng của SIP_
+
+![image](https://user-images.githubusercontent.com/69178270/137662057-f58ed8ca-1e46-4684-8cb3-46bf2e6c615e.png)
+
+![image](https://user-images.githubusercontent.com/69178270/137662079-20072be3-5566-44e1-a3ec-84a95d858ea0.png)
+
+**5. Các giao thức vận chuyển trong SIP.**
+
+SIP có thể sử dụng UDP và TCP. Khi được gửi trên UDP hoặc TCP,
+nhiều sự giao dịch SIP có thể được mang trên một kết nối TCP đơn lẻ hoặc
+gói dữ liệu UDP. Gói dữ liệu UDP (bao gồm tất cả các tiêu đề) thì không vượt
+quá đơn vị truyền dẫn lớn nhất MTU (Maximum Transmission Unit) nếu MTU được định nghĩa hoặc không vượt quá 1500 byte nếu MTU không được
+định nghĩa.
+
+**5.1 UDP**
+
+UDP là giao thức tầng vận chuyển không có điều khiển tắc nghẽn. Nó
+được dùng để vận chuyển bản tin SIP vì đơn giản và thích hợp với các ứng
+dụng thời gian thực. Các bản tin SIP thường có kích thước nhỏ hơn MTU
+(Message Transport Unit). Nếu bản tin lớn thì phải dùng TCP, vì lý do này mà
+SIP không có chức năng chia nhỏ gói.
+
+_Trao đổi bản tin SIP bằng UDP_
+
+![image](https://user-images.githubusercontent.com/69178270/137662352-53f4ff1a-6883-49ab-aec3-e077877a71f3.png)
+
+**5.2  TCP**
+
+TCP là giao thức ở tầng vận chuyển đáng tin cậy do có điều khiển tắc
+nghẽn, hơn nữa nó có thể vận chuyển gói tin có kích thước bất kỳ. Nhược
+điểm của nó là tăng độ trễ.
+
+_Vận chuyển bản tin SIP bằng TCP_
+
+![image](https://user-images.githubusercontent.com/69178270/137662431-3a8ae551-7873-4e88-80aa-e31679a33cb8.png)
+
+Để tăng cường tính bảo mật thì còn có những giao thức bổ sung để vận
+chuyển bản tin SIP như TLS, SRTP.
+
+**So sánh H.323 và SIP**
+
+SIP và H.323 được phát triển với những mục đích khác nhau bởi các tổ
+chức khác nhau. H.323 được phát triển bởi ITU-T từ theo PSTN, dùng mã hóa
+nhị phân và dùng lại một phần báo hiệu ISDN. SIP được IETF phát triển dựa
+trên mạng Internet, dùng một số giao thức và chức năng của mạng Internet.
+
+Hệ thống mã hóa: SIP là giao thức text-based (text dạng ASCII) giống
+như HTTP trong khi đó H.323 dùng các bản tin mã hóa nhị phân. Mã hóa nhị
+phân giúp giảm kích thước bản tin nhưng nó phức tạp hơn dạng text bình
+thường. Ngược lại các bản tin text dễ dàng tạo ra, lưu lại, kiểm tra và không
+cần bất cứ một tool nào để biên dịch nó, điều này làm cho SIP thân thiện với
+môi trường Internet và các nhà phát triển web. Bản tin SIP có cấu trúc ABNF,
+(Augmented Backus-Naur Form) còn bản tin H.323 ASN.1 không có cấu trúc.
+
+H.323 chỉ có chức năng báo hiệu, SIP có thêm khả năng thông tin về
+trạng thái của user (presense and Instant message) vì SIP sử dụng địa chỉ URI.
+Điều này là thế mạnh của SIP và hầu hết các dịch vụ ngày nay dùng SIP nhiều
+hơn so với H.323. SIP được hỗ trợ bởi thiết bị của các nhà cung cấp dich vụ
+và đang dần thay thế H.323. SIP cũng được các hãng di động sử dụng như
+giao thức báo hiệu cuộc gọi. 
+
+Tính cước: SIP muốn có thông tin tính cước phải ở trong quá trình báo
+hiệu cuộc gọi để phát hiện ra thời điểm kết thúc cuộc gọi. Còn với H.323, tại
+thời điểm khởi tạo và kết thúc cuộc gọi, các thông tin tính cước nằm trong các
+bản tin ARQ/DRQ. Với trường hợp cuộc gọi báo hiệu trực tiếp, EP thông báo
+cho GK thời điểm bắt đầu và kết thúc cuộc gọi bằng bản tin RAS.
+
+Về mức độ bảo mật: SIP có nhiều hỗ trợ bảo mật đảm bảo mã hóa,
+chứng thực dùng certificate, toàn vẹn bản tin end-to-end. Bản thân SIP không
+phát triển những hỗ trợ này mà nó thừa hưởng từ các giao thức hỗ trợ bảo mật
+của Internet như TLS và S/MIME. Còn H.323 thì xây dựng H.235 cho chứng
+thực và mã hóa.
+
+Các thiết bị SIP còn hạn chế về việc trao đổi khả năng. Còn các thiết bị
+trong mạng H.323 có khả năng trao đổi khả năng và thương lượng mở kênh
+nào (audio, thoại, video hay dữ liệu).
+
+H.323 và SIP cùng tồn tại và có chức năng tương tự như nhau. SIP
+được hỗ trợ DNS và URL ngay từ đầu còn H.323 thì không. Tương tự như
+vậy H.323 hỗ trợ hội nghị truyền hình với khái niệm MCU ngay từ đầu thì với
+SIP tính năng đó được phát triển sau gọi là “focus”.
+
+SIP ban đầu dùng UDP, sau đó dùng TCP. Còn với H.323 thì ban đầu
+không dùng UDP nhưng bây giờ đã có hỗ trợ thêm UDP.
+
+_Ưu điểm của từng giao thức:_
+
+H.323 dùng thay thế một phần trong hệ thống PSTN và chiếm lĩnh thị
+trường hội nghị truyền hình. Đối với những bộ phận chỉ dùng tính năng báo
+hiệu (thiết lập và kết thúc) cuộc gọi, không dùng hết những ưu điểm nổi trội
+của SIP thì không cần thay thế H.323 bằng SIP.
+
+SIP hiện tại vẫn chưa hỗ trợ hội nghị truyền hình. Điểm mạnh của nó
+hiện tại vẫn là một giao thức đơn giản, dựa trên kiến trúc Internet.
+
+**Giao thức vận chuyển trong VoIP**
+
