@@ -290,5 +290,385 @@ gateway, hay các bức tường lửa.
 
 ### <a name="4"> Các công nghệ bảo mật </a>
 
+Khi đưa ra những nhu cầu bảo mật cho những thiết bị VoIP, phần này
+mô tả một vài công nghệ có sẵn để đảm bảo tính toàn vẹn,tính bí mật, và tính
+chứng thực. Các công nghệ này không phải là những giải pháp tối ưu nhưng
+nó góp phần giải quyết những vấn đề trong mạng VoIP:
+
+**1. VLAN**
+
+Sự tích hợp thoại, dữ liệu và video trên cùng một mạng làm cho sự bảo
+mật của hệ thống VoIP cũng bị ảnh hưởng bởi các dịch vụ khác. Để có thể
+giải quyết được vấn đề này ta tách biệt về luận lý giữa các dịch vụ bằng
+VLAN
+
+_VLAN_
+
+![image](https://user-images.githubusercontent.com/69178270/137830652-424d457f-ad4c-4835-a5ec-f39d04948e99.png)
+
+Lợi ích của VLAN:
+- Giảm lưu lượng broadcast và multicast vì chỉ có các máy trong cùng
+một VLAN mới có thể thông tin được với nhau. VLAN được cấu hình trên
+switch.
+- VLAN dễ dàng quản lý, giúp quản lý thiết bị một cách tập trung.
+VLAN có thể sắp xếp và quản lý các PC hay softphone dựa vào chức năng,
+lớp dịch vụ, tốc độ kết nối hoặc những tiêu chuẩn khác.
+- Giảm delay và jitter, do đó cải thiện QoS.
+Hệ thống VoIP có thể bị ảnh hưởng bởi sự thiếu bảo mật của các dịch
+vụ khác của mạng dữ liệu.
+
+_VLAN phân theo chức năng_
+
+![image](https://user-images.githubusercontent.com/69178270/137830704-6b312a82-f562-428d-835d-3dbc5519b712.png)
+
+VLAN góp phần trong bảo mật hệ thống VoIP. Lưu lượng giữa các
+VLAN được đảm bảo (trừ khi sử dụng router). Nó làm giảm các broadcast lưu
+lượng trên mạng mà điện thoại phải nhận.
+
+Quản lý lưu lượng bằng VLAN giúp cho lưu lượng SNMP và syslog
+không bị nhiễu với dữ liệu, dễ dàng hơn trong việc quản lý mạng.
+
+VLAN còn làm giảm nguy cơ DoS. Do muốn liên lạc giữa các VLAN
+thì phải đi qua lớp mạng, các lưu lượng này sẽ bị lọc bởi các ACL trên lớp
+mạng.
+
+Để bảo đảm an toàn cho lưu lượng tại lớp 2 thì cần hạn chế quyền truy
+cập bằng cổng console của Switch bằng cách sử dụng những phương pháp
+chứng thực mạng như RADIUS hay AAA.
+
+**2. VPN**
+
+Công nghệ VPN cung cấp một phưong thức giao tiếp an toàn giữa các
+mạng riêng dựa trên hạ tầng mạng công cộng (Internet). VPN thường được
+dùng để kết nối các văn phòng, chi nhánh với nhau, các người dùng từ xa về
+văn phòng chính. Công nghệ này có thể triển khai dùng các giải pháp sau:
+Frame Relay, ATM hay Leased line.
+
+Các giao thức và thuật toán được dùng trong VPN bao gồm DES (Data
+Encryption Standard), Triple Des (3DES), IP Security (IPSec) và Internet key
+Exchange (IKE).
+
+Có hai loại kết nốit VPN:
++ Client – to – LAN
++ LAN – to – LAN
+
+ _Client-to-LAN VPN_
+ 
+ ![image](https://user-images.githubusercontent.com/69178270/137830863-b063d369-683c-4ced-a459-2a848991cc1a.png)
+
+Công nghệ VPN dựa trên kỹ thuật đường hầm (tunneling). Kỹ thuật này
+bao gồm đóng gói, truyền đi, giải mã, định tuyến. VPN có ba loại: Point – to –
+Point Tunneling Protocol (PPTP), Layer 2 Tunneling Protocol (L2TP), IPsec.
+
+**2.1 Point – to – Point Tunneling Protocol**
+
+Đây là một giao thức phát triển bởi Microsoft, làm việc ở lớp 2 trong
+mô hình OSI. PPTP đóng gói frame PPP vào gói IP bằng cách sử dụng GRE
+(General Routing Encapsulation).Các hình thức đảm bảo sự bảo mật gồm:
+chứng thực, mã hóa dữ liệu, lọc gói PPTP.
+
+PPTP dùng các giao thức chứng thực PPP gồm: EAP, MS-CHAP (ver 1
+và ver 2), PAP, trong đó MS-CHAP ver2 và EAP-TLS được xem là bảo mật
+nhất vì cả VPN server và VPN client đều chứng thực lẫn nhau. Tải trong PPP
+frame được mã hóa bằng RSA (Rivest, Shamir and Adleman), RC4 (Rivest
+Cipher 4).
+
+Trong MS-CHAP ver1 giá trị băm của LAN và của Windows NT được
+sinh ra dựa trên cùng một password và được gửi song song từ client đến
+server. Vì giá trị LAN manager hash được bảo mật kém nên các chương trình
+bẻ password có thể tấn công được, khi đã biết được giá trị băm của LAN, có
+thể dùng nó để tìm ra giá trị của Windows NT. MS-CHAP ver 2 khắc phục
+được lỗi trên nhờ dùng cơ chế mã hóa.
+
+RSA và RC4 cũng có các điểm yếu do khóa mã hóa dựa trên password
+của user và cả client và server đều dùng chung khóa mã hóa.
+
+**2.2  Layer 2 Tunneling Protocol**
+
+L2TP là giao thức chuẩn của IETF (RFC 2661). Khác với PPTP, L2TP
+có thể chạy trên nhiều chuyển mạch khác nhau như X.25, Frame Relay, ATM,
+nhưng thường thì L2TP đóng gói PPP frame trong L2TP frame và dùng UDP
+để truyền đi (không dùng GRE). Dùng UDP tốt hơn cho các dịch vụ thời gian
+thực.
+
+Bản thân L2TP không đảm bảo bảo mật, nó cần các giao thức vận
+chuyển bên dưới làm điều này. Điều này được thực hiện qua việc bảo mật
+trong PPP hoặc dùng IPsec.
+
+_Cấu trúc L2PT_
+
+![image](https://user-images.githubusercontent.com/69178270/137831164-e7f49aaf-169d-49c7-9e6b-d4a9b8e6fa5d.png)
+
+**2.3 IP Security**
+
+Với đặc điểm là dễ bị bắt gói trong mạng IP nên yêu cầu mã hóa là cần
+thiết cho hệ thống VoIP. IPsec có thể bảo mật thông tin của EP và luồng dữ
+liệu. IPsec là tập giao thức phát triển bởi IETF, bảo mật ở lớp IP.
+
+IPSec bao gồm 4 thành phần: thành phần mã hóa (Encryption), trao đổi
+khóa (Security Association), đảm bảo toàn vẹn dữ liệu (Data Integrity) và
+kiểm tra nguồn gốc dữ liệu (Origin Authentication). 
+
+IPsec gồm hai giao thức: Authenticaion Header (AH) và Encapsulating
+Security Payload (ESP).
+- AH: chứng thực data và chống replay, dùng giao thức IP số 51
+- ESP: dùng giao thức IP số 50
+
+ESP chỉ mã hóa và chứng thực trên gói ban đầu (không có header), còn
+AH thì chứng thực toàn bộ gói (có header) và không mã hóa.
+
+_Chứng thực và mã hóa của AH và ASP_
+
+![image](https://user-images.githubusercontent.com/69178270/137831272-f03101e1-43fa-4d72-85ee-650778681658.png)
+
+![image](https://user-images.githubusercontent.com/69178270/137831298-e241758f-c0c6-474a-9d2a-b9f4622f009c.png)
+
+- IPsec gồm 2 mode:
+     + Tunnel mode: tạo thêm một IP header mới gồm một địa chỉ nguồn và
+một địa chỉ đích (có thể khác với địa chỉ nguồn và địa chỉ đích trong gói IP).
+ESP chứng thực và mã hóa trên gói IP, còn AH chứng thực thêm một phần
+của header mới.
+     + Transport mode: ESP mã hóa và chứng thực gói IP (không có phần
+header), AH thì có chứng thực thêm một phần header mới.
+
+ _Cấu trúc gói IPsec ở transport mode_
+ 
+ ![image](https://user-images.githubusercontent.com/69178270/137831435-bb7c4b69-7448-43c8-9843-c3e40dba42ca.png)
+
+_Cấu trúc gói IPsec ở tunnel mode_
+
+![image](https://user-images.githubusercontent.com/69178270/137831469-1ba66862-c95d-45fb-a909-0fb7bde2575c.png)
+
+Trong quá trình thiết lập kết nối, VPN client và VPN server sẽ thương
+lượng thuật toán mã hóa được sử dụng trong số các thuật toán sau: DES,
+MD5, SHA, DH
+
+Security Association (SA) thường được quản lý bời IKE. SA thường có
+thể dùng pre-shared key, mã hóa RSA hoặc chữ ký số. IPsec chứng thực bằng
+shared secret và certificate, bảo mật hơn so với PPTP chứng thực bằng
+password của user.
+
+**3. Firewalls**
+
+Đóng vai trò rất quan trọng trong việc bảo mật mạng dữ liệu khỏi
+những tấn công từ bên ngoài. Một số loại firewall cơ bản sau có thể bảo vệ dữ
+liệu ở các lớp khác nhau trong mô hình OSI:
+
+Packet filtering firewall
+
+Circiut level gateway firewall
+
+Personal firewall
+
+Chức năng cơ bản của firewall được thiết kế không phải dành cho các
+ứng dụng thời gian thực như VoIP nên việc thiết lập firewall cho hệ thống
+VoIP sẽ làm cho hệ thống phức tạp hơn ở một số quá trình: port động
+trunking, thủ tục thiết lập cuộc gọi.
+
+Ngoài ra, firewall còn có nhiệm vụ điều khiển luồng thoại và dữ liệu.
+Nếu không cài đặt firewall thì tất cả các lưu lượng đến và đi từ IP phone đều
+phải được cho phép vì RTP dùng port UDP động, và như vậy thì tất cả các
+port UDP đều phải mở, thiếu bảo mật. Vì vậy, IP phone thường đặt sau
+firewall để tất cả các lưu lượng đều được kiểm soát mà không cần phải mở tất
+cả các port UDP  firewall được sử dụng để cách ly về mặt luận lý giữa thoại
+và dữ liệu.
+
+**4. NAT (Network Address Translation)**
+
+Là kỹ thuật mà địa chỉ nguồn hay địa chỉ đích thay đổi khi đi qua thiết
+bị có chức năng NAT, cho phép nhiều host trong mạng nội bộ dùng chung
+một địa chỉ IP để đi ra mạng bên ngoài.
+
+Ngoài one-to-one mapping thì còn có many-to-one mapping hay còn
+gọi là NAPT (Network Address Port Translation).
+
+ _Quá trình thay đổi địa chỉ trong NAT_
+ 
+ ![image](https://user-images.githubusercontent.com/69178270/137831636-2b3e4bfb-94b8-4cee-b54b-1ee3a80a7118.png)
+
+**NAT có 4 chính sách:**
+- **Full:** tất cả các yêu cầu từ cùng các host bên trong (địa chỉ IP và port)
+được ánh xạ tới cùng một IP hay port đại diện bên ngoài, vì vậy bất kỳ một
+host bên ngoài có thể gửi gói tới 1 host bên trong nếu biết địa chỉ được ánh xạ
+đó.
+- **Restricted:** chỉ cho phép 1 host bên ngoài với IP X gửi gói cho host
+mạng bên trong nếu host của mạng bên trong đã gửi tới IP X một gói trước
+đó.
+- **Port restricted:** Giống Restricted one nhưng có thêm port. Chính sách
+này được sử dụng để có thể dùng chung một địa chỉ IP đại diện bên ngoài.
+- **Symmetric:** tất cả các request từ cùng 1 IP hay port đến 1 đích nào đó
+được ánh xạ đi bằng 1 IP đại diện, nếu đi tới 1 đích khác thì nó sẽ đi bằng IP
+đại diện khác  Chỉ có những host bên ngoài nhận được gói thì mới gửi gói
+ngược trở lại các host bên trong được.
+
+**Lợi ích của NAT:**
+Giảm bớt số IP cần dùng bằng cách sử dụng chung 1 IP đại diện để đi
+ra bên ngoài. Với việc sử dụng chung 1 IP đại diện để đi ra bên ngoài như vậy
+thì mọi lưu lượng muốn truy nhập vào mạng bên trong thì phải qua NAT, bảo
+mật hơn.
+
+**5. Một số chú ý khi sử dụng NAT và firewall trong hệ thống VoIP.**
+
+Ảnh hưởng đến QoS:
+
+Việc thiết lập firewall và NAT gây ra trễvà jitter, làm giảm QoS. Về
+bản chất, muốn cải thiện QoS thì quá trình xử lý gói khi qua firewall phải
+nhanh, mà khả năng xử lý gói của firewall lại phụ thuộc vào năng lực của
+CPU. CPU xử lý gói chậm là do: header của gói thoại phức tạp hơn gói IP
+bình thường nên thời gian xử lý lâu hơn; số lượng gói RTP quá lớn có thể làm
+firewall CPU bị qua tải
+
+Cuộc gọi tới:
+
+Khi một có một cuộc gọi tới thì các lưu lượng báo hiệu tới đi qua
+firewall, cần phải mở một số port, điều này có thể gây nguy hiểm.
+
+Với NAT điều này càng khó khăn vì NAT dùng port động, mà một host
+bên ngoài chỉ có thể gọi cho 1 host nằm sau NAT nếu biết chính xác địa chỉ
+IP và port của nó.
+
+Voice Stream:
+
+RTP dùng port động (1024-65534), còn RTPC quản lý luồng thoại
+bằng một port ngẫu nhiên, khó mà đồng bộ port của RTP và RTPC. Nếu cả
+hai host đều nằm sau NAT thì càng khó khăn.
+
+NAT chỉ ánh xạ địa chỉ bên trong và địa chỉ đại diện đi ra bên ngoài
+trong 1 khoảng thời gian t(s). Nếu kết nối bị đứt hay không có lưu lượng đi
+qua NAT trong t(s) thì ánh xạ này sẽ biến mất.
+
+Nếu dùng TCP thì khi kết nối TCP kết thúc thì cuộc gọi cũng kết thúc.
+
+Nếu dùng UDP thì không nhận biết được vì UDP là phi kết nối. Nếu sử dụng
+VAD thì có khả năng thông tin kết nối bị xóa trước khi cuộc gọi thật sự kết
+thúc.
+
+Mã hóa:
+
+Việc mã hóa giúp đảm bảo tính toàn vẹn dữ liệu nhưng ta cũng gặp một
+số vấn đề với nó khi sử dụng NAT và firewall:
++ Firewall sẽ chặn các gói có header được mã hóa.
++ NAT dấu đi IP bên trong với mạng bên ngoài nên phương pháp
+chứng thực ESP và AH của Ipsec là không hợp lệ.
+
+**6. Share-key (khoá dùng chung)**
+
+Những cách tiếp cận Chìa khóa- Dùng chung:
+
+Một cách tiếp cận tới sự chứng thực là một hệ thống mà trong đó người
+gửi và người nhận chia sẻ một mật khẩu bí mật ( đôi khi tham chiếu tới như
+một chìa khóa- dùng chung) mà không được biết đối với một bên thứ ba.
+
+Người gửi tính toán một hash nội dung thông điệp và nối vào giá trị
+hash đó với một thông điệp. Bên phía nhận được thông điệp, người nhận cũng
+tính toán hash thông điệp với một mật khẩu dùng chung. Sau đó nó so sánh
+hash đã được tính toán với giá trị hash mà được bổ sung vào thông điệp. Nếu
+chúng phù hợp, sự toàn vẹn của thông điệp được bảo đảm như là tính xác thực
+của người gửi.
+
+Bạn có thể sử dụng mật khẩu dùng chung để mã hóa nội dung thông
+điệp và truyền dữ liệu đã mã hóa tới người nhận. Trong trường hợp này, yêu
+cầu riêng tư được đề cập không vì bên thứ ba có thể đánh hơi dữ liệu đang
+vận chuyển và có thể nhìn nội dung thông báo của văn bản gốc. Người nhận
+chạy giải thuật giải mã (sự mở khóa) với mật khẩu dùng chung như một trong
+những đầu vào và tạo ra lại thông báo văn bản gốc.
+
+Một hệ thống mà có nhiều nguồn dữ liệu có thể gặp phải yêu cầu xác
+thực bằng việc bảo đảm rằng mỗi người gửi sử dụng một chìa khóa duy nhất
+cho dữ liệu được gửi.
+
+Trong một cách tiếp cận chìa khóa- dùng chung, người quản trị phải có
+sự chuẩn bị đối với mật khẩu bí mật dùng chung. Trong một hệ thống mà có
+nhiều cặp người gửi/ nhận, việc đương đầu với sự chuẩn bị có thể rất cao.
+
+Ngoài ra, nếu một chìa khóa- dùng chung được thỏa hiệp ( stolen/ lost),
+Mọi thiết bị sử dụng chìa khóa dùng chung cần được chuẩn bị với chìa khóa
+dùng chung mới.
+
+**7. Public-Key Cryptography (Mật mã chìa khoá-công cộng):**
+
+Để làm giảm bớt sự đau đầu cho người quản trị với những cách tiếp cận
+chìa khóa- dùng chung, bạn có thể sử dụng mật mã chìa khóa- công cộng.
+Những khái niệm cơ bản trong mật mã chìa khóa chung là những chìa khóa và
+những chữ ký số hóa không cân đối, được mô tả trong những mục sau đây:
+
+Những chìa khóa không cân đối:
+
+Những cặp chìa khóa không cân đối từng cặp là những chìa khóa
+(thông thường của độ dài cố định) được tham chiếu tới như chìa khóa công
+cộng và chìa khóa riêng tư mà có liên quan toán học đến lẫn nhau. Chúng
+thông thường được đại diện trong hệ mười sáu và có những đặc trưng sau đây:
+- Chỉ có chìa khoá công cộng tương ứng mới có thể giải mã giữ liệu mà
+được mã hoá với một chìa khoá riêng tư.
+- Chỉ có cặp chìa khoá riêng tư tương ứng mới có thể giải mã dữ liệu
+mà được mã hoá với một chìa khoá công cộng
+- Có mối quan hệ một-một giữa những chìa khoá.
+- Chìa khoá riêng tư được giữ bí mật, còn chìa khoá công cộng thì được
+chia sẻ với mọi người.
+
+Đối với sự chứng thực, một người gửi có thể sử dụng chìa khóa riêng tư
+của riêng mình để mã hóa thông điệp. Thông điệp chỉ có thể được giải mã với
+chìa khóa công cộng tương ứng. Người nhận có thể giải mã thông điệp miễn
+là anh ta có sự truy nhập tới chìa khóa công cộng của người gửi. Vì chỉ có
+người gửi mới biết chìa khóa riêng tư nên anh ta buộc phải mã hóa thông
+điệp.
+
+Đối với truyền thông an toàn, một người gửi có thể mã hóa nội dung
+thông báo bằng cách sử dụng kỹ thuật mật mã chìa khóa- công cộng. Anh ta
+làm điều này bằng cách sử dụng chìa khóa công cộng của người nhận. Người
+nhận sau đó có thể giải mã thông điệp với chìa khóa riêng tư tương ứng. Bởi
+vì người nhận đã dự định có chìa khóa riêng tư nên anh ta có thể giải mã hông
+điệp. Không có bên thứ ba nào khác có thể giải mã thông báo này, bởi vì
+không ai khác biết chìa khóa riêng tư của người nhận.
+
+Chú ý rằng người gửi phải sử dụng chìa khóa riêng tư để mã hóa thông
+điệp cho những mục đích chứng thực, trong khi mà người nhận phải sử dụng
+chìa khóa công cộng để mã hóa thông điệp cho sự truyền thông an toàn.
+
+Trong thế giới thực, pha chứng thực đến đầu tiên. Sau khi người gửi và
+người nhận xác nhận lẫn nhau thì họ chuyển tới pha truyền thông an toàn.
+
+Sự mã hóa sử dụng những chìa khóa không cân đối là một tiến trình
+cường độ cao của CPU. Bởi vậy, khi mà bao gồm rất nhiều dữ liệu, những
+người quản lý nói chung sử dụng mật mã chìa khóa công cộng để đàm phán
+một bí mật dùng chung duy nhất trên phiên họp. Họ dùng những ký số chìa
+khóa cân đối bằng cách sử dụng bí mật dùng chung này cho phần còn lại của
+phiên họp.
+
+**8. IDS (Intrusion Detection)**
+
+IDS là hệ thống giám sát tất cả các lưu lượng trong mạng. IDS là thiết
+bị thụ động, lưu lượng không đi qua nó, mà nó chỉ lấy tất cả các gói trên mạng
+để phân tích. Nếu có lưu lượng không bình thường bản thân nó sẽ phát cảnh
+báo cho người quản trị mạng biết.
+
+_Vị trí của IDS trong hệ thống_
+
+![image](https://user-images.githubusercontent.com/69178270/137832113-02168dfe-8810-4a3e-a92c-94a15a8430f5.png)
+
+
+Hoạt động của IDS:
+- IDS theo dõi tất cả những trạng thái bình thường của hệ thống và do
+đó phát hiện ra những tấn công bất thường vào hệ thống. Kiến trúc của nó
+gồm Call State Fact Base, chứa các trạng thái điều khiển và các biến trạng
+thái, cho phép theo dõi tiến trình của cuộc gọi. Thông tin trạng thái được cập
+nhật từ Event Distributor. Attack Scenarino chứa những kiểu tấn công đã biết.
+- IDS quản lý sự thay đổi trạng thái của các gói được phân tích bằng
+chức năng Call basis. Tất cả gói của một cuộc gọi được phân thành một
+nhóm, rồi lại chia thành các nhóm nhỏ dựa trên loại giao thức, rồi đưa vào các
+bộ máy phân tích khác nhau, các bộ máy này được đồng bộ bằng các tham số
+chung và các sự kiện nội bộ. Event Destributor cũng phân loại các gói nhận
+được cho Attack Scenarino.
+
+Các gói từ Event Destributor và thông tin trạng thái từ Attack
+Scenarino/ Call State Fact Base được đưa đến Analysis Engine. Khi có sự bất
+thường nào về giao thức hay trùng với một kiểu tấn công biết trước thì IDS sẽ
+bật cờ cảnh báo cho người quản trị phân tích thêm.
+
+_Cấu trúc bên trong của thiết bị IDS_
+
+![image](https://user-images.githubusercontent.com/69178270/137832183-b8238fab-b2df-43aa-b739-f15f347ddd98.png)
 
 ### <a name="5"> Bảo vệ các thiết bị VoIP </a>
+
+
