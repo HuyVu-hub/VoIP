@@ -345,23 +345,23 @@ chủ(client/server).
  
 ![image](https://user-images.githubusercontent.com/69178270/137661029-faa8ee0f-6c61-4dff-8c28-ba0023c4838c.png)
 
-Server: Là một chương trình ứng dụng chấp nhận các bản tin yêu cầu
+**Server:** Là một chương trình ứng dụng chấp nhận các bản tin yêu cầu
 để phục vụ các yêu cầu này và gửi trả các đáp ứng cho các yêu cầu đó. Server
 là Proxy, Redirect, UA hoặc Registrar.
 
-Proxy server: là một chương trình trung gian, hoạt động như là một
+**Proxy server:** là một chương trình trung gian, hoạt động như là một
 server và một client cho mục đính tạo các yêu cầu thay mặt cho các client
 khác. Các yêu cầu được phục vụ bên trong hoặc truyền chúng đến server
 khác. Một proxy có thể dịch và nếu cần thiết, có thể tạo lại bản tin yêu cầu
 SIP trước khi chuyển chúng đến server khác hoặc một UA
 
-Redirect server: là một server chấp nhận một yêu cầu SIP, ánh xạ địa
+**Redirect server:** là một server chấp nhận một yêu cầu SIP, ánh xạ địa
 chỉ trong yêu cầu thành một địa chỉ mới và trả lại địa chỉ này về client. Không
 giống như proxy server, nó không khởi tạo một yêu cầu SIP và không chuyển
 các yêu cầu đến các server khác. Không giống như server đại diện người dùng
 USA, nó không chấp nhận cuộc gọi.
 
-Registrar: là một server chấp nhận yêu cầu register. Một Registrar được
+**Registrar:** là một server chấp nhận yêu cầu register. Một Registrar được
 xếp đặt với một Proxy hoặc một server gửi lại và có thể đưa ra các dịch vụ
 định vị. Registrar được dùng đằng kí các đối tượng SIP trong miền SIP và cập
 nhật vị trí hiện tại của chúng. Một miền SIP thì tương tự với một vùng H.323.
@@ -372,14 +372,21 @@ tới Server SIP hoặc tới UAS.
 - UAS: là một ứng dụng server gio tiếp với người dùng khi yêu cầu SIP
 được nhận và trả lại một đáp ứng đại diện cho người dùng.
 
-Server SIP có hai loại: Proxy server và Redirect server. Proxy server
-nhận một yêu cầu từ client và quyết định server kế tiếp mà yêu cầu sẽ đi đến.
+Server SIP có hai loại: Proxy server và Redirect server. 
+
+**Proxy server** nhận một yêu cầu từ client và quyết định server kế tiếp mà yêu cầu sẽ đi đến.
 Proxy này có thể gửi yêu cầu đến một server khác một Redirect hoặc UAS.
 Đáp ứng sẽ được truyền cùng đường với yêu cầu nhưng theo chiều ngược lại.
-Proxy server hoạt động như là một client và server. Redirect sẽ không chuyển
-yêu cầu nhưng sẽ chỉ định client tiếp xúc trực tiếp với server kế tiếp, đáp ứng
-gửi lại client chứa chỉ định của server kế tiếp. Nó không hoạt động được như
-là một client, nó không chấp nhận cuộc gọi.
+Proxy server hoạt động như là một client và server.
+Hỗ trợ chuyển tiếp SIP request tới các thành phần khác nhau trong mạng.
+Ngoài ra, proxy server còn cong cấp các chức năng xác thực khi có yêu cầu khai thác dịch vụ.
+Có hai loại proxy server là statefull và stateless proxy.
+ + Statefull proxy có nhiệm vụ lưu các bản tin request được gửi tới, cùng với các bản tin response để thực hiện gửi tới các user agent.
+
+**Redirect** sẽ không chuyển yêu cầu nhưng sẽ chỉ định client tiếp xúc trực tiếp với server kế tiếp, đáp ứng
+gửi lại client chứa chỉ định của server kế tiếp. Nó không hoạt động được như là một client, nó không chấp nhận cuộc gọi.
+Là thành phần nhận các bản tin request từ user agent client và tiến hành trả về bản tin phản hồi ở lớp 300 tương ứng để thông báo
+cho user agent client chuyển hướng bản tin tới địa chỉ khác - tự liên lạc thông qua địa chỉ trả về.
 
 _Redirect Server_
 
