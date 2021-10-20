@@ -1,4 +1,6 @@
- # 1.   Chuẩn bị môi trường và cài đặt các gói
+[**Một số lưu ý và một số lỗi thường gặp khi cài đặt**](#1)
+
+# 1.   Chuẩn bị môi trường và cài đặt các gói
 
 ## Chuẩn bị môi trường
 
@@ -95,3 +97,12 @@ của hệ thống
 ![](.//media/image19.png) 
 
 **Tới đây là cài đặt đã thành công :D Chúc các bạn may mắn nhé**
+
+# <a name="1">**Một số lưu ý và một số lỗi thường gặp khi cài đặt**</a>
+
+  - Trước khi cài đặt zabbix phải cài đặt sẵn web server Nginx, đảm bảo web server đã hoạt động bình thường !!!
+  - Kiểm tra xem các port 5060 ( UDP SIP ) và 5160 ( TCP SIP ) đã được mở hay chưa !!!
+  - Sau khi cài đặt xong kiểm tra status của freeswitch xem có gì bất ổn không ( systemctl status freeswitch ) => Thường là liên quan đến các vấn đề phân quyền thư mục ) !!!!
+
+
+
