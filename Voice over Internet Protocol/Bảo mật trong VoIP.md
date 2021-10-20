@@ -671,4 +671,41 @@ _Cấu trúc bên trong của thiết bị IDS_
 
 ### <a name="5"> Bảo vệ các thiết bị VoIP </a>
 
+Để có được tính sẵn sàng của thiết bị VoIP, bạn cần phải bảo vệ những
+thiết bị mà lưu lượng âm thanh nguồn hay thiết bị đầu cuối của thiết bị đó
+phải có khả năng chống lại các cuộc tấn công, như được mô tả chi tiết ở phần
+dưới đây:
 
+Vô hiệu hoá những cổng và những dịch vụ không thường sử dụng:
+Điển hình là những cổng hoặc những dịch vụ không thường sử dụng
+mà được mở trên các thiết bị thoại làm cho chúng có thể công kích được tới
+sự khai thác của hacker. Luyện tập được khuyến cáo là vô hiệu hoá những
+cổng hoặc thiết bị của VoIP hoặc thiết bị hạ tầng IP (ví dụ như bộ switch,
+routers,…) sau đây là một vài điều mà bạn nên làm:
+
+Vô hiệu hoá Telnet,TFTP, và những thiết bị tương tự nếu chúng không
+được sử dụng.
+
+Nếu bạn chỉ đang sử dụng quản lý mạng đơn giản (SNMP) trên một
+thiết bị để thu nhặt dữ liệu, thì nên đặt SNMP ở chế độ chỉ đọc (read-only).
+
+Nếu bạn đang sử dụng sự quản trị trên nền mạng, thì luôn luôn sử dụng
+sự truy nhập an toàn với những giao thức như SSL.
+
+Vô hiệu hoá bất kỳ cửa nào không thường sử dụng trên Layer 2
+switches.
++ Sử dụng hệ thống bảo vệ sự xâm nhập dựa vào Host (HIPS): Bạn có thể sử dụng HIPS để bảo mật cho những thiết bị thoại như là
+những nhân tố xử lý cuộc gọi. HIPS là phần mềm điển hình mà tập hợp thông
+tin về những cách dùng đa dạng rộng rãi của tài nguyên thiết bị như CPU,
+login attemp, số lượng ngắn,…Thông tin này được so sánh chống lại một tập
+hợp các quy tắc để xác định phải chăng một sự xâm phạm bảo mật đã xảy ra.
+Bằng việc phụ thuộc vào cách định hình những tham số, những hệ thống này
+có thể lấy những hoạt động phòng ngừa, ví dụ như kết thúc ứng dụng offending, nhịp độ dữ liệu giới hạn từ những người sử dụng địa chỉ IP…
+
+_THUẬT NGỮ VIẾT TẮT_
+
+![image](https://user-images.githubusercontent.com/69178270/138052952-3a7b019e-116b-49a9-8495-ab70091a1208.png)
+
+![image](https://user-images.githubusercontent.com/69178270/138053024-32bfb781-b33f-4b72-b710-655f5586ce3c.png)
+
+![image](https://user-images.githubusercontent.com/69178270/138053094-eff6d87a-d62b-4f87-9b45-9898393ec457.png)
