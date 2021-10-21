@@ -82,4 +82,4 @@ Tiếp theo chúng ta sẽ tắt tương lửa để các dịch vụ hoạt đ�
 
 ![alt text](https://s3-ap-southeast-1.amazonaws.com/kipalog.com/bwbc16ky4m_image.png)
 
-###Tới đây là bạn đã cài đặt xong tổng đài FreePBX 	:smile:  :smile:  Nếu muốn tìm hiểu về các chức năng của tổng đài ảo này hãy đón chờ bài viết tiếp theo nhé!!!!
+### Tới đây là bạn đã cài đặt xong tổng đài FreePBX 	:smile:  :smile:  Nếu muốn tìm hiểu về các chức năng của tổng đài ảo này hãy đón chờ bài viết tiếp theo nhé!!!!
