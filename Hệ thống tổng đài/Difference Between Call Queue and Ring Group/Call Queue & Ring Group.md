@@ -79,7 +79,9 @@ người gọi trong hàng đợi phải nghe tin nhắn được ghi sẵn và 
 
 # Bạn có thể xem qua chi tiết video để hiểu thêm nhé :D
 
-[![Watch the video](https://i.imgur.com/vKb2F1B.png)](https://player.vimeo.com/video/306293473?wmode=opaque&rel=0)
+<a href="https://player.vimeo.com/video/306293473?wmode=opaque&rel=0">
+    (https://player.vimeo.com/video/306293473?wmode=opaque&rel=0)
+    </a>
 
 
 
