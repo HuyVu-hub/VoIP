@@ -40,42 +40,8 @@ người gọi trong hàng đợi phải nghe tin nhắn được ghi sẵn và 
 
 # Có thể tóm tắt các ưu điển và nhược điểm thông qua bảng sau đây
 
-<table>
-<tr>
-    <td></td>
-    <td>Ưu điểm</td>
-    <td>Nhược điểm</td>
-</tr>
-<tr>
-    <td>
-        Ring Group
-     </td>
-    <td>
-      * 1. Kiểm soát thời gian chi tiết
-      * 2. Tiếp cận các số bên ngoài hệ thống của bạn
-      * 3. Tắt / bật thiết bị khi đang di chuyển
-    </td>
-    <td>
-      * 1. Không có tùy chọn đổ chuông ứng dụng dành cho thiết bị di động
-      * 2. Không có tùy chọn xoay vòng nhiều cuộc gọi
-      * 3. Không có kiểm tra trạng thái đại lý
-      * 4. Không có cách nào để nhân viên phân biệt cuộc gọi Ring Group với cuộc gọi trực tiếp
-    </td>
-</tr>
-<tr>
-    <td>Call Queue</td>
-    <td>
-    1. Tiếp cận tất cả các thiết bị RingCentral
- 2. Giữ cuộc gọi ngay cả khi tất cả nhân viên đang bận
- 3. Kiểm tra trạng thái agent (đại lý)
- 4. Hàng đợi cuộc gọi luôn luôn đầy
- 5. Phân biệt được các cuộc gọi
-    </td>
-    <td>1. Không có điều khiển thiết bị chi tiết
- 2. Không hỗ trợ cho các số bên ngoài
- 3. Không có tùy chọn để tạm thời dừng hoạt động/td>
-</tr>
-</table>
+![image](https://user-images.githubusercontent.com/55483458/138395922-e8a580e8-980a-491d-8daf-a0702b893ff3.png)
+
 
 # Bạn có thể xem qua chi tiết video để hiểu thêm nhé :D
 
