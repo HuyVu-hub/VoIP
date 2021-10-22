@@ -51,6 +51,8 @@ người gọi trong hàng đợi phải nghe tin nhắn được ghi sẵn và 
 
 
 
+# Tổng kết lại: Một hệ thống Ring Group hoặc Call Queue đều có những ưu điểm và nhược điểm riêng biệt, chúng ta nên tùy thuộc vào yêu cầu hệ thống của mình mà triển khai. Tất nhiên một sự kết hợp cả 2 hệ thống lại với nhau cũng là một lựa chọn không tồi phải không nào :D 
+
 
 
 
