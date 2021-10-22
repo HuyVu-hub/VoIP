@@ -38,7 +38,7 @@ Call Queue giống như một nhà hàng bình thường vì nó trang trọng v
 Tương tự như thời gian bạn phải ngồi đợi dành cho người đặt món trước khi có thể đặt món, 
 người gọi trong hàng đợi phải nghe tin nhắn được ghi sẵn và giữ máy trước khi được phục vụ. 
 
-# Có thể tóm tắt các ưu điển và nhược điểm thông qua bảng sau đây
+# Có thể tóm tắt các ưu điểm và nhược điểm thông qua bảng sau đây
 
 ![image](https://user-images.githubusercontent.com/55483458/138395922-e8a580e8-980a-491d-8daf-a0702b893ff3.png)
 
