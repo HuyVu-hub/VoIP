@@ -67,13 +67,13 @@ người gọi trong hàng đợi phải nghe tin nhắn được ghi sẵn và 
     <td>
     1. Tiếp cận tất cả các thiết bị RingCentral
  2. Giữ cuộc gọi ngay cả khi tất cả nhân viên đang bận
- 3. Kiểm tra trạng thái đại lý
- 4. Hàng đợi cuộc gọi tràn
- 5. Phân biệt cuộc gọi
+ 3. Kiểm tra trạng thái agent (đại lý)
+ 4. Hàng đợi cuộc gọi luôn luôn đầy
+ 5. Phân biệt được các cuộc gọi
     </td>
     <td>1. Không có điều khiển thiết bị chi tiết
- 2. Không có hỗ trợ gốc cho các số bên ngoài
- 3. Không có tùy chọn để tạm thời vô hiệu hóa các tác nhân</td>
+ 2. Không hỗ trợ cho các số bên ngoài
+ 3. Không có tùy chọn để tạm thời dừng hoạt động/td>
 </tr>
 </table>
 
