@@ -28,10 +28,10 @@ và tính di động cao hơn. Ví dụ, một nhân viên có thể dễ dàng 
 Vì vậy, với Ring Group, nhân viên sẽ làm việc một cách thoải mái hơn!
 
 # Nhà hàng Buffet và Nhà hàng bình thường
-Để minh họa sự khác biệt giữa nhóm gọi điện và hàng đợi gọi, hãy tưởng tượng sự khác biệt giữa tiệc buffet và nhà hàng gọi món bình thường. 
+Để minh họa sự khác biệt giữa Ring Group và Call Queue, hãy tưởng tượng sự khác biệt giữa tiệc buffet và nhà hàng gọi món bình thường. 
 Cả hai đều phục vụ đồ ăn, nhưng cả hai đều hoàn thành công việc phục vụ đồ ăn của mình theo những cách khác nhau.
 
-Một Ring Group giống như một buffet vì nó không chính thức và mọi thứ đều sẵn sàng lấy tùy thuộc vào bạn tùy thuộc bạn là người đến trước hay đến său, và nó phục vụ miễn phí cho tất cả mọi người. 
+Một Ring Group giống như một nhà hàng buffet vì nó không chính thức và mọi thứ đều sẵn sàng lấy tùy thuộc vào bạn tùy thuộc bạn là người đến trước hay đến său, và nó phục vụ miễn phí cho tất cả mọi người. 
 Điều này tất nhiên có mặt tích cực và tiêu cực. Nó mang lại nhiều sự thuật tiện, nhưng việc phân phối thực phẩm hoặc dịch vụ có thể không phải lúc nào cũng công bằng cho nhân viên và khách hàng. (Bạn lấy nhiều hơn thì bạn càng có lợi)
 
 Call Queue giống như một nhà hàng bình thường vì nó trang trọng và có cấu trúc hơn. 
