@@ -27,7 +27,7 @@ Có một lợi thế quan trọng cho Ring Group. Với nó, bạn có thể ba
 và tính di động cao hơn. Ví dụ, một nhân viên có thể dễ dàng làm việc tại nhà bằng cách thêm điện thoại di động của họ vào Ring Group trong ngày. 
 Vì vậy, với Ring Group, nhân viên sẽ làm việc một cách thoải mái hơn!
 
-# Buffet và nhà hàng bình thường.
+# Nhà hàng Buffet và Nhà hàng bình thường
 Để minh họa sự khác biệt giữa nhóm gọi điện và hàng đợi gọi, hãy tưởng tượng sự khác biệt giữa tiệc buffet và nhà hàng gọi món bình thường. 
 Cả hai đều phục vụ đồ ăn, nhưng cả hai đều hoàn thành công việc phục vụ đồ ăn của mình theo những cách khác nhau.
 
