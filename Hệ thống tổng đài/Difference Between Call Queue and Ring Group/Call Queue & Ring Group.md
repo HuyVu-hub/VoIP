@@ -1,12 +1,12 @@
-# 1.    Hàng đợi cuộc gọi (Call Queue)
+# I.    Hàng đợi cuộc gọi (Call Queue)
 
 Khi khách hàng quay số một số máy lẻ cụ thể, các cuộc gọi sẽ được tạm dừng và được phân bổ công bằng giữa các nhóm thông qua một hàng đợi cụ thể. Cuộc gọi nào tới trước sẽ được nhận trước và ngược lại.
 
-# 2.    Đổ chuông nhóm (Ring Group)
+# II.    Đổ chuông nhóm (Ring Group)
 
 Là hình thức khi có cuộc gọi đến tất cả các máy nhánh đc thiết lập trong một nhóm (group) sẽ đồng thời đổ chuông và sẽ dừng lại khi một trong các máy nhánh tiếp nhận cuộc gọi
 
-# 3.    So sánh
+# III.    So sánh
 Cả hai tính năng này đều giúp doanh nghiệp trả lời các cuộc gọi đến của khách hàng một cách nhanh chóng và hiệu quả. 
 Vì chúng tạo ra các kết quả tương tự và đều được phân loại là các tính năng quản lý cuộc gọi, nên thật dễ dàng để kết hợp cả hai. 
 Nhưng có sự khác biệt giữa Ring Group và Call Queue. 
