@@ -26,7 +26,7 @@ Tài sản CNTT là một phần mềm hoặc phần cứng trong môi trường
 
 Nội dung được định nghĩa trong các từ điển nói chung là một thứ hữu ích hoặc có giá trị. Nhiệm vụ của bất kỳ nhà quản lý CNTT nào là đảm bảo rằng các tài sản CNTT hiện có đáp ứng các tiêu chí đó. Một thực tế không thể phủ nhận về bất kỳ thành phần nào của môi trường CNTT là nó có một vòng đời hạn chế. Phần cứng bị hỏng. Phần mềm trở nên lỗi thời. Và các hệ thống mất hiệu lực.
 
-### <a name="2"> ĐĐịnh nghĩa IT Asset Management </a>
+### <a name="2"> Định nghĩa IT Asset Management </a>
 
 IT Asset Management là Asset Management IT. Đây là nghĩa tiếng Việt của thuật ngữ IT Asset Management - một thuật ngữ thuộc nhóm Technology Terms - Công nghệ thông tin.
 
