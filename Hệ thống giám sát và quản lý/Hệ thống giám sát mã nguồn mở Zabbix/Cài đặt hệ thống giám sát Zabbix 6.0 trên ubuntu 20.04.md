@@ -43,7 +43,7 @@ Ta sẽ cập nhật các biến cấu hình PHP. Chỉnh sửa tệp cấu hìn
     $ wget https://repo.zabbix.com/zabbix/5.4/ubuntu/pool/main/z/zabbix-release/zabbix-release_5.5-1+ubuntu20.04_all.deb
     
 **Ở ĐÂY CHÚNG TA CÀI ĐẶT ZABBIX PHIÊN BẢN 6.0**    
-**Bạn nên kiểm tra file tải về trên zabbix: https://repo.zabbix.com/zabbix/5.5/ubuntu/pool/main/z/zabbix-release/ Vì các gói liên tục được cập nhât, và lựa chọn đúng với phiên bản ubuntu20.04 của mình ..... Và một lưu ý nữa, bạn nên cài bản 5.4 để không bị gặp lỗi này nhé **
+**Bạn nên kiểm tra file tải về trên zabbix: https://repo.zabbix.com/zabbix/ Vì các gói liên tục được cập nhât, và lựa chọn đúng với phiên bản ubuntu20.04 của mình ..... Và một lưu ý nữa, bạn nên cài bản 5.4 để không bị gặp lỗi này nhé **
     
     $ dpkg -i zabbix-release_5.4-1+ubuntu20.04_all.deb
     
