@@ -1,4 +1,29 @@
-# 1. Update Server & Install dependencies:
+# Mục Lục
+
+&ensp;[I.   Tổng quan về Snipe-IT](#1)
+
+&ensp;[II.  Hướng dẫn cài đặt Snipe-IT trên Ubuntu20.04](#2)
+
+#   <a name="1"> I. Tổng quan về Snipe-IT</a>
+
+Snipe-it là một chương trình quản lý tài sản dự trên mã nguồn mở linux, đây là chương trình quản lý tài sản CNTT hiệu quả cho doanh nghiệp.
+
+Snipe-IT làm được rất nhiều điều nhưng tập trung vào hai điều chính. Họ cung cấp cho người quản trị một nền tảng dựa trên đám mây để theo dõi và quản lý tất cả tài sản của công ty bạn và họ thực hiện điều này một cách rất an toàn. Cần theo dõi máy tính xách tay được nhân viên nào sử dụng? Điện thoại di động của họ? ..... Tất cả sẽ được đăng ký trong Snipe-IT cùng với tất cả dữ liệu tương ứng và sau đó có thể được ký điện tử bởi bên nhận. Không còn trang tính Excel nào nữa. Không còn thủ tục giấy tờ với việc in và ký, quét và lưu trữ các thỏa thuận của người dùng cuối.
+
+Group tại Snipe-IT cung cấp bảo mật dữ liệu cho người dùng, chi tiết các dịch vụ của phần mềm giúp khách hàng của họ khi họ quản lý tài sản của mình. Các tính năng như xác thực hai lớp và một tùy chọn để thực thi bảo mật mật khẩu là tiêu chuẩn khá nhiều. Tuy nhiên, nó cũng có các tính năng như phần mềm trung gian để thực thi Chính sách bảo mật nội dung (CSP), Hạn chế quyền truy cập của người dùng và bảo vệ CSRF.
+
+Snipe-IT đảm bảo rằng bản thân nền tảng cũng được bảo mật, với nhiều lớp bảo vệ để bảo mật để đảm bảo rằng các tài sản đang được quản lý được giữ an toàn và nguyên vẹn. Nền tảng này cung cấp một kết nối bảo mật qua TLS (SSL), cơ sở dữ liệu và ổ đĩa được mã hóa và sao lưu dữ liệu thường xuyên. Công cụ này là một phần mềm open source, đó là cách họ chứng minh  với khách hàng về tính bảo mật của nó.
+
+![image](https://user-images.githubusercontent.com/55483458/139250527-4a37b06a-10b2-4a31-bc73-9a3f4281b38d.png)
+
+Tất nhiên, có những vài điều cần xem xét trước khi chọn Snipe-IT làm công cụ quản lý tài sản. Một lưu ý chính là nó chỉ phù hợp với các công ty vừa và nhỏ. Nó cũng không có sẵn cho Android hoặc iOS.    
+    
+Mặc dù vậy, Snipe-IT là một công cụ hữu ích để giữ an toàn cho tài sản của bạn. Nó miễn phí để tự lưu trữ, nhưng nếu bạn cần lưu trữ cho mình, giá bắt đầu từ $ 39.99 mỗi tháng. Bên cạnh đó, không thể tìm thấy những tính năng này ở nơi khác với cùng mức giá. Tuy nhiên, sản phẩm không đa năng và không thể sử dụng trên các thiết bị khác nhau nếu bạn không có mặt tại nhà.
+
+
+#   <a name ="2">II.  Hướng dẫn cài đặt Snipe-IT trên Ubuntu20.04</a>
+
+## 1. Update Server & Install dependencies:
 
     # apt update -y
     # apt upgrade -y
@@ -7,7 +32,7 @@ Install unzip dependency
 
     # apt-get install unzip -y
 
-# 2. Install Apache webserver
+## 2. Install Apache webserver
 
     # apt install apache2 -y
 
@@ -30,7 +55,7 @@ Restart apache
 
     # systemctl restart apache2
 
-# 3. Install MariaDB
+## 3. Install MariaDB
 
     # apt install mariadb-server mariadb-client -y
 
@@ -56,7 +81,7 @@ Di chuyển tệp thực thi composer.phar tới / usr / local / bin /
 
     # mv composer.phar / usr / local / bin / composer
 
-# 5. Tạo Database
+## 5. Tạo Database
 
 Tạo database and database user cho Snipe-IT.
 
@@ -131,7 +156,7 @@ Khi Composer chạy xong, hãy tạo một giá trị Laravel APP_Key trong file
 
     # php artisan key:generate
 
-# 7. Tạo Virtual Host File
+## 7. Tạo Virtual Host File
 
 Đầu tiên, vô hiệu hóa file Apacheconf mặc định và tạo file vhost conf mới.
 
@@ -166,7 +191,7 @@ Khởi động lại máy chủ web Apache của bạn để áp dụng các tha
 
     # systemctl restart apache2
 
-# 8. Chạy trình hướng dẫn cài đặt
+## 8. Chạy trình hướng dẫn cài đặt
 
 Sử dụng trình duyệt và truy cập đến IP máy chủ của bạn hoặc tên miền mà bạn đã đề cập trong tệp conf vhost.
 
