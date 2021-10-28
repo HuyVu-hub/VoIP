@@ -170,15 +170,15 @@ Khi Composer chạy xong, hãy tạo một giá trị Laravel APP_Key trong file
 
 Dán thông tin bên dưới và thay thế example.com bằng tên miền hoặc địa chỉ IP công cộng của máy chủ của bạn.
 
-    <VirtualHost *: 80>
-    ServerName example.com
-    DocumentRoot / var / www / snipe-it / public
-    <Directory / var / www / snipe-it / public>
-    Options Indexes FollowSymLinks MultiViews
-    AllowOverride All
-    Order cho phép, từ chối
-    cho phép từ tất cả
-    </ Directory >
+    <VirtualHost *:80>
+        ServerName example.com
+        DocumentRoot /var/www/snipe-it/public
+    <Directory /var/www/snipe-it/public>
+        Options Indexes FollowSymLinks MultiViews
+        AllowOverride All
+        Order allow,deny
+        allow from all
+    </Directory>
     </VirtualHost>
 
 Lưu và thoát khỏi file.
