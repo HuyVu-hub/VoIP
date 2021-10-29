@@ -12,9 +12,9 @@ Bắt đầu bằng cách nhập tài sản của bạn vào AssetTiger bằng c
 
 Với AssetTiger, thông tin tài sản của bạn có sẵn mọi lúc mọi nơi. Miễn là bạn có thể kết nối với Internet, bạn có thể kết nối với cơ sở dữ liệu của mình thông qua trang web AssetTiger hoặc với ứng dụng AssetTiger trên điện thoại thông minh của chúng tôi, ứng dụng này biến điện thoại của bạn thành cả hai - máy quét mã vạch và kho di động. Sử dụng AssetTiger để kiểm tra thiết bị và đăng nhập lại. Không thể dễ dàng hơn. Và công ty của bạn sẽ không bao giờ phát triển nhanh hơn AssetTiger vì việc sử dụng ứng dụng là vô hạn. Theo dõi tài sản không giới hạn cho người dùng không giới hạn. Tạo cảnh báo không giới hạn và sử dụng AssetTiger để tạo bao nhiêu báo cáo tùy thích. Hợp lý hóa công việc kinh doanh của bạn và luôn cập nhật đồ đạc của bạn với một ứng dụng tùy chỉnh tiện dụng mà bạn có thể điều chỉnh theo nhu cầu cụ thể của mình.
 
-![image](https://user-images.githubusercontent.com/69178270/139365615-fe8eb08a-7a90-4219-9d12-6b337c2d79db.png)
-
 ![image](https://user-images.githubusercontent.com/69178270/139365655-6234c711-8b54-487c-827b-3b241e0edf20.png)
+
+![image](https://user-images.githubusercontent.com/69178270/139365615-fe8eb08a-7a90-4219-9d12-6b337c2d79db.png)
 
 ### <a name="2"> Cấu hình Asset Tiger </a>
 
@@ -64,3 +64,54 @@ Với AssetTiger, thông tin tài sản của bạn có sẵn mọi lúc mọi n
 
 ![image](https://user-images.githubusercontent.com/69178270/139366055-81b3a1ff-1473-4b5c-8110-77ca7befe34e.png)
 
+**Thêm thiết bị:**
+
+![image](https://user-images.githubusercontent.com/69178270/139366963-68bfe880-86aa-4e4d-8267-10d00e273278.png)
+
+![image](https://user-images.githubusercontent.com/69178270/139366973-1d4c7ffc-f9cf-47ca-ab03-832124016278.png)
+
+![image](https://user-images.githubusercontent.com/69178270/139366979-19b95237-bdc8-4b67-8f37-ca26a9a12df5.png)
+
+![image](https://user-images.githubusercontent.com/69178270/139366984-954ad000-6e19-4e4b-842c-4b435e575eeb.png)
+
+![image](https://user-images.githubusercontent.com/69178270/139366992-4a8de067-f17e-4969-aa67-87d9bb977da4.png)
+
+![image](https://user-images.githubusercontent.com/69178270/139366999-32b2dc48-d218-489d-b4b6-aee9b7593d70.png)
+
+![image](https://user-images.githubusercontent.com/69178270/139367008-b203f083-cf23-4645-a19a-244bf46c9fae.png)
+
+![image](https://user-images.githubusercontent.com/69178270/139367016-18240192-34a0-499e-adfd-3cf8bc8ed2c9.png)
+
+![image](https://user-images.githubusercontent.com/69178270/139367028-fb1bd2a7-9705-42ac-9d89-e30484e5f697.png)
+
+**Thiết lập lịch hẹn:**
+
+![image](https://user-images.githubusercontent.com/69178270/139367085-2178591b-98d5-427d-a1a2-5f6c07bfbe5a.png)
+
+![image](https://user-images.githubusercontent.com/69178270/139367099-d17b93d2-bbe5-46c1-b6cd-fd60d0a3bc08.png)
+
+![image](https://user-images.githubusercontent.com/69178270/139367111-6c1e2cd7-080a-4018-a40b-33b9ff89b8c9.png)
+
+![image](https://user-images.githubusercontent.com/69178270/139367121-caffb257-8401-4578-a797-7e95431d18fc.png)
+
+![image](https://user-images.githubusercontent.com/69178270/139367135-b363cc5e-a604-4d1f-8e00-11bc80e8d314.png)
+
+Check out lịch hẹn
+
+![image](https://user-images.githubusercontent.com/69178270/139367196-e3e91863-515e-4d37-bb5e-361df27e891e.png)
+
+![image](https://user-images.githubusercontent.com/69178270/139367200-8199948d-51b7-4060-83cf-7ab7ad265cfb.png)
+
+![image](https://user-images.githubusercontent.com/69178270/139367208-480b4038-a960-475e-8d04-e974613da1ff.png)
+
+**Quản lý Group:**
+
+![image](https://user-images.githubusercontent.com/69178270/139367250-200b426b-746e-4994-a07e-2492f28d64d7.png)
+
+![image](https://user-images.githubusercontent.com/69178270/139367253-e274bb40-7d07-426e-8417-77a802c38d90.png)
+
+![image](https://user-images.githubusercontent.com/69178270/139367259-45c0e785-d6f9-4903-9135-1b78cbc47785.png)
+
+![image](https://user-images.githubusercontent.com/69178270/139367262-2241ee6d-d413-4123-a2e7-ca54528f248e.png)
+
+![image](https://user-images.githubusercontent.com/69178270/139367266-734b43c7-c820-4577-b838-46da3af1139a.png)
