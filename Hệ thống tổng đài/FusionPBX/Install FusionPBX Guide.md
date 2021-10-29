@@ -43,7 +43,7 @@ cd /usr/src && git clone https://github.com/fusionpbx/fusionpbx-install.sh.git
 cd /usr/src/fusionpbx-install.sh/freebsd && ./install.sh
 
 
-##  CentOS Install
+##  CentOS Install (CentOS 7)
 Start with a minimal install of CentOS 7. Then run the following commands as 'root'.
 
 yum install wget
