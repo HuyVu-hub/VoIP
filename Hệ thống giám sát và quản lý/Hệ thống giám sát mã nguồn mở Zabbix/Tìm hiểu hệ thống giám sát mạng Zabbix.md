@@ -4,9 +4,9 @@
 
 &ensp;[2. Ưu/nhược điểm của Zabbix](#2)
 
-&ensp;[2.1 Ưu điểm của dịch vụ Zabbix](#2.1)
+&ensp;[2.1. Ưu điểm của dịch vụ Zabbix](#2.1)
 
-&ensp;[2.2 Nhược điểm của dịch vụ Zabbix](#2.2)
+&ensp;[2.2. Nhược điểm của dịch vụ Zabbix](#2.2)
 
 &ensp;[3. Yêu cầu phần cứng](#3)
 
