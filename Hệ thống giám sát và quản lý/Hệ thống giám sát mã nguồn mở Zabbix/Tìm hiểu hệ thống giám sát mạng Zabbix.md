@@ -61,7 +61,7 @@ Tuỳ theo số lượng máy chủ hoặc thiết bị mạng cần giám sát 
 - Disk : 50GB
 - zabbix hardware requirement
 
-4. Các thành phần của hệ thống giám sát Zabbix
+# <a name="4">4. Các thành phần của hệ thống giám sát Zabbix</a>
 
 Zabbix Server: Đây là ứng dụng chương trình dịch vụ chính của dịch vụ Zabbix. Zabbix Server sẽ chịu trách nhiệm cho các hoạt động kiểm tra dịch vụ mạng từ xa, thu thập thông tin, lưu trữ, hiển thị, cảnh báo,… từ đó các quản trị viên có thể thao tác giám sát hệ thống tốt nhất.
 
