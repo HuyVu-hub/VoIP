@@ -48,7 +48,7 @@ Zabbix có các ưu điểm sau mà bạn không nên bỏ qua :
 
 - Không có giao diện web mobile hỗ trợ.
 - Không phù hợp với hệ thống mạng lớn hơn 1000+ node thiết bị client cần giám sát. Lúc này phát sinh vấn đề hiệu suất về PHP và Database.
-- hiết kế template/alerting rule đôi khi khá phức tạp.
+- Thiết kế template/alerting rule đôi khi khá phức tạp.
 
 ![image](https://user-images.githubusercontent.com/55483458/140006125-b03ce375-c90b-4910-a2ee-9ae8dd720c4b.png)
 
