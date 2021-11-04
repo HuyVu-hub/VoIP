@@ -80,4 +80,4 @@ Bên cạnh các ứng dụng OTT thì công nghệ Voip còn được ứng d�
 
  - Vì cuộc gọi được thực hiện thông qua môi trường internet nên đồng nghĩa dữ liệu sẽ được truyền trong môi trường internet nên sẽ xảy ra rất nhiều vấn đề liên quan đến bảo mật dữ liệu, hack cước (ăn trộm cước phí).
 
-Công nghệ Voip giúp tăng hiệu quả công việc hơn và cũng dễ triển khai. Vì vậy hãy tích hợp ngay Voip vào doanh nghiệp của bạn bằng cách liên lạc với chúng tôi. VOIP24H có hơn 12 năm kinh nghiệm và là một trong những đơn vị đầu tiên ứng dụng công nghệ VOIP để xây dựng các giải pháp về tổng đài cho doanh nghiệp trên nền tảng điện toán đám mây.
+
