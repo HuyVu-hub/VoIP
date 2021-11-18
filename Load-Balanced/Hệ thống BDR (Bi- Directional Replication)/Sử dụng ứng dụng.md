@@ -173,11 +173,11 @@ Chúng tôi đặc biệt khuyên các nhà phát triển nên viết bộ kiể
 pgbench đã được mở rộng để cho phép người dùng chạy các bài kiểm tra chuyển đổi dự phòng trong khi sử dụng triển khai CAMO hoặc BDR thông thường. Các tùy chọn mới sau đây đã được thêm vào:
 
 ```
--m, --mode = thường | camo | 
-chế độ chuyển đổi dự phòng trong đó pgbench sẽ chạy (mặc định: thông thường) 
+-m, --mode=regular|camo|failover
+mode in which pgbench should run (default: regular)
 
-- 
-thử lại các giao dịch trên chuyển đổi dự phòng
+--retry
+retry transactions on failover
 ```
 
 Ngoài các tùy chọn trên, thông tin kết nối về nút ngang hàng để chuyển đổi dự phòng phải được chỉ định ở dạng DSN .
@@ -189,8 +189,8 @@ Ngoài các tùy chọn trên, thông tin kết nối về nút ngang hàng đ�
 Đây là một lệnh gọi ví dụ trong môi trường CAMO:
 
 ```
-    pgbench -m camo -p $ node1_port -h $ node1_host bdrdemo \ 
-        "host = $ node2_host user = postgres port = $ node2_port dbname = bdrdemo"
+        pgbench -m camo -p $node1_port -h $node1_host bdrdemo \
+        "host=$node2_host user=postgres port=$node2_port dbname=bdrdemo"
 ```
 
 Lệnh trên sẽ chạy trong camochế độ. Nó sẽ kết nối node1và chạy các bài kiểm tra; nếu kết nối với node1kết nối bị mất, thì pgbench sẽ kết nối với node2. Nó sẽ truy vấn node2để có được trạng thái của các giao dịch trên chuyến bay. Các giao dịch đang bay và đang bị hủy bỏ sẽ được thử lại ở camochế độ.
@@ -202,13 +202,13 @@ Trong failoverchế độ, nếu --retryđược chỉ định thì các giao d�
 Trình kiểm tra cách ly đã được mở rộng để cho phép người dùng chạy thử nghiệm trên nhiều phiên và trên nhiều nút. Điều này được sử dụng để kiểm tra BDR nội bộ, mặc dù nó cũng có sẵn để sử dụng với kiểm tra ứng dụng của người dùng.
 
 ```
-$ isolationtester \ 
-     --outputdir =. / iso_output \ 
-     --create-role = logic \ 
-     --dbname = postgres \ 
-     --server 'd1 = dbname = node1' \ 
-     --server 'd2 = dbname = node2' \ 
-     --server 'd3 = dbname = node3'
+$ isolationtester \
+     --outputdir=./iso_output \
+     --create-role=logical \
+     --dbname=postgres \
+     --server 'd1=dbname=node1' \
+     --server 'd2=dbname=node2' \
+     --server 'd3=dbname=node3'
 ```
 
 Các bài kiểm tra cô lập là một tập hợp các bài kiểm tra được chạy để kiểm tra các hành vi đồng thời trong PostgreSQL. Các bài kiểm tra này yêu cầu chạy nhiều giao dịch tương tác, yêu cầu quản lý nhiều kết nối đồng thời và do đó không thể kiểm tra bằng pg_regresschương trình bình thường . Cái tên "cách ly" xuất phát từ thực tế là động cơ ban đầu là để kiểm tra mức độ cách ly có thể nối tiếp hóa; nhưng các bài kiểm tra cho các loại hành vi đồng thời khác cũng đã được thêm vào.
