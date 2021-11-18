@@ -39,3 +39,75 @@ Các cài đặt Postgres sau đây cần được xem xét để cam kết nhi�
 
  - sync_replication_available - Có thể tùy chọn không đồng bộ để tăng tính khả dụng bằng cách cho phép một nguồn gốc tiếp tục và cam kết sau khi đối tác CAMO của nó bị ngắt kết nối. Theo giá trị mặc định của thời gian chờ, điểm gốc sẽ chờ vô thời hạn và chỉ tiến hành cam kết sau khi đối tác CAMO kết nối lại và gửi xác nhận.
  - snapshot_timestamp - Bật việc sử dụng ảnh chụp nhanh dựa trên dấu thời gian và đặt dấu thời gian để sử dụng.
+
+**pglogical Settings for BDR** - Cài đặt pglogical cho BDR
+
+BDR cũng bị ảnh hưởng bởi một số cài đặt pglogical vì nó sử dụng pglogical bên trong để thực hiện sao chép cơ bản.
+
+ - pglogical.track_subscription_apply - Theo dõi số liệu thống kê áp dụng cho mỗi đăng ký.
+ - pglogical.track_relation_apply - Thống kê áp dụng theo dõi cho từng mối quan hệ.
+ - pglogical.track_apply_lock_timing - Theo dõi thời gian khóa khi theo dõi thống kê cho các mối quan hệ.
+ - pglogical.standby_slot_names - Khi sử dụng các nút Chờ vật lý dành cho mục đích chuyển đổi dự phòng, nên được đặt thành (các) vị trí nhân bản cho mỗi Chế độ chờ dự định.
+ - pglogical.writers_per_subscription - Số lượng tác giả mặc định trên mỗi đăng ký (trong BDR, bdr.alter_node_group_config cho một nhóm).
+ - pglogical.max_writers_per_subscription - Số lượng người viết tối đa trên mỗi đăng ký (đặt giới hạn trên cho cài đặt ở trên).
+
+**BDR Specific Settings** - Cài đặt cụ thể BDR
+
+Ngoài ra còn có các cài đặt cấu hình cụ thể BDR có thể được đặt. Trừ khi có ghi chú khác, các giá trị có thể được đặt bởi bất kỳ người dùng nào bất kỳ lúc nào.
+
+_Conflict Handling (Xử lý xung đột)_
+
+ - bdr.default_conflict_detection - Đặt phương pháp phát hiện xung đột mặc định cho các bảng mới được tạo; chấp nhận các giá trị giống như bdr.alter_table_conflict_detection ()
+
+_Global Sequence Parameters (Tham số trình tự toàn cầu)_ 
+
+ - bdr.default_sequence_kind - Đặt loại trình tự mặc định.
+ 
+_DDL Handling (Xử lý DDL)_
+
+ - bdr.default_replica_identity- Đặt giá trị mặc định cho REPLICA IDENTITY các bảng mới tạo. Xác REPLICA IDENTITYđịnh thông tin nào được ghi vào nhật ký ghi trước để xác định các hàng được cập nhật hoặc xóa.
+
+Các giá trị được chấp nhận là:
+
+   - DEFAULT - ghi lại các giá trị cũ của các cột của khóa chính, nếu có (đây là hành vi PostgreSQL mặc định).
+   - FULL - ghi lại giá trị cũ của tất cả các cột trong hàng.
+   - NOTHING - không ghi thông tin về hàng cũ.
+
+Xem tài liệu PostgreSQL để biết thêm chi tiết.
+
+BDR không thể sao chép UPDATEcác s và DELETEs trên các bảng mà không có một PRIMARY KEY hoặc UNIQUEràng buộc, trừ khi nhận dạng bản sao cho bảng FULL, bằng cấu hình bảng cụ thể hoặc thông qua bdr.default_replica_identity.
+
+Nếu bdr.default_replica_identity là DEFAULT và có một UNIQUE ràng buộc trên bảng, nó sẽ không được chọn tự động dưới dạng REPLICA IDENTITY. Nó cần được đặt rõ ràng tại thời điểm tạo bảng hoặc sau đó như được mô tả trong tài liệu ở trên.
+
+Đặt nhận dạng bản sao của (các) bảng để FULLtăng khối lượng WAL được ghi và lượng dữ liệu được sao chép trên dây cho bảng.
+
+ - bdr.ddl_replication - Tự động sao chép DDL qua các nút (mặc định "bật").
+
+Tham số này chỉ có thể được đặt bởi bdr_superuser hoặc các vai trò siêu người dùng.
+
+Chạy DDL hoặc gọi các chức năng quản trị BDR với bdr.ddl_replication = offcó thể tạo ra các tình huống mà việc sao chép dừng lại cho đến khi quản trị viên có thể can thiệp. Xem chương nhân bản DDL để biết thêm chi tiết.
+
+LOGThông báo nhật ký A -level được gửi tới nhật ký máy chủ PostgreSQL bất cứ khi nào bdr.ddl_replicationđược đặt thành off. Ngoài ra, một WARNING-level thông báo được viết bất cứ khi nào bản sao các lệnh DDL đã bắt được hoặc các chức năng sao chép BDR bị bỏ qua do cài đặt này.
+
+ - bdr.role_replication- Tự động sao chép các lệnh ROLE qua các nút (mặc định là "bật"). Tham số này chỉ có thể được thiết lập bởi superuser. Cài đặt này chỉ hoạt động nếu bdr.ddl_replicationcũng được bật.
+
+Việc tắt tính năng này mà không sử dụng các phương pháp bên ngoài để đảm bảo các vai trò được đồng bộ trên tất cả các nút có thể khiến DDL được sao chép làm gián đoạn quá trình sao chép cho đến khi quản trị viên can thiệp.
+
+Xem các câu lệnh thao tác vai trò trong chương sao chép DDL để biết thêm chi tiết.
+
+- bdr.ddl_locking - Cấu hình chế độ hoạt động của khóa toàn cục cho DDL.
+
+Tham số này chỉ có thể được đặt bởi bdr_superuser hoặc các vai trò siêu người dùng.
+
+Các tùy chọn có thể là:
+
+ - off - không sử dụng khóa toàn cầu cho các hoạt động DDL
+ - on - sử dụng khóa toàn cầu cho tất cả các hoạt động DDL
+ - dml - chỉ sử dụng khóa toàn cục cho các hoạt động DDL cần ngăn ghi bằng cách sử dụng khóa DML toàn cục cho một mối quan hệ
+
+LOGThông báo nhật ký A -level được gửi tới nhật ký máy chủ PostgreSQL bất cứ khi nào bdr.ddl_replicationđược đặt thành off. Ngoài ra, một WARNING thông báo được viết bất cứ khi nào bất kỳ bước khóa toàn cầu nào bị bỏ qua do cài đặt này. Thông thường đối với một số câu lệnh có kết quả là hai WARNINGs, một để bỏ qua khóa DML và một để bỏ qua khóa DDL.
+
+ - bdr.truncate_locking - False by default, this configuration option sets the TRUNCATE command's locking behavior. Determines whether (when true) TRUNCATE obeys the bdr.ddl_locking setting.
+
+**Global Locking** - Khóa toàn cầu
+
