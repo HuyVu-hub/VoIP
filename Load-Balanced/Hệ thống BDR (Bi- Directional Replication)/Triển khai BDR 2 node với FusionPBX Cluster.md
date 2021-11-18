@@ -1,4 +1,12 @@
-# Chuẩn bị
+# Mục lục
+
+&ensp;[1. Chuẩn bị](#1)
+
+&ensp;[2. Tiến hành](#2)
+
+&ensp;[3. Một số lỗi thường gặp khi cài đặt](#3)
+
+# <a name="1">1.  Chuẩn bị</a>
 
 2 Máy **Debian8 Jessie** đã được cài đặt Permit SSH Login
   - Máy Debian Master có địa chỉ IP 10.0.249.149
@@ -6,7 +14,7 @@
 
 Cả 2 máy đều có thể ssh login tới nhau.
 
-# Tiến hành
+# <a name="2">2.  Tiến hành</a>
 
 Chúng ta sẽ tiến hành cài đặt BDR cho 2 máy Master và Slave. 
 
@@ -117,7 +125,10 @@ Tiến hành đăng nhập lại trên màn hình website quản trị fusi
 
 
 
+# <a name="3">3.  Một số lỗi thường gặp khi cài đặt</a>
 
+- Lỗi missing module php => Đảm bảo module php đã được cài đặt cho Debian8 Jessie
+- Lỗi apache2 không nhận được thư mục fusionpbx =>  Chuyển thư mục apache2 gốc ở file /etc/apache2/sites-available/000-default.conf từ /var/www/html thành /var/www/fusionpbx
  
  
  
