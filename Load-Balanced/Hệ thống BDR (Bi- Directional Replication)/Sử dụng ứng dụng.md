@@ -321,4 +321,63 @@ Vì vậy, nếu "BDR chạy chậm", thì chúng tôi đề xuất như sau:
 
  Sử dụng tất cả các tính năng điều chỉnh thông thường của Postgres để cải thiện tốc độ của các phần quan trọng trong ứng dụng của bạn.
  
+**Đánh giá tính phù hợp**
+ 
+ BDR tương thích với PostgreSQL, nhưng không phải tất cả các ứng dụng PostgreSQL đều phù hợp để sử dụng trên cơ sở dữ liệu phân tán. Hầu hết các ứng dụng đều đã có hoặc có thể dễ dàng sửa đổi để tuân thủ BDR. Người dùng có thể thực hiện một hoạt động đánh giá trong đó họ có thể hướng ứng dụng của mình đến một thiết lập hỗ trợ BDR. BDR cung cấp một số nút có thể được thiết lập trong suốt thời gian đánh giá. Những điều này sẽ hỗ trợ trong quá trình quyết định tính phù hợp của ứng dụng của họ trong môi trường hỗ trợ BDR.
+ 
+ _Đánh giá các bản cập nhật của Nhận dạng Khóa chính / Bản sao_
+ 
+ BDR hiện không thể thực hiện giải quyết xung đột trong đó KEY CHÍNH được thay đổi bằng thao tác CẬP NHẬT. Có thể cập nhật khóa chính, nhưng bạn phải đảm bảo rằng không thể có xung đột với các giá trị hiện có.
+
+Khi chạy trên EDB Postgres Extended, BDR cung cấp thông số cấu hình sau để đánh giá tần suất nhận dạng khóa chính / bản sao của bất kỳ bảng nào đang được thực hiện bởi các hoạt động cập nhật.
+
+Lưu ý rằng các thông số cấu hình này chỉ được sử dụng để đánh giá. Chúng có thể được sử dụng trên một phiên bản BDR nút duy nhất, nhưng không được sử dụng trên một cụm BDR sản xuất với hai hoặc nhiều nút sao chép lẫn nhau. Trên thực tế, một nút có thể không khởi động được hoặc một nút mới sẽ không tham gia vào cụm nếu bất kỳ thông số đánh giá nào được đặt thành bất kỳ điều gì khác hơn IGNORE.
+ 
+ ```
+ bdr.assess_update_replica_identity = IGNORE (default) | LOG | WARNING | ERROR
+ ```
+ 
+ Bằng cách bật tham số này trong thời gian đánh giá, người ta có thể ghi nhật ký các bản cập nhật cho các giá trị nhận dạng khóa / bản sao của một hàng. Người ta cũng có thể có khả năng chặn các bản cập nhật như vậy, nếu muốn. Ví dụ
+ 
+ ```
+CREATE TABLE public.test(g int primary key, h int);
+INSERT INTO test VALUES (1, 1);
+
+SET bdr.assess_update_replica_identity TO 'error';
+UPDATE test SET g = 4 WHERE g = 1;
+ERROR:  bdr_assess: update of key/replica identity of table public.test
+ ```
+ Áp dụng quy trình công nhân sẽ luôn bỏ qua bất kỳ cài đặt nào cho tham số này.
+ 
+ _Đánh giá việc sử dụng LOCK trên bảng hoặc trong các truy vấn CHỌN_
+ 
+ Bởi vì các quy trình viết BDR hoạt động giống như các phiên người dùng bình thường, chúng phải tuân theo các quy tắc thông thường xung quanh việc khóa hàng và bảng. Điều này đôi khi có thể dẫn đến các quy trình viết BDR chờ đợi các khóa do giao dịch của người dùng hoặc thậm chí bởi nhau.
+
+Khi chạy trên EDB Postgres Extended, BDR cung cấp thông số cấu hình sau để đánh giá xem ứng dụng có đang thực hiện các khóa rõ ràng hay không.
+ 
+ ```
+ bdr.assess_lock_statement = IGNORE (default) | LOG | WARNING | ERROR
+ ```
+ 
+ Hai loại khóa có thể được theo dõi là:
+
+ - khóa cấp bảng rõ ràng (LOCK TABLE ...) theo phiên người dùng
+ - khóa cấp độ hàng rõ ràng (SELECT ... FOR UPDATE/FOR SHARE) theo phiên người dùng
+ - Bằng cách bật tham số này trong thời gian đánh giá, người ta có thể theo dõi (hoặc chặn) hoạt động khóa rõ ràng đó. Ví dụ
+ 
+ ```
+ CREATE TABLE public.test(g int primary key, h int);
+INSERT INTO test VALUES (1, 1);
+
+SET bdr.assess_lock_statement TO 'error';
+SELECT * FROM test FOR UPDATE;
+ERROR:  bdr_assess: "SELECT FOR UPDATE" invoked on a BDR node
+
+SELECT * FROM test FOR SHARE;
+ERROR:  bdr_assess: "SELECT FOR SHARE" invoked on a BDR node
+
+SET bdr.assess_lock_statement TO 'warning';
+LOCK TABLE test IN ACCESS SHARE MODE;
+WARNING:  bdr_assess: "LOCK STATEMENT" invoked on a BDR node
+ ```
  
