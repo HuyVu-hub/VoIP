@@ -9,6 +9,14 @@ SIP là từ viết tắt của Session Initiation Protocol có nghĩa là giao 
 SIP Server, còn được gọi là SIP Proxy đảm nhiệm xử lý tất cả việc quản lý các cuộc gọi SIP trong mạng và chịu trách nhiệm nhận các yêu cầu từ các user agent (tác nhân người dùng)
 để thực hiện và kết thúc cuộc gọi. Máy chủ SIP thường được bao gồm bên trong các tổng đài IP hỗ trợ SIP ( SIP-enabled IP-PBXs ). 
 
+## Hệ thống PBX là gì?
+
+PBX là tên viết tắt của cụm từ tiếng Anh Private Branch Exchange (Tổng đài Nhánh Riêng), là một mạng điện thoại riêng được sử dụng trong phạm vi một công ty. Những người sử dụng hệ thống điện thoại PBX dùng chung một số đường điện thoại ngoài để thực hiện các cuộc gọi ra bên ngoài.
+
+![image](https://user-images.githubusercontent.com/55483458/142436395-3d8e242d-ec05-4593-865c-101a99480b29.png)
+
+Hệ thống PBX kết nối các điện thoại nội bộ trong một doanh nghiệp đồng thời cũng kết nối chúng vào mạng điện thoại chuyển mạch công cộng (PSTN). Một trong những khuynh hướng mới nhất trong sự phát triển của hệ thống điện thoại PBX là VoIP PBX, hay còn được gọi là IP PBX, sử dụng Giao thức Internet để truyền dẫn các cuộc gọi.
+
 # Một số công nghệ SIP Server:
 
 ## Kamailio
