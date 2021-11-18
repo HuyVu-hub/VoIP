@@ -241,4 +241,84 @@ Khối SQL đã cho được thực thi một lần, chỉ trong một phiên, t
 
 Khối SQL nhỏ được thực thi một lần sau khi quá trình kiểm tra kết thúc. Sử dụng công cụ này để dọn dẹp nhằm chuẩn bị cho lần hoán vị tiếp theo, ví dụ: loại bỏ bất kỳ bảng kiểm tra nào được tạo bằng cách thiết lập. Phần này là tùy chọn.
 
-  
+```
+ session "<name>"
+```
+
+Thường có một số phần "phiên" trong một tệp đặc tả. Mỗi phiên được thực thi trong kết nối riêng của nó. Một phần phiên bao gồm ba phần: thiết lập, chia nhỏ và một hoặc nhiều "bước". Các phần thiết lập và chia nhỏ theo từng phiên có cùng cú pháp với thiết lập và chia nhỏ theo từng thử nghiệm được mô tả ở trên, nhưng chúng được thực thi trong mỗi phiên. Phần thiết lập thường chứa lệnh "BEGIN" để bắt đầu giao dịch.
+
+Ngoài ra, một phần phiên cũng bao gồm connect_tođặc điểm kỹ thuật. Điều này trỏ đến tên máy chủ được chỉ định ngay từ đầu cho biết máy chủ mà phiên này chạy trên đó.
+
+```
+ connect_to "<name>"
+```
+
+Mỗi bước có cú pháp
+
+```
+step "<name>" { <SQL> }
+```
+đâu <name>là tên xác định bước này và SQL là một câu lệnh SQL (hoặc các câu lệnh, được phân tách bằng dấu chấm phẩy) được thực thi trong bước này. Tên bước phải là duy nhất trên toàn bộ tệp thông số kỹ thuật.
+
+```
+permutation "<step name>"
+```
+
+Một dòng hoán vị chỉ định danh sách các bước được chạy theo thứ tự đó. Có thể xuất hiện bất kỳ số dòng hoán vị nào. Nếu không có dòng hoán vị nào được đưa ra, chương trình kiểm tra sẽ tự động tạo tất cả các chuỗi thứ tự có thể có của các bước từ mỗi phiên (chạy các bước của bất kỳ phiên nào theo thứ tự). Lưu ý rằng danh sách các bước trong dòng "hoán vị" được chỉ định thủ công không thực sự phải là hoán vị của các bước có sẵn; ví dụ, nó có thể lặp lại một số bước nhiều hơn một lần hoặc bỏ qua những bước khác.
+
+Các dòng bắt đầu bằng dấu # được coi là nhận xét.
+
+Đối với mỗi hoán vị của các bước phiên (cho dù chúng được chỉ định theo cách thủ công trong tệp thông số kỹ thuật hay được tạo tự động), trình kiểm tra cách ly chạy phần thiết lập chính, sau đó là các phần thiết lập mỗi phiên, sau đó là các bước phiên đã chọn, sau đó chia nhỏ từng phiên , sau đó là kịch bản giọt nước mắt chính. Mỗi bước đã chọn sẽ được gửi đến kết nối được liên kết với phiên của nó.
+
+Để chạy các bài kiểm tra cách ly trong môi trường BDR3 đã chạy tất cả các lệnh thực hiện điều kiện tiên quyết, hãy làm theo các bước dưới đây,
+ 
+1. Chạy make isolationcheck-installđể cài đặt mô-đun con của bộ điều khiển cách ly
+
+2. Bạn có thể chạy kiểm tra hồi quy cô lập bằng cách sử dụng một trong các lệnh sau từ repo bdr-private
+
+```
+make isolationcheck-installcheck make isolationcheck-makecheck
+```
+ A. Để chạy kiểm tra cách ly-cài đặt, bạn cần có hai hoặc nhiều máy chủ postgresql đang chạy. Chuyển conninfo của máy chủ đến pg_isolation_regress trong Makefile BDR 3.0. Bán tại:pg_isolation_regress --server 'd1=host=myhost dbname=mydb port=5434' --server 'd2=host=myhost1 dbname=mydb port=5432'
+
+Bây giờ, thêm một tệp .spec chứa các bài kiểm tra trong thư mục specs / isolate của bdr-private / repo. Thêm tệp .out vào thư mục mong đợi / cách ly của bdr-private / repo.
+
+Sau đó chạy make isolationcheck-installcheck
+
+B. Isolationcheck-makecheck hiện hỗ trợ chạy các thử nghiệm cách ly trên một phiên bản duy nhất bằng cách thiết lập BDR giữa nhiều cơ sở dữ liệu.
+
+Bạn cần chuyển các tên cơ sở dữ liệu thích hợp, conninfos của các phiên bản bdr vào pg_isolation_regresstrong BDR Makefile như sau: pg_isolation_regress --dbname=db1,db2 --server 'd1=dbname=db1' --server 'd2=dbname=db2'
+
+Sau đó chạy make isolationcheck-makecheck
+
+Mỗi bước có thể chứa các lệnh chặn cho đến khi thực hiện thêm hành động (rất có thể, một số phiên khác chạy một bước mà bỏ chặn nó hoặc gây ra bế tắc). Một bài kiểm tra sử dụng khả năng này phải chỉ định thủ công các hoán vị hợp lệ, tức là những hoán vị không mong đợi một phiên bị chặn thực hiện một lệnh. Nếu một bài kiểm tra không tuân theo quy tắc đó, bộ đo cách ly sẽ hủy nó sau 300 giây. Nếu quá trình hủy không hoạt động, bộ xử lý cách ly sẽ thoát ra không sạch sau tổng thời gian chờ là 375 giây. Nên tránh kiểm tra các hoán vị không hợp lệ vì chúng có thể làm cho các kiểm tra cô lập mất nhiều thời gian để chạy và chúng không phục vụ mục đích kiểm tra hữu ích.
+ 
+ Lưu ý rằng bộ điều khiển cách ly nhận ra rằng một lệnh đã bị chặn bằng cách xem nó có được hiển thị là đang chờ trong pg_lockschế độ xem hay không; do đó, chỉ các khối trên ổ khóa nặng mới được phát hiện.
+ 
+**Performance Testing & Tuning**
+ 
+BDR cho phép bạn đưa ra các giao dịch ghi trên nhiều nút chính. Mang những ghi đó lại với nhau trên mỗi nút có một chi phí hiệu suất mà bạn nên biết.
+
+Đầu tiên, việc phát lại các thay đổi từ một nút khác có chi phí CPU, chi phí I / O và nó sẽ tạo ra các bản ghi WAL. Việc sử dụng tài nguyên thường ít hơn trong giao dịch ban đầu vì chi phí CPU thấp hơn do không cần thực thi lại SQL. Trong trường hợp CẬP NHẬT và XÓA các giao dịch, có thể có chi phí I / O khi phát lại nếu dữ liệu không được lưu vào bộ nhớ đệm.
+
+Thứ hai, các thay đổi phát lại giữ các khóa cấp bảng và cấp hàng có thể tạo ra sự tranh chấp chống lại khối lượng công việc cục bộ. Các tính năng CRDT (Loại dữ liệu được sao chép không có xung đột) và CLCD (Phát hiện xung đột ở cấp độ cột) đảm bảo bạn nhận được câu trả lời chính xác ngay cả đối với các bản cập nhật đồng thời, nhưng chúng không loại bỏ các chi phí khóa thông thường. Nếu bạn bị khóa tranh chấp, hãy cố gắng tránh cập nhật xung đột và / hoặc giữ các giao dịch càng ngắn càng tốt. Một hàng được cập nhật nhiều trong một giao dịch lớn hơn sẽ gây ra tắc nghẽn về hiệu suất cho giao dịch đó. Các ứng dụng phức tạp đòi hỏi một số suy nghĩ để duy trì khả năng mở rộng.
+
+Nếu bạn cho rằng mình đang gặp vấn đề về hiệu suất, bạn nên phát triển các bài kiểm tra hiệu suất bằng cách sử dụng các công cụ đo điểm chuẩn ở trên. pgbench cho phép bạn viết các tập lệnh kiểm tra tùy chỉnh cụ thể cho trường hợp sử dụng của bạn để bạn có thể hiểu chi phí chung của SQL và đo lường tác động của việc thực thi đồng thời.
+
+Vì vậy, nếu "BDR chạy chậm", thì chúng tôi đề xuất như sau:
+
+ 1. Viết tập lệnh thử nghiệm tùy chỉnh cho pgbench, càng gần càng tốt với trường hợp sự cố của hệ thống sản xuất.
+
+ 2. Chạy tập lệnh trên một nút để cung cấp cho bạn một số liệu cơ bản.
+
+ 3. Chạy tập lệnh trên nhiều nút như trong quá trình sản xuất, sử dụng tổng số phiên tương tự như bạn đã làm trên một nút. Điều này sẽ cho bạn thấy hiệu quả của việc di chuyển đến nhiều nút.
+
+ 4. Tăng số lượng phiên cho 2 bài kiểm tra trên, để bạn có thể vẽ biểu đồ ảnh hưởng của việc gia tăng tranh chấp đối với ứng dụng của mình.
+
+ 5. Đảm bảo rằng các bài kiểm tra của bạn đủ dài để giải thích cho sự chậm trễ sao chép.
+
+ 6. Đảm bảo rằng độ trễ sao chép không tăng trong các thử nghiệm của bạn.
+
+ Sử dụng tất cả các tính năng điều chỉnh thông thường của Postgres để cải thiện tốc độ của các phần quan trọng trong ứng dụng của bạn.
+ 
+ 
