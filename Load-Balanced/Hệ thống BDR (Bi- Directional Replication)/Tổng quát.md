@@ -1,4 +1,4 @@
-### Tổng quátTổng quan về kiến trúc
+### Tổng quan về kiến trúc
 
 BDR cung cấp bản sao lôgic đa tổng thể được kết hợp lỏng lẻo bằng cách sử dụng cấu trúc liên kết lưới. Điều này có nghĩa là bạn có thể ghi vào bất kỳ máy chủ nào và các thay đổi sẽ được gửi trực tiếp, từng hàng một tới tất cả các máy chủ khác thuộc cùng một nhóm BDR.
 
@@ -8,4 +8,4 @@ Theo mặc định, BDR sử dụng sao chép không đồng bộ, chỉ áp d�
 
 ### Kiến trúc cơ bản
 
-Multiple Groups
+**Multiple Groups**
