@@ -86,3 +86,96 @@ _6. Hạn chế về Đặc quyền_
 BDR thực thi các hạn chế bổ sung, ngăn chặn hiệu quả việc sử dụng DDL chỉ dựa vào các đặc quyền TRIGGER hoặc REFERENCES. Các phần phụ sau đây giải thích những điều này.
 
 GRANT ALL sẽ vẫn cấp cả đặc quyền TRIGGER và REFERENCES, vì vậy bạn nên nêu rõ các đặc quyền, ví dụ: GRANT SELECT, INSERT, UPDATE, DELETE, TRUNCATE thay vì ALL.
+
+_7. Foreign Key Privileges - Đặc quyền khóa nước ngoài_
+
+ALTER TABLE ... ADD FOREIGN KEY chỉ được hỗ trợ nếu người dùng có đặc quyền CHỌN trên bảng được tham chiếu hoặc nếu bảng được tham chiếu đã bật hạn chế RLS mà người dùng hiện tại không thể bỏ qua.
+
+Do đó, đặc quyền REFERENCES không đủ để cho phép tạo Khóa ngoại với BDR. Việc chỉ dựa vào đặc quyền REFERENCES thường không hữu ích vì nó làm cho việc kiểm tra xác thực thực thi bằng cách sử dụng trình kích hoạt thay vì quét bảng, do đó, thường quá đắt để sử dụng thành công.
+
+_8. Triggers_
+
+Trong PostgreSQL, các trình kích hoạt có thể được tạo bởi cả chủ sở hữu bảng và bất kỳ ai đã được cấp đặc quyền TRIGGER. Kích hoạt được cấp bởi chủ sở hữu không phải bảng sẽ thực thi với tư cách là chủ sở hữu bảng trong BDR, điều này có thể gây ra sự cố bảo mật. Đặc quyền TRIGGER hiếm khi được sử dụng và Nhóm cốt lõi của PostgreSQL đã nói rằng "Quyền TRIGGER riêng biệt là thứ mà chúng tôi coi là lỗi thời."
+
+BDR giảm thiểu vấn đề này bằng cách sử dụng các quy tắc chặt chẽ hơn về người có thể tạo trình kích hoạt trên bảng:
+
+ - siêu người dùng
+ - bdr_superuser
+ - Chủ sở hữu bảng có thể tạo trình kích hoạt theo các quy tắc tương tự như trong PostgreSQL (phải có đặc quyền THỰC HIỆN trên chức năng được trình kích hoạt sử dụng).
+ - Người dùng có đặc quyền TRIGGER trên bảng chỉ có thể tạo trình kích hoạt nếu họ tạo trình kích hoạt bằng cách sử dụng một hàm được sở hữu bởi cùng một chủ sở hữu như bảng và họ đáp ứng các quy tắc PostgreSQL tiêu chuẩn (lại phải có đặc quyền THỰC HIỆN trên hàm). Vì vậy, nếu cả bảng và hàm có cùng chủ sở hữu và chủ sở hữu quyết định cấp cho người dùng cả đặc quyền TRIGGER trên bảng và đặc quyền THỰC HIỆN trên hàm, thì người dùng đó có thể tạo trình kích hoạt trên bảng đó bằng chức năng này. .
+ - Người dùng có đặc quyền TRIGGER trên bảng có thể tạo trình kích hoạt bằng cách sử dụng các hàm được xác định với mệnh đề AN NINH DEFINER nếu họ có đặc quyền EXECUTE trên chúng. Mệnh đề này làm cho hàm luôn thực thi trong ngữ cảnh của chính chủ sở hữu của hàm cả trong PostgreSQL chuẩn và BDR.
+
+Logic ở trên được xây dựng dựa trên thực tế là trong PostgreSQL, chủ sở hữu của trình kích hoạt không phải là người dùng đã tạo ra nó mà là chủ sở hữu của hàm được trình kích hoạt đó sử dụng.
+
+Các quy tắc tương tự cũng áp dụng cho các bảng hiện có và nếu bảng hiện có có các trình kích hoạt không thuộc sở hữu của chủ nhân của bảng và không sử dụng các hàm SECURITY DEFINER, thì sẽ không thể thêm nó vào tập hợp nhân bản.
+
+Các quy tắc tương tự cũng áp dụng cho các bảng hiện có và nếu bảng hiện có có các trình kích hoạt không thuộc sở hữu của chủ nhân của bảng và không sử dụng các hàm ĐỊNH NGHĨA BẢO MẬT, thì sẽ không thể thêm nó vào tập hợp nhân bản.
+
+Các kiểm tra này đã được thêm vào với BDR 3.6.19. Một ứng dụng dựa trên hoạt động của các phiên bản trước có thể đặt bdr.backwards_compatibility thành 30618 (hoặc thấp hơn) để hoạt động giống như các phiên bản trước đó.
+
+Áp dụng sao chép BDR chỉ sử dụng đường dẫn tìm kiếm mặc định cấp hệ thống. Trình kích hoạt bản sao, trình kích hoạt luồng và các hàm biểu thức chỉ mục có thể giả định các cài đặt đường dẫn tìm kiếm khác sau đó sẽ không thành công khi chúng thực thi được áp dụng. Để đảm bảo điều này không xảy ra, hãy giải quyết rõ ràng các tham chiếu đối tượng bằng cách sử dụng chỉ search_path mặc định (luôn sử dụng các tham chiếu đủ điều kiện cho các đối tượng, ví dụ: schema.objectname) hoặc đặt đường dẫn tìm kiếm cho một hàm bằng ALTER FUNCTION ... SET search_path =. .. cho các chức năng bị ảnh hưởng.
+
+**BDR Mặc định / Vai trò xác định trước**
+
+Các vai trò xác định trước BDR được tạo khi phần mở rộng BDR3 được cài đặt. Lưu ý rằng sau khi phần mở rộng BDR3 bị loại bỏ khỏi cơ sở dữ liệu, các vai trò vẫn tiếp tục tồn tại và cần được loại bỏ theo cách thủ công nếu được yêu cầu. Điều này cho phép BDR được sử dụng trong nhiều cơ sở dữ liệu trên cùng một phiên bản PostgreSQL mà không có vấn đề gì.
+
+Hãy nhớ rằng câu lệnh GRANT ROLE DDL không tham gia vào quá trình sao chép BDR, do đó bạn nên thực thi điều này trên mỗi nút của một cụm.
+
+_1. bdr_superuser_
+
+ - TẤT CẢ CÁC QUYỀN RIÊNG TƯ TRÊN TẤT CẢ CÁC BẢNG TRONG SCHEMA BDR
+ - TẤT CẢ CÁC QUYỀN RIÊNG TƯ TRÊN TẤT CẢ CÁC TUYẾN TRONG SCHEMA BDR
+
+_2. bdr_read_all_stats_
+
+SELECT đặc quyền trên
+
+![image](https://user-images.githubusercontent.com/69178270/143156097-82251cbf-c8d7-4754-88ae-ed77e26043b9.png)
+
+EXECUTE đặc quyền trên
+
+![image](https://user-images.githubusercontent.com/69178270/143156146-d894b0a6-9b73-4655-b86b-794c74879f2a.png)
+
+_3. bdr_monitor_
+
+Tất cả các đặc quyền từ bdr_read_all_stats, cộng với
+
+EXECUTE đặc quyền trên
+
+![image](https://user-images.githubusercontent.com/69178270/143156257-1c8a942d-6c45-45d5-8f56-8b612c131bb9.png)
+
+_4. bdr_application_
+
+EXECUTE đặc quyền trên
+
+ - Tất cả các hàm cho kiểu dữ liệu column_timestamps
+ - Tất cả các chức năng cho kiểu dữ liệu CRDT
+ ![image](https://user-images.githubusercontent.com/69178270/143156375-6364a841-0496-419e-8e54-f4c27a602dd8.png)
+
+Lưu ý rằng nhiều hàm ở trên có các đặc quyền bổ sung cần thiết trước khi chúng có thể được sử dụng, ví dụ: bạn phải là chủ sở hữu bảng để thực thi thành công bdr.alter_sequence_set_kind. Các quy tắc bổ sung này được ghi lại với từng chức năng cụ thể.
+
+_5. bdr_read_all_conflicts_
+
+BDR ghi các xung đột vào bảng bdr.conflict_log. Xung đột hiển thị với chủ sở hữu bảng (chỉ), vì vậy không cần thêm đặc quyền để đọc lịch sử xung đột. Nếu hữu ích khi có một người dùng có thể thấy xung đột cho tất cả các bảng, bạn có thể tùy chọn cấp vai trò bdr_read_all_conflicts cho người dùng đó.
+
+**Verification - Xác minh**
+
+BDR đã được xác minh bằng các công cụ và cách tiếp cận sau.
+
+_1. Coverity_
+
+Coverity Scan đã được sử dụng để xác minh ngăn xếp BDR cung cấp phạm vi bảo vệ chống lại các lỗ hổng bảo mật bằng cách sử dụng các quy tắc và tiêu chuẩn mã hóa sau:
+
+ - MISRA C
+ - ISO 26262
+ - ISO / IEC TS 17961
+ - OWASP Top 10
+ - CERT C
+ - CWE 25 hàng đầu
+ - AUTOSAR
+
+_2. CIS Benchmark_
+
+CIS PostgreSQL Benchmark v1, ngày 19 tháng 12 năm 2019 đã được sử dụng để xác minh ngăn xếp BDR. Sử dụng cấu hình cis_policy.yml có sẵn như một tùy chọn với TPAexec sẽ cho các kết quả sau cho các bài kiểm tra Đã chấm điểm:
+
+![image](https://user-images.githubusercontent.com/69178270/143157172-ff0de227-a81a-4e2f-a8f4-1574a51de172.png)
