@@ -180,7 +180,8 @@ Bảng sau đây mô tả tiện ích hoặc lệnh DDL nào được phép, nh�
 
 Đối với một số câu lệnh phức tạp hơn như ALTER TABLE, các câu lệnh này có thể khác nhau tùy thuộc vào (các) lệnh con được thực thi. Mỗi lệnh như vậy đều có giải thích chi tiết trong bảng sau.
 
-Command	Allowed	Replicated	Lock
+Command &emsp	Allowed &emsp	Replicated	&emsp 	Lock
+
 ALTER AGGREGATE	Y	Y	DDL
 ALTER CAST	Y	Y	DDL
 ALTER COLLATION	Y	Y	DDL
