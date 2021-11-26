@@ -196,3 +196,165 @@ Bảng sau đây mô tả tiện ích hoặc lệnh DDL nào được phép, nh�
 
 ![image](https://user-images.githubusercontent.com/69178270/143542045-9f7a76ba-69e0-414a-8784-fb95e68a1bbf.png)
 
+![image](https://user-images.githubusercontent.com/69178270/143542270-ccd5ba79-ae54-47a5-957f-ec8c1232711e.png)
+
+![image](https://user-images.githubusercontent.com/69178270/143542314-55c48954-723c-49fb-894a-ee5dc8ffd926.png)
+
+![image](https://user-images.githubusercontent.com/69178270/143542453-8be55276-a4df-4631-b50e-3e38060ef27d.png)
+
+![image](https://user-images.githubusercontent.com/69178270/143542507-c6e7ef8b-179b-4097-8a08-6a776c93c875.png)
+
+![image](https://user-images.githubusercontent.com/69178270/143544276-c44f9464-dd78-4495-9fe5-37ecf0e0cb26.png)
+
+**ALTER SEQUENCE**
+
+Nói chung ALTER SEQUENCE được hỗ trợ, nhưng khi sử dụng chuỗi toàn cục, một số tùy chọn không có tác dụng.
+
+ALTER SEQUENCE ... RENAME không được hỗ trợ trên chuỗi galloc (chỉ). ALTER SEQUENCE ... SET SCHEMA không được hỗ trợ trên chuỗi galloc (chỉ).
+
+**ALTER TABLE**
+
+Nói chung, các lệnh ALTER TABLE được phép. Tuy nhiên, có một số lệnh phụ không được hỗ trợ.
+
+_1. ALTER TABLE Các lệnh không được phép_
+
+Một số biến thể của ALTER TABLE hiện không được phép trên nút BDR:
+
+ - ADD COLUMN ... DEFAULT (biểu thức không thay đổi) - Điều này không được phép vì hiện tại nó sẽ dẫn đến dữ liệu khác nhau trên các nút khác nhau. Xem Thêm cột để biết giải pháp được đề xuất.
+ - ADD CONSTRAINT ... EXCLUDE - Ràng buộc loại trừ hiện không được hỗ trợ. Các ràng buộc loại trừ không có nhiều ý nghĩa trong một hệ thống không đồng bộ và dẫn đến các thay đổi không thể thực hiện lại.
+ - ALTER TABLE ... SET WITH [OUT] OIDS - Không được hỗ trợ vì những lý do tương tự như trong CREATE TABLE.
+ - ALTER COLUMN ... SET STORAGE bên ngoài - Sẽ bị từ chối nếu cột là một trong các cột của danh tính bản sao cho bảng.
+ - RENAME - không thể đổi tên bảng được phân vùng tự động.
+ - SET SCHEMA - không thể đặt giản đồ của bảng được phân vùng tự động.
+ - ALTER COLUMN ... TYPE - Việc thay đổi kiểu của cột không được hỗ trợ nếu lệnh khiến toàn bộ bảng được viết lại, điều này xảy ra khi thay đổi không phải là cưỡng chế nhị phân. 
+Lưu ý rằng chỉ có thể cho phép các thay đổi cưỡng chế nhị phân theo một chiều. Ví dụ: thay đổi từ VARCHAR (128) thành VARCHAR (256) là cưỡng chế nhị phân và do đó được phép, trong khi thay đổi VARCHAR (256) thành VARCHAR (128) không phải là cưỡng chế nhị phân và do đó thường không được phép. Đối với ALTER COLUMN ... TYPE, nó có thể được cho phép nếu cột được tự động chuyển sang kiểu mới (nó không chứa mệnh đề USING). Xem ví dụ bên dưới. Việc ghi lại bảng sẽ giữ một AccessExclusiveLock trong thời gian dài trên các bảng lớn hơn, vì vậy các lệnh như vậy có thể không khả thi trên các cơ sở dữ liệu có sẵn trong mọi trường hợp. Xem Thay đổi Loại của Cột để biết các giải pháp thay thế được đề xuất.
+ - ALTER TABLE ... ADD FOREIGN KEY - Không được hỗ trợ nếu người dùng hiện tại không có quyền đọc bảng được tham chiếu hoặc nếu bảng được tham chiếu đã bật hạn chế RLS mà người dùng hiện tại không thể bỏ qua.
+
+Ví dụ sau không thành công vì nó cố gắng thêm một giá trị không đổi của loại dấu thời gian vào một cột loại timestamptz. Việc truyền giữa dấu thời gian và dấu thời gian phụ thuộc vào múi giờ của phiên và do đó không phải là bất biến.
+
+```
+ALTER TABLE foo
+  ADD expiry_date timestamptz DEFAULT timestamp '2100-01-01 00:00:00' NOT NULL;
+```
+
+Bắt đầu BDR 3.7.4, có thể thêm một số loại ràng buộc nhất định, chẳng hạn như ràng buộc CHECK và NGOẠI KHÓA, có thể được thêm vào mà không cần sử dụng khóa DML. Nhưng điều này đòi hỏi quy trình 2 bước đầu tiên tạo ràng buộc NOT VALID và sau đó xác thực ràng buộc trong một giao dịch riêng biệt thông qua lệnh ALTER TABLE ... VALIDATE CONSTRAINT. Xem Thêm một CONSTRAINT để biết thêm chi tiết.
+
+_2. Khóa bảng ALTER_
+
+Các biến thể sau của ALTER TABLE sẽ chỉ sử dụng khóa DDL chứ không phải khóa DML:
+
+ - ALTER TABLE ... ADD COLUMN ... (immutable) DEFAULT
+ - ALTER TABLE ... ALTER COLUMN ... SET DEFAULT expression
+ - ALTER TABLE ... ALTER COLUMN ... DROP DEFAULT
+ - ALTER TABLE ... ALTER COLUMN ... TYPE nếu nó không yêu cầu viết lại (hiện chỉ có trên EDB Postgres Extended và EDB Postgres Advanced)
+ - ALTER TABLE ... ALTER COLUMN ... SET STATISTICS
+ - ALTER TABLE ... VALIDATE CONSTRAINT
+ - ALTER TABLE ... ATTACH PARTITION
+ - ALTER TABLE ... DETACH PARTITION
+ - ALTER TABLE ... ENABLE TRIGGER (ENABLE REPLICA TRIGGER sẽ vẫn sử dụng khóa DML)
+ - ALTER TABLE ... CLUSTER ON
+ - ALTER TABLE ... SET WITHOUT CLUSTER
+ - ALTER TABLE ... SET ( storage_parameter = value [, ... ] )
+ - ALTER TABLE ... RESET ( storage_parameter = [, ... ] )
+ - ALTER TABLE ... OWNER TO
+
+Tất cả các biến thể khác của ALTER TABLE có một khóa DML trên bảng đang được sửa đổi. Một số biến thể của ALTER TABLE có các hạn chế, được lưu ý bên dưới.
+
+_3. Ví dụ về BẢNG ALTER_
+
+Ví dụ tiếp theo này hoạt động vì sự thay đổi kiểu là cưỡng chế nhị phân và do đó không gây ra việc ghi lại bảng, vì vậy nó sẽ thực thi như một thay đổi chỉ dành cho danh mục.
+
+```
+CREATE TABLE foo (id BIGINT PRIMARY KEY, description VARCHAR(20));
+ALTER TABLE foo ALTER COLUMN description TYPE VARCHAR(128);
+```
+
+Tuy nhiên, không thể thực hiện thay đổi này để đảo ngược lệnh trên vì thay đổi từ VARCHAR (128) thành VARCHAR (20) không phải là cưỡng chế nhị phân.
+
+```
+ALTER TABLE foo ALTER COLUMN description TYPE VARCHAR(20);
+```
+
+Xem sau để biết các giải pháp thay thế được đề xuất.
+
+Sẽ rất hữu ích khi cung cấp ngữ cảnh cho các loại ALTER TABLE ... ALTER COLUMN TYPE (ATCT) hoạt động có thể thực hiện được nói chung và trong môi trường không sao chép.
+
+Một số thao tác ATCT chỉ cập nhật siêu dữ liệu của loại cột bên dưới và không yêu cầu ghi lại dữ liệu bảng bên dưới. Đây thường là trường hợp khi loại cột hiện có và loại mục tiêu là cưỡng chế nhị phân. Ví dụ:
+
+```
+CREATE TABLE sample (col1 BIGINT PRIMARY KEY, col2 VARCHAR(128), col3 INT);
+ALTER TABLE sample ALTER COLUMN col2 TYPE VARCHAR(256);
+```
+
+Cũng có thể thay đổi kiểu cột thành kiểu dữ liệu VARCHAR hoặc TEXT vì tính cưỡng chế nhị phân. Một lần nữa, đây chỉ là một bản cập nhật siêu dữ liệu của loại cột bên dưới.
+
+```
+ALTER TABLE sample ALTER COLUMN col2 TYPE VARCHAR;
+ALTER TABLE sample ALTER COLUMN col2 TYPE TEXT;
+```
+
+Tuy nhiên, nếu bạn muốn giảm kích thước của col2, thì điều đó sẽ dẫn đến việc ghi lại dữ liệu bảng bên dưới. Viết lại một bảng thường bị hạn chế.
+
+```
+ALTER TABLE sample ALTER COLUMN col2 TYPE VARCHAR(64);
+ERROR:  ALTER TABLE ... ALTER COLUMN TYPE that rewrites table data may not affect replicated tables on a BDR node
+```
+
+Để đưa ra một ví dụ với các kiểu không phải văn bản, hãy xem xét col3 ở trên với kiểu INTEGER. Thao tác ATCT cố gắng chuyển đổi thành SMALLINT hoặc BIGINT sẽ không thành công theo cách tương tự như trên.
+
+```
+ALTER TABLE sample ALTER COLUMN col3 TYPE bigint;
+ERROR:  ALTER TABLE ... ALTER COLUMN TYPE that rewrites table data may not affect replicated tables on a BDR node
+```
+
+Trong cả hai trường hợp không thành công ở trên, tồn tại một phép gán tự động được truyền từ kiểu hiện tại sang kiểu đích. Tuy nhiên, không có cưỡng chế nhị phân, điều này dẫn đến việc ghi lại dữ liệu bảng bên dưới.
+
+Trong những trường hợp như vậy, trong môi trường DBA được kiểm soát, có thể thay đổi loại cột thành loại có thể truyền tự động, bằng cách áp dụng nâng cấp luân phiên cho loại cột này trong môi trường không sao chép trên tất cả các nút, từng nút một . Nếu DDL không được sao chép và thay đổi loại cột thành loại có thể truyền tự động như trên, thì có thể cho phép ghi lại cục bộ trên nút thực hiện thay đổi, cùng với hoạt động đồng thời trên các nút khác trên cùng bảng này. Thao tác ATCT không sao chép này sau đó có thể được lặp lại trên tất cả các nút lần lượt để mang lại sự thay đổi mong muốn của loại cột trên toàn bộ cụm BDR. Lưu ý rằng vì điều này liên quan đến việc viết lại, hoạt động sẽ vẫn thực hiện khóa DML trong một khoảng thời gian ngắn và do đó yêu cầu toàn bộ cụm phải khả dụng. Với các chi tiết cụ thể ở trên, quá trình nâng cấp luân phiên của hoạt động thay thế không tái tạo có thể được thực hiện như sau:
+
+```
+-- foreach node in BDR cluster do:
+SET bdr.ddl_replication TO FALSE;
+ALTER TABLE sample ALTER COLUMN col2 TYPE VARCHAR(64);
+ALTER TABLE sample ALTER COLUMN col3 TYPE BIGINT;
+RESET bdr.ddl_replication;
+-- done
+```
+
+Do các phôi gán tự động có sẵn cho nhiều loại dữ liệu, hoạt động ATCT cục bộ không sao chép này hỗ trợ nhiều loại chuyển đổi. Cũng lưu ý rằng các hoạt động ATCT sử dụng mệnh đề USING có khả năng bị lỗi vì thiếu phôi gán tự động. Một số chuyển đổi phổ biến với phôi chuyển nhượng tự động được đề cập bên dưới.
+
+```
+-- foreach node in BDR cluster do:
+SET bdr.ddl_replication TO FALSE;
+ATCT operations to-from {INTEGER, SMALLINT, BIGINT}
+ATCT operations to-from {CHAR(n), VARCHAR(n), VARCHAR, TEXT}
+ATCT operations from numeric types to text types
+RESET bdr.ddl_replication;
+-- done
+```
+
+Trên đây không phải là danh sách đầy đủ các hoạt động ATCT có thể được phép trong môi trường không sao chép. Rõ ràng, không phải tất cả các hoạt động ATCT sẽ hoạt động. Các trường hợp không thực hiện được phép gán tự động sẽ không thành công ngay cả khi chúng ta tắt tính năng sao chép DDL. Vì vậy, trong khi chuyển đổi từ kiểu số sang kiểu văn bản hoạt động trong môi trường không sao chép, chuyển đổi ngược lại từ kiểu văn bản sang kiểu số sẽ không thành công.
+
+```
+SET bdr.ddl_replication TO FALSE;
+-- conversion from BIGINT to TEXT works
+ALTER TABLE sample ALTER COLUMN col3 TYPE TEXT;
+-- conversion from TEXT back to BIGINT fails
+ALTER TABLE sample ALTER COLUMN col3 TYPE BIGINT;
+ERROR:  ALTER TABLE ... ALTER COLUMN TYPE which cannot be automatically cast to new type may not affect replicated tables on a BDR node
+RESET bdr.ddl_replication;
+```
+
+Mặc dù các hoạt động ATCT trong môi trường không sao chép hỗ trợ nhiều kiểu chuyển đổi, điều quan trọng cần lưu ý là việc ghi lại vẫn có thể không thành công nếu dữ liệu bảng bên dưới chứa các giá trị không thể gán cho kiểu dữ liệu mới. Ví dụ: kiểu hiện tại cho một cột có thể là VARCHAR (256) và chúng tôi đã thử thao tác ATCT không sao chép để chuyển đổi nó thành VARCHAR (128). Nếu có bất kỳ dữ liệu hiện có nào trong bảng lớn hơn 128 byte, thì thao tác ghi lại cục bộ sẽ không thành công.
+
+```
+INSERT INTO sample VALUES (1, repeat('a', 200), 10);
+SET bdr.ddl_replication TO FALSE;
+ALTER TABLE sample ALTER COLUMN col2 TYPE VARCHAR(128);
+INFO:  in rewrite
+ERROR:  value too long for type character varying(128)
+```
+
+Nếu dữ liệu bảng bên dưới đáp ứng các đặc điểm của kiểu mới, thì việc ghi lại sẽ thành công. Tuy nhiên, có khả năng sao chép sẽ không thành công nếu các nút khác (chưa thực hiện nâng cấp kiểu dữ liệu cuộn không sao chép) giới thiệu dữ liệu mới rộng hơn 128 byte đồng thời cho hoạt động ATCT cục bộ này. Điều này sẽ khiến quá trình nhân rộng trong cụm bị tạm dừng. Vì vậy, điều quan trọng là phải nhận thức được các giới hạn và đặc điểm của kiểu dữ liệu ở cấp độ cơ sở dữ liệu và ứng dụng trong khi thực hiện các hoạt động nâng cấp kiểu dữ liệu cuộn không sao chép này. Khuyến nghị và khuyến khích thực hiện và kiểm tra các hoạt động ATCT như vậy trong môi trường DBA được kiểm soát và nhận thức đầy đủ. Chúng ta cần lưu ý rằng các hoạt động ATCT này là không đối xứng và việc sao lưu một số thay đổi nhất định không thành công có thể dẫn đến việc ghi lại bảng trong thời gian dài.
+
+Cũng lưu ý rằng hoạt động ALTER có thể truyền ngầm ở trên không thể được thực hiện trong các khối giao dịch.
+
