@@ -60,3 +60,124 @@ sslmode=verify-full sslcert=bdr_client.crt sslkey=bdr_client.key
 sslrootcert=root.crt
 ```
 
+Với thiết lập này, các tệp bdr_client.crt, bdr_client.key và root.crt phải có trong thư mục dữ liệu trên mỗi nút, với các quyền thích hợp. Đối với chế độ xác minh đầy đủ, chứng chỉ SSL của máy chủ sẽ được kiểm tra để đảm bảo rằng nó được ký trực tiếp hoặc gián tiếp với Tổ chức phát hành chứng chỉ root.crt và tên máy chủ hoặc địa chỉ được sử dụng trong kết nối khớp với nội dung của chứng chỉ. Trong trường hợp tên, tên này có thể khớp với Tên thay thế của Chủ đề hoặc, nếu không có tên nào như vậy trong chứng chỉ, trường Tên chung của Chủ đề (CN). Postgres hiện không hỗ trợ Tên thay thế Chủ đề cho địa chỉ IP, vì vậy nếu kết nối được thực hiện theo địa chỉ chứ không phải tên, kết nối đó phải khớp với trường CN.
+
+CN của chứng chỉ ứng dụng khách phải là tên của người dùng tạo kết nối BDR. Đây thường là postgres của người dùng. Mỗi nút sẽ yêu cầu các dòng phù hợp cho phép kết nối trong tệp pg_hba.conf; Ví dụ:
+
+```
+hostssl all         postgres 10.1.2.3/24 cert
+hostssl replication postgres 10.1.2.3/24 cert
+```
+
+Một thiết lập khác có thể là sử dụng mật khẩu SCRAM-SHA-256 thay vì chứng chỉ máy khách và không bận tâm về việc xác minh danh tính máy chủ miễn là chứng chỉ được ký đúng cách. Ở đây, các tham số DSN có thể chỉ là:
+
+```
+sslmode=verify-ca sslrootcert=root.crt
+```
+
+... và các dòng pg_hba.conf tương ứng sẽ như thế này:
+
+```
+hostssl all         postgres 10.1.2.3/24 scram-sha-256
+hostssl replication postgres 10.1.2.3/24 scram-sha-256
+```
+
+Trong trường hợp như vậy, người dùng postgres sẽ cần một tệp .pgpass chứa đúng mật khẩu.
+
+**Witness Nodes**
+
+Nếu cụm có số nút chẵn, có thể có lợi khi tạo thêm một nút để giúp phá vỡ quan hệ trong trường hợp chia tách mạng (hoặc phân vùng mạng, như nó đôi khi được gọi).
+
+Thay vì tạo một nút kích thước đầy đủ bổ sung, bạn có thể tạo một nút vi mô, đôi khi được gọi là nút Nhân chứng. Đây là một nút BDR bình thường được cố ý thiết lập để không sao chép bất kỳ bảng hoặc dữ liệu nào lên nó.
+
+**Logical Standby Nodes** - Các nút chờ logic
+
+BDR cho phép bạn tạo một "nút chờ logic", còn được gọi là "nút giảm tải", "nút chỉ đọc", "nút chỉ nhận" hoặc "bản sao đọc logic". Một nút chính có thể có 0, một hoặc nhiều nút chờ logic.
+
+Với một nút chờ vật lý, nút không bao giờ xuất hiện đầy đủ, buộc nó phải ở chế độ khôi phục liên tục. BDR cho phép một cái gì đó tương tự. bdr.join_node_group có tùy chọn pause_in_standby để làm cho nút ở trạng thái được kết hợp nửa chiều như một nút dự phòng hợp lý. Các nút chờ logic nhận các thay đổi nhưng không gửi các thay đổi được thực hiện cục bộ đến các nút khác.
+
+Sau đó, nếu muốn, hãy sử dụng bdr.promote_node () để chuyển chế độ chờ logic thành một nút gửi / nhận bình thường, đầy đủ.
+
+Chế độ chờ logic được gửi dữ liệu bởi một nút nguồn, được xác định bởi DSN trong bdr.join_node_group. Các thay đổi từ tất cả các nút khác được nhận từ một nút nguồn này, giảm thiểu băng thông giữa nhiều trang web.
+
+Có nhiều lựa chọn để có tính khả dụng cao:
+
+ - Nếu nút nguồn chết, một chế độ chờ vật lý có thể được nâng cấp lên chế độ chính. Trong trường hợp này, nút chính mới có thể tiếp tục cấp dữ liệu cho bất kỳ / tất cả các nút dự phòng hợp lý.
+
+ - Nếu nút nguồn chết, một chế độ chờ logic có thể được chuyển thành một nút đầy đủ và thay thế nguồn trong một hoạt động chuyển đổi dự phòng tương tự như hoạt động chính duy nhất. Lưu ý rằng nếu có nhiều nút dự phòng hợp lý, các nút khác không thể đi theo nút chính mới, do đó, hiệu quả của kỹ thuật này chỉ giới hạn ở một chế độ chờ hợp lý.
+
+Lưu ý rằng trong trường hợp một chế độ chờ mới được tạo bởi một nút BDR hiện có, các vị trí sao chép cần thiết để hoạt động sẽ không được đồng bộ hóa với chế độ chờ mới cho đến khi có ít nhất 16 MB LSN trôi qua kể từ khi vị trí nhóm được nâng cao lần cuối. Trong trường hợp cực đoan, điều này có thể yêu cầu đủ 16 MB trước khi các vị trí được đồng bộ hóa / tạo trên bản sao phát trực tuyến. Nếu quá trình chuyển đổi dự phòng hoặc chuyển đổi xảy ra trong khoảng thời gian này, chế độ chờ phát trực tuyến không thể được thúc đẩy để thay thế nút BDR của nó, vì vị trí nhóm và các vị trí phụ thuộc khác chưa tồn tại.
+
+Trên EDB Postgres Extended và EDB Postgres Advaced, điều này được giải quyết tự động. Quá trình đồng bộ hóa vị trí ở chế độ chờ giải quyết vấn đề này bằng cách gọi một hàm ở thượng nguồn. Chức năng này di chuyển vị trí nhóm trong toàn bộ cụm BDR bằng cách thực hiện chuyển mạch WAL và yêu cầu tất cả các nút ngang hàng BDR phát lại các cập nhật tiến độ của chúng. Những nguyên nhân trên khiến vị trí nhóm tăng lên trong một khoảng thời gian ngắn. Điều này làm giảm thời gian chờ cần thiết cho quá trình đồng bộ hóa của vị trí ban đầu, cho phép chuyển đổi dự phòng nhanh hơn nếu cần.
+
+Trên PostgreSQL, điều quan trọng là phải đảm bảo rằng quá trình đồng bộ hóa của vị trí đã hoàn tất ở chế độ chờ trước khi quảng bá nó. Truy vấn sau có thể được chạy ở chế độ chờ trong cơ sở dữ liệu đích để theo dõi và đảm bảo rằng các vị trí đã được đồng bộ hóa với ngược dòng. Quảng cáo có thể tiếp tục khi truy vấn này trả về true.
+
+```
+SELECT true FROM pg_catalog.pg_replication_slots WHERE
+    slot_type = 'logical' AND confirmed_flush_lsn IS NOT NULL;
+```
+
+Cũng có thể thúc đẩy quá trình đồng bộ hóa vị trí trong toàn bộ cụm BDR bằng cách thực hiện thủ công các công tắc WAL và bằng cách yêu cầu tất cả các nút ngang hàng BDR phát lại cập nhật tiến độ của chúng. Hoạt động này sẽ làm cho vị trí nhóm di chuyển trước trong một khoảng thời gian ngắn và cũng đẩy nhanh hoạt động đồng bộ vị trí ở chế độ chờ. Các truy vấn sau có thể được chạy trên bất kỳ nút ngang hàng BDR nào trong cơ sở dữ liệu đích cho việc này:
+
+```
+SELECT bdr.run_on_all_nodes('SELECT pg_catalog.pg_switch_wal()');
+SELECT bdr.run_on_all_nodes('SELECT bdr.request_replay_progress_update()');
+```
+
+Sử dụng truy vấn giám sát từ bên trên ở chế độ chờ để kiểm tra xem các truy vấn này có thực sự giúp đồng bộ hóa vị trí nhanh hơn ở chế độ chờ đó hay không.
+
+Bản thân các nút dự phòng logic có thể được bảo vệ bằng cách sử dụng các nút chờ vật lý, nếu muốn, vì vậy Master-> LogicalStandby-> PhysicalStandby. Lưu ý rằng bạn không thể chuyển từ LogicalStandby sang LogicalStandby.
+
+Lưu ý rằng chế độ chờ logic không cho phép ghi các giao dịch, vì vậy các hạn chế của chế độ chờ vật lý không áp dụng. Điều này có thể được sử dụng để mang lại lợi ích to lớn, vì nó cho phép chế độ chờ logic có thêm chỉ mục, thời gian lưu giữ dữ liệu lâu hơn, bảng công việc trung gian, NGHE / THÔNG BÁO, bảng tạm thời, chế độ xem cụ thể hóa và các khác biệt khác.
+
+Bất kỳ thay đổi nào được thực hiện cục bộ đối với các dự phòng logic cam kết trước khi khuyến mại sẽ không được gửi đến các nút khác. Tất cả các giao dịch cam kết sau khi khuyến mãi sẽ được gửi trở đi. Nếu bạn thực hiện ghi vào chế độ chờ hợp lý, bạn nên cẩn thận để làm an toàn cơ sở dữ liệu trước khi thăng hạng.
+
+Bạn có thể thực hiện các thay đổi DDL đối với các nút dự phòng hợp lý nhưng chúng sẽ không được sao chép, cũng như không cố gắng thực hiện các khóa DDL toàn cầu. Các chức năng BDR hoạt động tương tự như DDL cũng sẽ không được sao chép. Xem [Bản sao DDL]. Nếu bạn đã thực hiện các thay đổi DDL không tương thích đối với chế độ chờ hợp lý, thì cơ sở dữ liệu được cho là một nút khác nhau. Việc thúc đẩy một nút phân kỳ hiện sẽ dẫn đến việc sao chép không thành công. Do đó, bạn nên lập kế hoạch để đảm bảo rằng một nút dự phòng hợp lý được giữ không có các thay đổi khác nhau nếu bạn có ý định sử dụng nó như một nút dự phòng hoặc đảm bảo rằng các nút khác nhau không bao giờ được thúc đẩy.
+
+**Physical Standby Nodes** - Nút chờ vật lý
+
+BDR cũng cho phép tạo các nút chuyển đổi dự phòng vật lý truyền thống. Chúng thường nhằm thay thế trực tiếp một nút BDR trong cụm sau một quy trình xúc tiến ngắn. Như với bất kỳ cụm Postgres tiêu chuẩn nào, một nút có thể có bất kỳ số lượng bản sao vật lý nào này.
+
+Tuy nhiên, có một số điều kiện tiên quyết tối thiểu để điều này hoạt động bình thường do việc sử dụng các khe sao chép và các yêu cầu chức năng khác trong BDR:
+
+ - Kết nối giữa BDR Primary và Standby sử dụng tính năng sao chép trực tuyến thông qua một khe sao chép vật lý.
+ - Chế độ chờ có:
+    - recovery.conf (đối với PostgreSQL <12, đối với PostgreSQL 12+ các cài đặt này phải nằm trong postgres.conf):
+    - primary_conninfo trỏ đến Primary
+    - primary_slot_name đặt tên cho một vị trí nhân bản vật lý trên Chính để chỉ được sử dụng trong Chế độ chờ này
+  - postgresql.conf:
+    - shared_preload_libraries = 'pglogical, bdr' ở mức tối thiểu
+    - hot_standby = bật
+    - hot_standby_feedback = on
+  - Chế độ sơ cấp có:
+    - postgresql.conf:
+    - pglogical.standby_slot_names phải chỉ định vị trí nhân bản vật lý được sử dụng cho chính_slot_name của Chế độ chờ.
+
+Mặc dù điều này là đủ để tạo ra một nút BDR ở chế độ chờ vật lý hoạt động, nhưng có một số mối quan tâm bổ sung cần được giải quyết.
+
+Sau khi được thiết lập, Chế độ chờ yêu cầu đủ thời gian và lưu lượng WAL để kích hoạt bản sao ban đầu của các khe sao chép khác liên quan đến BDR của Chính, bao gồm cả khe nhóm BDR. Ở mức tối thiểu, các vị trí trên Chế độ chờ chỉ ở trạng thái "sống" và sẽ tồn tại sau khi chuyển đổi dự phòng nếu chúng báo cáo có giá trị khác không được xác nhận_flush_lsn như được báo cáo bởi pg_replication_slots.
+
+Do đó, các nút chờ vật lý trong các cụm BDR mới được khởi tạo với lượng hoạt động ghi thấp nên được kiểm tra trước khi giả định rằng chuyển đổi dự phòng sẽ hoạt động bình thường. Không thực hiện biện pháp phòng ngừa này có thể dẫn đến Chế độ chờ có một tập hợp con không đầy đủ các vị trí sao chép bắt buộc cần thiết để hoạt động như một nút BDR, và do đó chuyển đổi dự phòng bị hủy bỏ.
+
+Cơ chế bảo vệ đảm bảo các nút chờ vật lý được cập nhật và có thể được quảng bá (như được định cấu hình pglogical.standby_slot_names) ảnh hưởng đến độ trễ sao chép tổng thể của Nhóm BDR vì quá trình sao chép nhóm chỉ xảy ra khi các nút chờ vật lý được cập nhật.
+
+Vì những lý do này, thường nên sử dụng các nút dự phòng hợp lý hoặc nhóm chỉ đăng ký thay vì các nút chờ vật lý vì cả hai đều có các đặc điểm hoạt động tốt hơn so với.
+
+Khi tiện ích mở rộng bdr-enterprise được cài đặt, bạn có thể đảm bảo vị trí nhóm được nâng cao theo cách thủ công trên tất cả các nút (càng nhiều càng tốt), điều này giúp đẩy nhanh quá trình tạo các vị trí sao chép liên quan đến BDR ở chế độ chờ vật lý bằng cú pháp SQL sau:
+
+```
+SELECT bdr.move_group_slot_all_nodes();
+```
+
+Khi chuyển đổi dự phòng, Chế độ chờ phải thực hiện một trong hai hành động để thay thế Chế độ chính:
+
+    1. Giả sử kiểm soát cùng một địa chỉ IP hoặc tên máy chủ như Chính.
+    2. Thông báo cho cụm BDR về sự thay đổi địa chỉ bằng cách thực thi hàm [bdr.alter_node_interface] trên tất cả các nút BDR khác.
+Khi điều này được thực hiện, các nút BDR khác sẽ thiết lập lại giao tiếp với nút Chờ -> Chính mới được quảng bá. Vì các khe sao chép chỉ được đồng bộ hóa theo định kỳ, Chính mới này có thể phản ánh LSN thấp hơn mong đợi của các nút BDR hiện có. Nếu đúng như vậy, BDR sẽ tua nhanh từng khe trễ đến vị trí cuối cùng được sử dụng bởi mỗi nút BDR.
+
+Hãy đặc biệt lưu ý đến thông số pglogical.standby_slot_names. Mặc dù đây là thông số cấu hình pglogical, nhưng điều quan trọng là phải đặt trong một cụm BDR nơi có mối quan hệ Chính -> Chế độ chờ vật lý. Trong khi pglogical sử dụng điều này để đảm bảo các máy chủ dự phòng vật lý luôn nhận được lưu lượng WAL trước các bản sao logic, trường hợp sử dụng BDR lại khác.
+
+BDR duy trì một vị trí nhóm luôn phản ánh trạng thái của nút cụm hiển thị độ trễ nhiều nhất đối với bất kỳ bản sao gửi đi nào. Với việc bổ sung một bản sao vật lý, BDR phải được thông báo rằng có một thành viên nút không tham gia, bất kể, sẽ ảnh hưởng đến trạng thái của rãnh nhóm.
+
+Vì Chế độ chờ không giao tiếp trực tiếp với các nút BDR khác, nên tham số standby_slot_names thông báo cho BDR coi các vị trí được đặt tên là các ràng buộc cần thiết trên vị trí nhóm. Khi được đặt, vị trí nhóm sẽ được giữ nếu Chế độ chờ hiển thị độ trễ, ngay cả khi vị trí nhóm thông thường đã được nâng cao.
+
