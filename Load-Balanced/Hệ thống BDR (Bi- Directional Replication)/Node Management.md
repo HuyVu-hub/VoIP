@@ -181,3 +181,180 @@ BDR duy trì một vị trí nhóm luôn phản ánh trạng thái của nút c�
 
 Vì Chế độ chờ không giao tiếp trực tiếp với các nút BDR khác, nên tham số standby_slot_names thông báo cho BDR coi các vị trí được đặt tên là các ràng buộc cần thiết trên vị trí nhóm. Khi được đặt, vị trí nhóm sẽ được giữ nếu Chế độ chờ hiển thị độ trễ, ngay cả khi vị trí nhóm thông thường đã được nâng cao.
 
+Như với bất kỳ bản sao vật lý nào, kiểu chờ này cũng có thể được định cấu hình như một bản sao đồng bộ. Xin nhắc lại, điều này yêu cầu:
+
+ - Ở chế độ chờ:
+   - Chỉ định một application_name duy nhất trong primary_conninfo
+ - Trên chính:
+   - Bật đồng bộ_mã_độ
+   - Bao gồm tên_dung_dịch_điều_khiển trong tên_công_độ_đồng_hĩa
+
+Có thể kết hợp Chế độ chờ vật lý và các nút BDR khác trong tên miền sync_standby_names. CAMO và Eager All Node Replication sử dụng các cơ chế đồng bộ hóa khác nhau và không hoạt động với sao chép đồng bộ. Hãy chắc chắn rằng tên miền đồng bộ không bao gồm đối tác CAMO (nếu CAMO được sử dụng) hoặc không có nút BDR nào (nếu sử dụng Eager All Node Replication), mà chỉ các nút không phải BDR, ví dụ: a Chế độ chờ vật lý.
+
+**Node Restart và Down Node Recovery**
+
+BDR được thiết kế để phục hồi sau khi khởi động lại nút hoặc ngắt kết nối nút. Nút bị ngắt kết nối sẽ tự động tham gia lại nhóm bằng cách kết nối lại với từng nút ngang hàng và sau đó sao chép mọi dữ liệu bị thiếu từ nút đó.
+
+Khi một nút khởi động, mỗi kết nối sẽ bắt đầu hiển thị bdr.node_slots.state = catchup và bắt đầu sao chép dữ liệu bị thiếu. Việc bắt kịp sẽ tiếp tục trong một khoảng thời gian tùy thuộc vào lượng dữ liệu bị thiếu từ mỗi nút ngang hàng, có thể sẽ tăng lên theo thời gian, tùy thuộc vào khối lượng công việc của máy chủ.
+
+Nếu số lượng hoạt động ghi trên mỗi nút không đồng nhất, thì khoảng thời gian bắt kịp từ các nút có nhiều dữ liệu hơn có thể mất nhiều thời gian hơn đáng kể so với các nút khác. Cuối cùng, trạng thái vị trí sẽ thay đổi thành bdr.node_slots.state = streaming.
+
+Các nút ngoại tuyến trong khoảng thời gian dài hơn, chẳng hạn như giờ hoặc ngày, có thể bắt đầu gây ra các vấn đề về tài nguyên vì nhiều lý do khác nhau. Người dùng không nên lập kế hoạch cho sự cố mất điện kéo dài mà không hiểu các vấn đề sau.
+
+Mỗi nút giữ lại thông tin thay đổi (sử dụng một khe sao chép cho mỗi nút ngang hàng) để sau này nó có thể phát lại các thay đổi đối với một nút tạm thời không thể truy cập được. Nếu một nút ngang hàng vẫn ngoại tuyến vô thời hạn, thông tin thay đổi được tích lũy này cuối cùng sẽ khiến nút hết dung lượng lưu trữ cho nhật ký giao dịch PostgreSQL (WAL trong pg_wal) và có thể khiến máy chủ cơ sở dữ liệu ngừng hoạt động với lỗi tương tự như sau:
+
+```
+PANIC: could not write to file "pg_wal/xlogtemp.559": No space left on device
+```
+
+... hoặc báo cáo các triệu chứng khác liên quan đến ngoài đĩa đệm.
+
+Ngoài ra, các khe cắm cho các nút ngoại tuyến cũng giữ lại xmin danh mục, ngăn chặn việc hút bụi các bảng danh mục.
+
+Trên EDB Postgres Extended, các nút ngoại tuyến cũng giữ đóng băng dữ liệu để tránh mất dữ liệu giải quyết xung đột (xem: Phát hiện xung đột nguồn gốc).
+
+Quản trị viên nên theo dõi việc ngừng hoạt động của nút (xem: giám sát) và đảm bảo rằng các nút có đủ dung lượng đĩa trống. Nếu khối lượng công việc có thể dự đoán được, thì có thể tính toán lượng không gian được sử dụng theo thời gian, cho phép dự đoán thời gian tối đa mà một nút có thể ngừng hoạt động trước khi các vấn đề quan trọng phát sinh.
+
+Các khe sao chép được tạo bởi BDR không được xóa theo cách thủ công. Nếu điều đó xảy ra, cụm bị hỏng và nút đang sử dụng vị trí phải được tách khỏi cụm, như được mô tả bên dưới.
+
+Lưu ý rằng trong khi một nút ngoại tuyến, các nút khác có thể chưa nhận được cùng một tập dữ liệu từ nút ngoại tuyến, do đó, điều này có thể xuất hiện dưới dạng phân kỳ nhỏ giữa các nút. Sự mất cân bằng này giữa các nút được sửa chữa tự động trong quá trình phân chia. Các phiên bản sau này có thể thực hiện điều này sớm hơn.
+
+**Xóa nút khỏi nhóm BDR**
+
+Vì BDR được thiết kế để phục hồi sau sự cố ngừng hoạt động của nút kéo dài, bạn phải thông báo rõ ràng cho hệ thống nếu bạn đang xóa một nút vĩnh viễn. Nếu bạn tắt vĩnh viễn một nút và không thông báo cho các nút khác, thì hiệu suất sẽ bị ảnh hưởng, và cuối cùng toàn bộ hệ thống sẽ ngừng hoạt động.
+
+Loại bỏ nút, còn được gọi là chia tay, được thực hiện bằng cách sử dụng hàm bdr.part_node (). Bạn phải chỉ định tên nút (như được thông qua trong quá trình tạo nút) để xóa một nút. Hàm bdr.part_node () có thể được gọi từ bất kỳ nút nào đang hoạt động trong nhóm BDR, bao gồm cả nút đang bị xóa.
+
+Cũng giống như thủ tục tham gia, việc chia tay được thực hiện bằng cách sử dụng sự đồng thuận của Raft và yêu cầu phần lớn các nút phải trực tuyến để hoạt động.
+
+Quá trình chia tay ảnh hưởng đến tất cả các nút. Người lãnh đạo Raft sẽ quản lý một cuộc bỏ phiếu giữa các nút để xem nút nào có dữ liệu gần đây nhất từ ​​nút chia tay. Sau đó, tất cả các nút còn lại sẽ tạo kết nối thứ cấp, tạm thời, với nút mới nhất để cho phép chúng bắt kịp mọi dữ liệu bị thiếu.
+
+Một nút được chia tách vẫn được BDR biết đến, nhưng sẽ không tiêu tốn tài nguyên. Một nút mà giếng của tôi được thêm lại dưới cùng tên với một nút đã chia. Trong một số trường hợp hiếm hoi, có thể nên xóa tất cả siêu dữ liệu của một nút được chia tách bằng hàm bdr.drop_node ().
+
+**Uninstalling BDR**
+
+Bỏ phần mở rộng BDR sẽ xóa tất cả các đối tượng BDR trong một nút, bao gồm cả các bảng siêu dữ liệu. Điều này có thể được thực hiện bằng lệnh sau:
+
+```
+DROP EXTENSION bdr;
+```
+
+Nếu cơ sở dữ liệu phụ thuộc vào một số đối tượng cụ thể của BDR, thì không thể bỏ phần mở rộng BDR. Những ví dụ bao gồm:
+
+Các bảng sử dụng trình tự dành riêng cho BDR như timeshard hoặc galloc
+
+ - Cột sử dụng kiểu dữ liệu CRDT
+ - Các chế độ xem phụ thuộc vào một số bảng danh mục BDR
+
+Những phụ thuộc đó phải được loại bỏ trước khi loại bỏ phần mở rộng BDR, chẳng hạn như bằng cách loại bỏ các đối tượng phụ thuộc, thay đổi loại cột thành tương đương không phải BDR hoặc thay đổi kiểu trình tự trở lại cục bộ.
+
+```
+Cảnh báo
+Việc loại bỏ phần mở rộng BDR chỉ phải được thực hiện nếu nút đã được tách thành công khỏi nhóm nút BDR của nó hoặc nếu nó là nút cuối cùng trong nhóm: việc bỏ BDR và siêu dữ liệu bệnh học sẽ phá vỡ quá trình sao chép đến / từ các nút khác.
+```
+
+```
+Cảnh báo
+Khi thả một nút BDR cục bộ hoặc phần mở rộng BDR trong cơ sở dữ liệu cục bộ, bất kỳ phiên nào đã tồn tại trước đó vẫn có thể cố gắng thực thi một quy trình công việc BDR cụ thể và do đó không thành công. Vấn đề có thể được giải quyết bằng cách ngắt kết nối phiên và sau đó kết nối lại máy khách hoặc khởi động lại phiên bản.
+Hơn nữa, lỗi "không thể mở mối quan hệ với OID (...)" có thể xảy ra khi (1) chia một nút khỏi một cụm BDR, sau đó (2) bỏ phần mở rộng BDR (3) tạo lại nó, và cuối cùng (4) đang chạy pglogical.replication_set_add_all_tables (). Khởi động lại phiên bản sẽ giải quyết được vấn đề.
+```
+
+Các cân nhắc tương tự cũng áp dụng cho phần mở rộng bệnh học, được yêu cầu bởi BDR.
+
+Nếu pglogical chỉ được sử dụng bởi BDR, thì có thể loại bỏ cả hai phần mở rộng bằng một câu lệnh duy nhất:
+
+```
+DROP EXTENSION pglogical, bdr;
+```
+
+Ngược lại, nếu nút cũng đang sử dụng pglogical độc lập với BDR, ví dụ: để sao chép một chiều một số bảng vào cơ sở dữ liệu từ xa, thì chỉ nên bỏ phần mở rộng BDR.
+
+```
+Cảnh báo
+Việc loại bỏ BDR khỏi cơ sở dữ liệu sử dụng độc lập pglogical có thể chặn đăng ký pglogical hiện tại hoạt động thêm với lỗi "Trình quản lý khóa toàn cầu BDR chưa được khởi tạo". Khởi động lại phiên bản sẽ giải quyết được vấn đề.
+```
+
+Ngoài ra còn có một hàm bdr.drop_node (), nhưng nó chỉ được sử dụng trong trường hợp khẩn cấp, nếu có vấn đề khi chia tay.
+
+**Node Management Interfaces**
+
+Các nút có thể được thêm và loại bỏ động bằng cách sử dụng các giao diện SQL.
+
+_1. bdr.create_node_
+
+Hàm này tạo một nút.
+
+Tóm tắt:
+
+```
+bdr.create_node(node_name text, local_dsn text)
+```
+
+Thông số
+
+ - node_name - tên của nút mới; chỉ một nút được phép trên mỗi cơ sở dữ liệu. Tên nút hợp lệ bao gồm chữ thường, số, dấu gạch ngang và dấu gạch dưới.
+ - local_dsn - chuỗi kết nối đến nút
+
+Ghi chú:
+ 
+Hàm này chỉ tạo một bản ghi cho nút cục bộ với chuỗi kết nối công khai được liên kết. Chỉ có thể có một bản ghi cục bộ, vì vậy khi nó được tạo, hàm sẽ bị lỗi nếu chạy lại.
+
+Chức năng này là một chức năng giao dịch - nó có thể được khôi phục và những thay đổi do nó thực hiện sẽ hiển thị cho giao dịch hiện tại.
+
+Chức năng sẽ giữ khóa trên nút bdr mới được tạo cho đến khi kết thúc giao dịch.
+
+_2. bdr.drop_node_
+
+Đánh rơi một nút. Chức năng này không nhằm mục đích sử dụng thường xuyên và chỉ nên được thực thi theo hướng dẫn của Bộ phận hỗ trợ kỹ thuật.
+
+Hàm này loại bỏ siêu dữ liệu cho một nút nhất định khỏi cơ sở dữ liệu cục bộ. Nút có thể là:
+
+ - Nút cục bộ, trong trường hợp đó, tất cả siêu dữ liệu của nút bị xóa, bao gồm cả thông tin về các nút ở xa;
+ - Một nút từ xa, trong trường hợp này, chỉ siêu dữ liệu cho nút cụ thể đó mới bị xóa.
+
+Tóm tắt
+
+```
+bdr.drop_node(node_name text, cascade boolean DEFAULT false, force boolean DEFAULT false)
+```
+
+Thông số
+
+ - node_name - Tên của một nút hiện có.
+ - cascade - Có phân tầng tới các đối tượng phụ thuộc hay không, thao tác này cũng sẽ xóa nút pglogical được liên kết. Tùy chọn này nên được sử dụng một cách thận trọng!
+ - force - Ngăn chặn tất cả các hoạt động kiểm tra thông minh và buộc xóa tất cả siêu dữ liệu cho nút BDR đã cho bất chấp nguy cơ có thể gây ra sự mâu thuẫn. Bộ phận hỗ trợ kỹ thuật chỉ sử dụng nút buộc thả xuống trong trường hợp khẩn cấp liên quan đến việc chia tay.
+
+Ghi chú:
+
+Trước khi chạy điều này, bạn nên chia nút bằng bdr.part_node ().
+
+Hàm này loại bỏ siêu dữ liệu cho một nút nhất định khỏi cơ sở dữ liệu cục bộ. Nút có thể là nút cục bộ, trong trường hợp này, tất cả siêu dữ liệu của nút đều bị xóa, bao gồm cả thông tin về các nút ở xa đều bị xóa; hoặc nó có thể là nút từ xa, trong trường hợp này, chỉ siêu dữ liệu cho nút cụ thể đó mới bị xóa.
+
+_3. bdr.create_node_group_
+
+Hàm này tạo một nhóm BDR với nút cục bộ là thành viên duy nhất của nhóm.
+
+Tóm tắt
+
+```
+bdr.create_node_group(node_group_name text,
+                      parent_group_name text,
+                      join_node_group boolean DEFAULT true,
+                      node_group_type text DEFAULT NULL)
+```
+
+Thông số
+
+ - node_group_name - Tên của nhóm BDR mới; như với tên nút, tên nhóm hợp lệ phải bao gồm chữ thường, số và dấu gạch dưới, dành riêng.
+ - parent_group_name - Tên của nhóm mẹ cho nhóm con.
+ - join_node_group - Điều này giúp một nút quyết định có tham gia vào nhóm do nó tạo hay không. Giá trị mặc định là true. Điều này được sử dụng khi một nút đang tạo một nhóm phân đoạn mà nó không muốn tham gia. Điều này chỉ có thể sai nếu tên_nhóm_mã_cấp được chỉ định.
+ - node_group_type - Các giá trị hợp lệ là NULL, "chỉ dành cho người đăng ký", "datanode", "bộ điều phối đọc" và "bộ điều phối ghi". Loại 'chỉ dành cho người đăng ký' được sử dụng để tạo một nhóm các nút chỉ nhận các thay đổi từ các nút được tham gia đầy đủ trong cụm, nhưng chúng không bao giờ gửi các thay đổi sao chép đến các nút khác. Xem [Subscriber-Only Nodes] để biết thêm chi tiết. Datanode ngụ ý rằng nhóm đại diện cho một phân đoạn, trong khi các giá trị khác ngụ ý rằng nhóm đại diện cho các điều phối viên tương ứng. Ngoại trừ "chỉ dành cho người đăng ký", ba giá trị còn lại được dành riêng để sử dụng với một tiện ích mở rộng riêng biệt được gọi là tỷ lệ tự động. NULL ngụ ý một nhóm nút mục đích chung thông thường sẽ được tạo.
+
+Ghi chú
+
+Hàm này sẽ chuyển yêu cầu đến nhân viên đồng thuận cục bộ đang chạy cho nút cục bộ.
+
+Chức năng không phải là giao dịch. Việc tạo nhóm là một quá trình nền, vì vậy khi chức năng đã kết thúc, các thay đổi sẽ không thể được khôi phục lại. Ngoài ra, các thay đổi có thể không hiển thị ngay lập tức đối với giao dịch hiện tại; bdr.wait_for_join_completion có thể được gọi để đợi cho đến khi chúng được thực hiện.
+
+Việc tạo nhóm không giữ bất kỳ ổ khóa nào.
+
