@@ -2,9 +2,9 @@
 
 Điều đầu tiên tôi cần làm rõ rằng một cụm cân bằng tải không phải là một cụm có tính khả dụng cao. Mặc dù cả hai loại phương pháp tiếp cận không loại trừ lẫn nhau (bạn có thể kết hợp chúng), nhưng ưu và nhược điểm của chúng là khác nhau và cả cách chúng hoạt động. 
 
-**Tổng quan về cụm**
+**Tổng quan về Cluster High Availability**
 
-Việc triển khai cụm cân bằng tải cần ít nhất 5 máy chủ. Hình ảnh sau đây cho thấy một triển khai cơ bản.
+Việc triển khai cụm High Availability cần ít nhất 5 máy chủ. Hình ảnh sau đây cho thấy một triển khai cơ bản.
 
 ![image](https://user-images.githubusercontent.com/69178270/141229831-b89d0033-3e8f-48fa-a18e-03de5d234b83.png)
 
@@ -54,9 +54,9 @@ Các điểm cuối sẽ quyết định nút nào sẽ kết nối bằng cách
 
 Khi một cuộc gọi xảy ra, PBX nhận sẽ giữ tất cả các xử lý cục bộ càng nhiều càng tốt; có một điểm trong kế hoạch quay số mà nó sẽ cần phải được mở rộng. Sau đó, PBX sẽ tham khảo cơ sở dữ liệu để biết nơi đăng ký điểm cuối mong muốn. Trường hợp tốt nhất, phần mở rộng được đăng ký trong cùng một tổng đài nhận và luồng sẽ được giữ cục bộ; Trong trường hợp xấu nhất, tiện ích mở rộng được tìm thấy đang hoạt động trong một máy chủ khác, khi đó PBX sẽ kết nối với PBX khác. PBX khác sau đó sẽ kết nối với điểm cuối cục bộ hiện tại của nó và cuộc gọi sẽ được thực hiện.
 
-**Khả năng chịu lỗi trong một cụm FusionPBX cân bằng tải**
+**Khả năng chịu lỗi trong một cụm FusionPBX High Availability**
 
-Khi một sự kiện chịu lỗi xảy ra, các điểm cuối là những người sẽ quyết định phải làm gì. Nhờ thông tin từ DNS, các tiện ích mở rộng sẽ biết ai là lựa chọn tốt thứ hai của họ và họ sẽ kết nối với PBX đang hoạt động. Tùy thuộc vào thương hiệu điểm cuối, một số Điện thoại IP có thể cần khởi động lại; đôi khi bộ nhớ đệm DNS cục bộ không đáp ứng được DNS TTL và có thể cần khởi động lại bộ định tuyến.
+Khi một sự kiện chịu lỗi xảy ra, các người dùng cuối là những người sẽ quyết định phải làm gì. Nhờ thông tin từ DNS, các tiện ích mở rộng sẽ biết ai là lựa chọn tốt thứ hai của họ và họ sẽ kết nối với PBX đang hoạt động. Tùy thuộc vào thương hiệu điểm cuối, một số Điện thoại IP có thể cần khởi động lại; đôi khi bộ nhớ đệm DNS cục bộ không đáp ứng được DNS TTL và có thể cần khởi động lại bộ định tuyến.
 
 Hình ảnh sau đây cho thấy sự kiện chịu lỗi.
 
