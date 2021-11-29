@@ -40,7 +40,7 @@ Một số tác dụng phụ không tốt cũng không xấu, nhưng chúng khá
 
  - Đồng bộ hóa tệp: như hành vi Memcached, điều này cũng giống như vậy, bạn không biết cuộc gọi đang thực hiện ở đâu. Mặc dù cụm PBX có cơ chế đồng bộ hóa (bất kể bạn đã chọn cái nào), nhưng điều quan trọng ở đây là đặt một chính sách đồng bộ hóa. Việc đồng bộ hóa cứ năm giây là rất tốn kém cho CPU, bạn sẽ lãng phí tài nguyên CPU có giá trị, điều này sẽ ảnh hưởng đến chất lượng dịch vụ của bạn. Bạn có thể chọn chính sách đồng bộ hóa năm phút hoặc chính sách nửa đêm. Dù đó là gì, đừng quên điều này, rất phổ biến phàn nàn về việc IVR không phát bản ghi thích hợp và nguyên nhân là do tệp chưa được đồng bộ hóa.
 
- - Chính sách DNS: Tôi đã viết một bài báo về mối quan hệ giữa DNS với VoIP. Nếu bạn không chọn giải pháp DNS thông minh, bạn chỉ cần cẩn thận. Ví dụ: nếu khách hàng A có 90% điểm cuối của họ gần với PBX 1, thì bản ghi SRV và A của bạn phải trỏ đến IP PBX 1 trước tiên.
+ - Chính sách DNS: Nếu khách hàng A có 90% điểm cuối của họ gần với PBX 1, thì bản ghi SRV và A của bạn phải trỏ đến IP PBX 1 trước tiên.
 
  - Khởi động lại máy chủ cơ sở dữ liệu: bất kỳ lý do gì khiến bạn khởi động lại một nút cơ sở dữ liệu, đừng bao giờ khởi động lại tất cả chúng cùng một lúc. Khởi động lại một, đợi nó phục hồi, sau đó khởi động lại lần tiếp theo, v.v.
 
