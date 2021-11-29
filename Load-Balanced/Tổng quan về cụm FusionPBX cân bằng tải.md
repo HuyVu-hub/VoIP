@@ -1,10 +1,10 @@
-### Tổng quan về cụm FusionPBX
+### Load-Balanced FusionPBX Cluster Overview - Tổng quan về cụm FusionPBX cân bằng tải
 
 Điều đầu tiên tôi cần làm rõ rằng một cụm cân bằng tải không phải là một cụm có tính khả dụng cao. Mặc dù cả hai loại phương pháp tiếp cận không loại trừ lẫn nhau (bạn có thể kết hợp chúng), nhưng ưu và nhược điểm của chúng là khác nhau và cả cách chúng hoạt động. 
 
-**Tổng quan về Cluster**
+**Tổng quan về Load-balanced cluster**
 
-Việc triển khai cụm Load Balancing cần ít nhất 5 máy chủ. Hình ảnh sau đây cho thấy một triển khai cơ bản.
+Việc triển khai cụm Load-Balancing cần ít nhất 5 máy chủ. Hình ảnh sau đây cho thấy một triển khai cơ bản.
 
 ![image](https://user-images.githubusercontent.com/69178270/141229831-b89d0033-3e8f-48fa-a18e-03de5d234b83.png)
 
