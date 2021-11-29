@@ -1,6 +1,6 @@
 ### Tổng quan về cụm FusionPBX cân bằng tải
 
-Điều đầu tiên tôi cần làm rõ rằng một cụm cân bằng tải không phải là một cụm có tính khả dụng cao. Mặc dù cả hai loại phương pháp tiếp cận không loại trừ lẫn nhau (bạn có thể kết hợp chúng), nhưng ưu và nhược điểm của chúng là khác nhau và cả cách chúng hoạt động. Tôi sẽ viết sau một so sánh giữa chúng, bây giờ chỉ cần nhớ nó là không giống nhau.
+Điều đầu tiên tôi cần làm rõ rằng một cụm cân bằng tải không phải là một cụm có tính khả dụng cao. Mặc dù cả hai loại phương pháp tiếp cận không loại trừ lẫn nhau (bạn có thể kết hợp chúng), nhưng ưu và nhược điểm của chúng là khác nhau và cả cách chúng hoạt động. 
 
 **Tổng quan về cụm**
 
@@ -14,7 +14,7 @@ Các yếu tố là:
 
  - hai máy chủ Cơ sở dữ liệu là những máy chủ lưu trữ tất cả thông tin mà FreeSWITCH và FusionPBX sử dụng.
 
- - một máy chủ Trọng tài mà vai trò duy nhất của nó là tránh vấn đề phân tách não khi giao tiếp giữa hai nút cơ sở dữ liệu bị hỏng.
+ - Một máy chủ Arbitrator - Trọng tài - mà vai trò duy nhất của nó là tránh vấn đề phân tách não khi giao tiếp giữa hai nút cơ sở dữ liệu bị hỏng (Có thể có hoặc không tùy vào yêu cầu của hệ thống, chỉ cần đảm bảo các Data Centre luôn được đồng bộ với nhau).
 
 **Ưu, nhược điểm và tác dụng phụ của một cụm FusionPBX cân bằng tải**
 
@@ -64,10 +64,7 @@ Hình ảnh sau đây cho thấy sự kiện chịu lỗi.
 
 Điện thoại IP đã được kết nối với PBX 1 bây giờ nó kết nối với PBX 2. PBX 1 là tùy chọn tốt nhất cho tiện ích mở rộng đó, nhưng vì nó không khả dụng nên nó sẽ kết nối với tùy chọn tốt nhất thứ hai; trong trường hợp này là PBX 2.
 
-Tôi hy vọng điều này cung cấp cho bạn một bức tranh rất rõ ràng về cách hoạt động của một cụm FusionPBX cân bằng tải.
 
-**Tối ưu hóa cụm VoIP của bạn**
-
-Tôi khuyên bạn nên đọc bài viết tối ưu hóa RTP / SDP của tôi để có ý tưởng về những gì có thể được thực hiện.
+Link bài viết về tối ưu hóa RTP / SDP cho mô hình trên:
 
 https://inside-out.xyz/technology/optimize-your-load-balanced-fusionpbx-cluster.html
