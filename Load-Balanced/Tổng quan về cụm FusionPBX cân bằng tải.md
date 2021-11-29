@@ -1,4 +1,4 @@
-### Tổng quan về cụm FusionPBX cân bằng tải
+### Tổng quan về cụm FusionPBX High Availability
 
 Điều đầu tiên tôi cần làm rõ rằng một cụm cân bằng tải không phải là một cụm có tính khả dụng cao. Mặc dù cả hai loại phương pháp tiếp cận không loại trừ lẫn nhau (bạn có thể kết hợp chúng), nhưng ưu và nhược điểm của chúng là khác nhau và cả cách chúng hoạt động. 
 
