@@ -2,7 +2,7 @@
 
 Điều đầu tiên tôi cần làm rõ rằng một cụm cân bằng tải không phải là một cụm có tính khả dụng cao. Mặc dù cả hai loại phương pháp tiếp cận không loại trừ lẫn nhau (bạn có thể kết hợp chúng), nhưng ưu và nhược điểm của chúng là khác nhau và cả cách chúng hoạt động. 
 
-**Tổng quan về Cluster High Availability**
+**Tổng quan về load-balanced cluster**
 
 Việc triển khai cụm High Availability cần ít nhất 5 máy chủ. Hình ảnh sau đây cho thấy một triển khai cơ bản.
 
