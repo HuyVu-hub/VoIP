@@ -70,7 +70,7 @@ Elastic Stack là một bộ thống nhất gồm các project mã nguồn mở 
 
 Wazuh tích hợp với Elastic stack để cung cấp các log message đã được giải mã và đánh index bởi Elasticsearch, cũng như là 1 web console real-time cho việc cảnh báo và phân tích log. Wazuh web interface (chạy trên Kibana) có thể dùng để quản lý và giám sát hạ tầng Wazuh
 
-Một Elasticsearch index là một tập hợp các document có một chút các đặc trưng tương tự nhau (như các trường chung hoặc các yêu cầu về data retention được chia sẻ). Wazuh sử dụng 3 index khác nhau, được tạo hàng ngày và lưu trữ các dạng event khác nhau : 
+Một Elasticsearch index (chỉ mục) là một tập hợp các document có một chút các đặc trưng tương tự nhau (như các trường chung hoặc các yêu cầu về data retention được chia sẻ). Wazuh sử dụng 3 index khác nhau, được tạo hàng ngày và lưu trữ các dạng event khác nhau : 
 
  - **Wazuh-alert** : Index cho các cảnh báo được sinh ra bởi Wazun server mỗi khi một event ứng với rule tạo ra.
  - **Wazuh-events** : Index cho tất cả các event (archive data) được nhận từ các agent, bất kể có ứng với rule hay không.
@@ -78,5 +78,5 @@ Một Elasticsearch index là một tập hợp các document có một chút c�
 
 Với các index trên, document là các cảnh báo, archived event hoặc status event riêng lẻ.
 
-Một Elasticsearcg index được chia tới 1 hoặc nhiều shard, và mỗi shard có thể có 1 hoặc nhiều replica. Mỗi primary và replica shard là 1 Lucene index đơn lẻ. Vì vậy 1 Elasticsearch index được tạo bởi nhiều Lucene index. Khi 1 tìm kiếm chạy trên 1 Elasticsearch index, search đó được xử lý trên các shard song song, và kết quả được merge lại. Việc chia nhỏ các Elasticsearch tới nhiều shard và replica cũng được dùng với Elasticsearch cluster với mục tiêu là mở rộng việc tìm kiếm và HA. Một Elasticsearch cluster single-node thường chỉ có 1 shard mỗi index và không có replica.
+Một Elasticsearcg index được chia tới 1 hoặc nhiều shard (phân đoạn), và mỗi shard có thể có 1 hoặc nhiều replica (bản sao). Mỗi primary và replica shard là 1 Lucene index đơn lẻ. Vì vậy 1 Elasticsearch index được tạo bởi nhiều Lucene index. Khi 1 tìm kiếm chạy trên 1 Elasticsearch index, search đó được xử lý trên các shard song song, và kết quả được hợp nhất lại. Việc chia nhỏ các Elasticsearch tới nhiều phân đoạn và replica cũng được dùng với Elasticsearch cluster với mục tiêu là mở rộng việc tìm kiếm và HA. Một Elasticsearch cluster single-node thường chỉ có 1 shard mỗi index và không có replica.
 
