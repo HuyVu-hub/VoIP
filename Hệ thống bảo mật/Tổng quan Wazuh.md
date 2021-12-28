@@ -58,6 +58,16 @@ Server thông thường chạy các thành phần agent với mục tiêu giám 
  - **Analysis daemon** : Process này thực hiện việc phân tích dữ liệu. Nó sử dụng các bộ giải mã để nhận dạng thông tin được xử lý (các Windows event, SSHD logs...) và sau đó giải nén các yếu tố dữ liệu thích hợp từ log message (source ip, event id, user...) Sau đó, bằng cách sử dụng các rule được định nghĩa bằng cách pattern đặc biệt trên bộ giải mã, nó sẽ tạo các ngưỡng cảnh báo thậm chí ra lệnh để thực hiện các biện pháp đối phó như chặn IP trên firewall.
  - **RESTful API** : Cung cấp interface để quản lý và giám sát cấ hình và trạng thái triển khai của các agent. Nó cũng được dùng bởi Wazuh web interface (Kibana)
  
+### 2.3. Elastic Stack
+
+Elastic Stack là một bộ thống nhất gồm các project mã nguồn mở phổ biến để quản lý nhật ký, bao gồm Elasticsearch, Kibana, Filebeat và các project khác. Các project đặc biệt liên quan đến giải pháp Wazuh là:
+
+- Filebeat: Một trình chuyển tiếp nhẹ được sử dụng để truyền tải nhật ký qua mạng, thường là tới Elasticsearch. Nó được sử dụng trên máy chủ Wazuh để gửi các sự kiện và cảnh báo tới Elasticsearch. Nó đọc đầu ra của công cụ phân tích Wazuh và gửi các sự kiện trong thời gian thực thông qua một kênh được mã hóa. Nó cũng cung cấp khả năng cân bằng tải khi được kết nối với một cụm Elasticsearch nhiều nút.
+
+- Elasticsearch: Công cụ phân tích và tìm kiếm toàn văn bản, có khả năng mở rộng cao. Elasticsearch được phân phối, có nghĩa là các chỉ số dữ liệu được chia thành các phân đoạn và mỗi phân đoạn có thể có không hoặc nhiều bản sao. Wazuh sử dụng các chỉ số khác nhau cho dữ liệu cảnh báo, sự kiện thô và thông tin giám sát trạng thái.
+
+- Kibana: Một giao diện web linh hoạt và trực quan để khai thác, phân tích và trực quan hóa dữ liệu. Nó chạy trên đầu nội dung được lập chỉ mục trong một cụm Elasticsearch. Giao diện người dùng web Wazuh đã được nhúng hoàn toàn vào Kibana, dưới dạng một plugin. Nó bao gồm bảng điều khiển sẵn có cho các sự kiện bảo mật, tuân thủ quy định (ví dụ: PCI DSS, GDPR, CIS, HIPAA, NIST 800-53), các ứng dụng dễ bị tấn công, dữ liệu giám sát tính toàn vẹn của tệp, kết quả đánh giá cấu hình, sự kiện giám sát cơ sở hạ tầng đám mây , và những người khác.
+
 Wazuh tích hợp với Elastic stack để cung cấp các log message đã được giải mã và đánh index bởi Elasticsearch, cũng như là 1 web console real-time cho việc cảnh báo và phân tích log. Wazuh web interface (chạy trên Kibana) có thể dùng để quản lý và giám sát hạ tầng Wazuh
 
 Một Elasticsearch index là một tập hợp các document có một chút các đặc trưng tương tự nhau (như các trường chung hoặc các yêu cầu về data retention được chia sẻ). Wazuh sử dụng 3 index khác nhau, được tạo hàng ngày và lưu trữ các dạng event khác nhau : 
